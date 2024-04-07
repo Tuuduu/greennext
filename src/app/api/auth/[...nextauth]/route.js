@@ -16,11 +16,9 @@ export const authOptions = {
         try {
           await connectDB();
           const user = await User.findOne({ email: email });
-          console.log("session vvsgesj baigaa heseg: ", user);
           if (!user) {
             return null;
           }
-
           const hashedPasswordMatch = await bcrypt.compare(
             password,
             user.password
@@ -30,7 +28,15 @@ export const authOptions = {
             return null;
           }
 
-          return user; // Return the user object if authentication succeeds
+          const userData = {
+            name: user.username,
+            email: user.email,
+            // role: user.role,
+            // department: user.department,
+            // profileImage: user.profileImage,
+          };
+
+          return userData; // Return the user object if authentication succeeds
         } catch (error) {
           console.log("Error: ", error);
           return null; // Return null in case of any error
@@ -38,12 +44,10 @@ export const authOptions = {
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
   secret: process.env.NEXTAUT_SECRET,
   pages: {
-    signIn: "/",
+    signIn: "/register",
+    signOut: "/",
   },
 };
 

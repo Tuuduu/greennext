@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.2",
+    "animejs": "^3.2.2",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "html-react-parser": "^5.1.10",
+    "iron": "^5.0.6",
+    "iron-session": "^8.0.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.4",
     "mysql": "^2.18.1",
@@ -21,12 +24,14 @@
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
-    "react-quill": "^2.0.0",
+    "react-quill": "^0.0.2",
     "react-redux": "^9.1.0",
     "redux": "^5.0.1",
-    "serverless-mysql": "^1.5.5"
+    "serverless-mysql": "^1.5.5",
+    "session": "^0.1.0"
   },
   "devDependencies": {
+    "@types/animejs": "^3.1.12",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
