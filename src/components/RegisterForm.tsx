@@ -25,18 +25,16 @@ export default function Login() {
         password: '',
         confirmPassword: '',
         profileImage: '',
-        role: '',
-        department: ''
+        role: 'manager',
+        department: 'Мэдээлэл технологийн алба'
     });
 
     const formRole = [
-        '',
         'manager',
         'admin',
     ];
 
     const formDepartment = [
-        '',
         'Мэдээлэл технологийн алба',
         'Инженер техникийн алба',
         'Үйл ажиллагааны алба',
@@ -82,7 +80,8 @@ export default function Login() {
                     setPending(false);
                     const form = e.target as HTMLFormElement;
                     form.reset();
-                    setMessage("Амжилттай бүртгэгдлээ.")
+                    setMessage("Амжилттай бүртгэгдлээ.");
+                    alert("Амжилттай бүртгэгдлээ");
                     router.push('/login');
                 } else {
                     setMessage("Бүртгэлтэй хэрэглэгч байна.")
@@ -130,7 +129,6 @@ export default function Login() {
                     <select value={formData.role} onChange={handleChangeSelector} name="role" id="role" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" required>
                         <option value={formRole[0]}>{formRole[0]}</option>
                         <option value={formRole[1]}>{formRole[1]}</option>
-                        <option value={formRole[2]}>{formRole[2]}</option>
                     </select>
                 </div>
                 <div>
@@ -139,7 +137,6 @@ export default function Login() {
                         <option value={formDepartment[0]}>{formDepartment[0]}</option>
                         <option value={formDepartment[1]}>{formDepartment[1]}</option>
                         <option value={formDepartment[2]}>{formDepartment[2]}</option>
-                        <option value={formDepartment[3]}>{formDepartment[3]}</option>
                     </select>
                 </div>
                 <div>

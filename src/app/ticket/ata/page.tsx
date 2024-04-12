@@ -1,4 +1,4 @@
-import AtaTicket from '@/components/ticket/AtaTicket'
+import AtaTicket from '@/components/create-ticket/AtaTicket'
 import React from 'react'
 
 export default function page() {

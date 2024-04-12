@@ -31,9 +31,9 @@ export const authOptions = {
           const userData = {
             name: user.username,
             email: user.email,
-            // role: user.role,
-            // department: user.department,
-            // profileImage: user.profileImage,
+            role: user.role,
+            department: user.department,
+            profileImage: user.profileImage,
           };
 
           return userData; // Return the user object if authentication succeeds
@@ -48,6 +48,26 @@ export const authOptions = {
   pages: {
     signIn: "/register",
     signOut: "/",
+  },
+  callbacks: {
+    async session({ session, token }) {
+      // Assuming `token` has the additional user properties
+      // You might need to adjust based on how your token is structured
+      session.user.role = token.role;
+      session.user.department = token.department;
+      session.user.profileImage = token.profileImage;
+      return session;
+    },
+    // You might also need to customize the `jwt` callback to include `role` and `department` in the token if they are not already there
+    async jwt({ token, user }) {
+      // On sign in, add the properties to the token
+      if (user) {
+        token.role = user.role;
+        token.department = user.department;
+        token.profileImage = user.profileImage;
+      }
+      return token;
+    },
   },
 };
 

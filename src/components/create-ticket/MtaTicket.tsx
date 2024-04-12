@@ -11,7 +11,9 @@ interface FormData {
     ticketTitle: string,
     domain: string,
     description: string,
-    phoneNumber: string
+    phoneNumber: string,
+    status: string,
+    modifier: string
 }
 
 export default function MtaTicket() {
@@ -20,14 +22,16 @@ export default function MtaTicket() {
     const [pending, setPending] = useState(false);
     const [message, setMessage] = useState("")
     const [formData, setFormData] = useState<FormData>({
-        ticketType: '',
+        ticketType: 'Компьютер',
         username: '',
-        company: '',
+        company: 'Грийн Групп',
         position: '',
         ticketTitle: '',
         domain: '',
         description: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        status: 'шинэ',
+        modifier: ''
     });
 
     const ticketType = [
@@ -58,7 +62,8 @@ export default function MtaTicket() {
                 const form = e.target as HTMLFormElement;
                 form.reset();
                 setMessage("Ажлын захиалга амжилттай бүртгэгдлээ.");
-                // router.push("/")
+                alert("Ажлын захиалга амжилттай бүртгэгдлээ.");
+                router.push("/");
             } else {
                 setMessage("Алдаа гарлаа.")
                 setPending(false);
@@ -91,7 +96,7 @@ export default function MtaTicket() {
         const { name, value } = e.target;
         setFormData(prevData => ({
             ...prevData,
-            [name]: value === 'ticketType' || name === 'company' ? e.target.value : value
+            [name]: value === 'ticketType' && name === 'company' ? e.target.value : value
         }));
     };
 

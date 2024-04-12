@@ -30,6 +30,14 @@ const ticketScheme = mongoose.Schema(
       type: String,
       require: [true, "Утасны дугаар заавал оруулна."],
     },
+    status: {
+      type: String,
+      require: [true, ""],
+    },
+    modifier: {
+      type: String,
+      require: [false, ""],
+    },
   },
   {
     timestamps: true,

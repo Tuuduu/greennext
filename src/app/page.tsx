@@ -1,13 +1,5 @@
 "use client"
-import Image from "next/image";
-import BackgroundImage from "@/picture/LoginPage/Greengroup.jpg"
-import { useState } from "react";
 import { useRouter } from 'next/navigation';
-import anime from 'animejs'
-import { useRef } from "react";
-
-
-
 
 export default function Login() {
 

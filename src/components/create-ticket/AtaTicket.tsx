@@ -1,6 +1,7 @@
 "use client"
 import React from 'react'
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface FormData {
     ticketType: string,
@@ -9,21 +10,25 @@ interface FormData {
     position: string,
     ticketTitle: string,
     description: string,
-    phoneNumber: string
+    phoneNumber: string,
+    status: string,
+    modifier: string
 }
 
 export default function AtaTicket() {
-
+    const router = useRouter();
     const [pending, setPending] = useState(false);
     const [message, setMessage] = useState("")
     const [formData, setFormData] = useState<FormData>({
-        ticketType: '',
+        ticketType: 'Авто техник',
         username: '',
-        company: '',
+        company: 'Грийн Групп',
         position: '',
         ticketTitle: '',
         description: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        status: 'шинэ',
+        modifier: ''
     });
 
     const ticketType = [
@@ -38,6 +43,7 @@ export default function AtaTicket() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log("form data: ", formData);
+
 
         try {
             setPending(true);
@@ -54,7 +60,9 @@ export default function AtaTicket() {
                 setPending(false);
                 const form = e.target as HTMLFormElement;
                 form.reset();
-                setMessage("Ажлын захиалга амжилттай бүртгэгдлээ.")
+                setMessage("Ажлын захиалга амжилттай бүртгэгдлээ.");
+                alert("Ажлын захиалга амжилттай бүртгэгдлээ.");
+                router.push('/');
             } else {
                 setMessage("Алдаа гарлаа.")
                 setPending(false);

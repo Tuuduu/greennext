@@ -1,4 +1,4 @@
-import ItaTicket from '@/components/ticket/ItaTicket'
+import ItaTicket from '@/components/create-ticket/ItaTicket'
 import React from 'react'
 
 export default function page() {

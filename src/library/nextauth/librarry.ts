@@ -7,7 +7,12 @@ export interface SessionData {
   profileImage?: string;
   role?: string;
   department?: string;
+  isLoggedIn: boolean;
 }
+
+export const defaultSession: SessionData = {
+  isLoggedIn: false,
+};
 
 export const sessionOptions: SessionOptions = {
   password: process.env.NEXTAUT_SECRET!,

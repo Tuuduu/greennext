@@ -10,7 +10,9 @@ interface FormData {
     position: string,
     ticketTitle: string,
     description: string,
-    phoneNumber: string
+    phoneNumber: string,
+    status: string,
+    modifier: string
 }
 
 export default function ItaTicket() {
@@ -19,13 +21,15 @@ export default function ItaTicket() {
     const [pending, setPending] = useState(false);
     const [message, setMessage] = useState("")
     const [formData, setFormData] = useState<FormData>({
-        ticketType: '',
+        ticketType: 'Цахилгаан',
         username: '',
-        company: '',
+        company: 'Грийн Групп',
         position: '',
         ticketTitle: '',
         description: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        status: 'шинэ',
+        modifier: ''
     });
 
     const ataTicketType = [
@@ -56,15 +60,8 @@ export default function ItaTicket() {
                 const form = e.target as HTMLFormElement;
                 form.reset();
                 setMessage("Ажлын захиалга амжилттай бүртгэгдлээ.");
-                setFormData({
-                    ticketType: '',
-                    username: '',
-                    company: '',
-                    position: '',
-                    ticketTitle: '',
-                    description: '',
-                    phoneNumber: ''
-                })
+                alert("Ажлын захиалга амжилттай бүртгэгдлээ.");
+                router.push('/');
             } else {
                 setMessage("Алдаа гарлаа.")
                 setPending(false);

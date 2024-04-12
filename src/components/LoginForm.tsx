@@ -13,6 +13,7 @@ interface FormData {
 
 export default function LoginForm() {
 
+
     const router = useRouter();
     const [formData, setFormData] = useState<FormData>({
         email: '',
@@ -35,7 +36,7 @@ export default function LoginForm() {
                 setMessage("Имэйл эсвэл нууц үг буруу байна.")
                 return;
             }
-            router.replace('/dashboard');
+            router.replace('/home');
         } catch (error) {
             console.log(error);
         }

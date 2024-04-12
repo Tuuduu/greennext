@@ -9,21 +9,27 @@ export async function POST(req) {
       ticketType,
       username,
       company,
+      title,
       position,
       ticketTitle,
       domain,
       description,
       phoneNumber,
+      status,
+      modifier,
     } = await req.json();
     mtaTicket.create({
       ticketType,
       username,
       company,
+      title,
       position,
       ticketTitle,
       domain,
       description,
       phoneNumber,
+      status,
+      modifier,
     });
     return NextResponse.json(
       { message: "Дуудлага бүртгэгдлээ" },

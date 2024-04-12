@@ -1,4 +1,4 @@
-import MtaTicket from '@/components/ticket/MtaTicket'
+import MtaTicket from '@/components/create-ticket/MtaTicket'
 import React from 'react'
 
 export default function page() {

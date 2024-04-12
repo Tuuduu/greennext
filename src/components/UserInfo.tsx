@@ -5,7 +5,8 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
 
-export default function UserInfo() {
+
+const UserInfo = () => {
 
     const router = useRouter();
     const { data: session, } = useSession();
@@ -21,10 +22,12 @@ export default function UserInfo() {
             <div className='flex flex-col gap-y-3'>
                 <div>User name: <span className='font-bold'>{session?.user?.name}</span></div>
                 <div>Email: <span className='font-bold'>{session?.user?.email}</span></div>
-                <div>Role: <span className='font-bold'>{ }</span></div>
-                <div>Department: <span className='font-bold'>{ }</span></div>
+                <div>Role: <span className='font-bold'>{session?.user?.role}</span></div>
+                <div>Department: <span className='font-bold'>{session?.user?.department}</span></div>
                 <button onClick={() => handler()} className='bg-red-500 text-gray-200 font-bold px-6 py-2 mt-3'>Log Out</button>
             </div>
         </div>
     )
 }
+
+export default UserInfo
