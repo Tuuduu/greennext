@@ -17,6 +17,7 @@ export default function Profile() {
                         width={100}
                         height={100}
                         quality={100}
+                        priority
                         className='' />
                 </div>
                 <div className='flex flex-col gap-y-1 pb-2 items-center'>

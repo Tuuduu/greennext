@@ -17,6 +17,7 @@ export async function POST(req) {
       phoneNumber,
       status,
       modifier,
+      createdDate
     } = await req.json();
     itaTicket.create({
       ticketType,
@@ -29,6 +30,7 @@ export async function POST(req) {
       phoneNumber,
       status,
       modifier,
+      createdDate
     });
     return NextResponse.json(
       { message: "Дуудлага бүртгэгдлээ" },

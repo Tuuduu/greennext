@@ -17,18 +17,20 @@ export const authOptions = {
           await connectDB();
           const user = await User.findOne({ email: email });
           if (!user) {
-            return null;
+            return null; // Хэрэглэгч олдсонгүй
           }
+
           const hashedPasswordMatch = await bcrypt.compare(
             password,
             user.password
           );
 
           if (!hashedPasswordMatch) {
-            return null;
+            return null; // Нууц үг буруу
           }
 
           const userData = {
+            userId: user._id.toString(), // `ObjectId`-г `string` хэлбэрт хөрвүүлж байна
             name: user.username,
             email: user.email,
             role: user.role,
@@ -36,10 +38,10 @@ export const authOptions = {
             profileImage: user.profileImage,
           };
 
-          return userData; // Return the user object if authentication succeeds
+          return userData; // Хэрэглэгчийн мэдээллийг буцаана
         } catch (error) {
           console.log("Error: ", error);
-          return null; // Return null in case of any error
+          return null; // Алдаа гарвал `null` буцаана
         }
       },
     }),
@@ -50,23 +52,23 @@ export const authOptions = {
     signOut: "/",
   },
   callbacks: {
-    async session({ session, token }) {
-      // Assuming `token` has the additional user properties
-      // You might need to adjust based on how your token is structured
-      session.user.role = token.role;
-      session.user.department = token.department;
-      session.user.profileImage = token.profileImage;
-      return session;
-    },
-    // You might also need to customize the `jwt` callback to include `role` and `department` in the token if they are not already there
     async jwt({ token, user }) {
-      // On sign in, add the properties to the token
+      // Хэрэв нэвтрэх үед `user` байгаа бол `token`-д мэдээллийг нэмнэ
       if (user) {
+        token.userId = user.userId; // `userId`-г `token`-д нэмнэ
         token.role = user.role;
         token.department = user.department;
         token.profileImage = user.profileImage;
       }
       return token;
+    },
+    async session({ session, token }) {
+      // `token`-оос `session` рүү мэдээллийг дамжуулна
+      session.user.userId = token.userId; // `userId`-г `session`-д нэмнэ
+      session.user.role = token.role;
+      session.user.department = token.department;
+      session.user.profileImage = token.profileImage;
+      return session;
     },
   },
 };

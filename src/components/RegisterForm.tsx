@@ -1,8 +1,10 @@
 "use client"
+
 import React from 'react'
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import companyData from '@/data/data'
 
 interface FormData {
     username: string;
@@ -30,11 +32,16 @@ export default function Login() {
     });
 
     const formRole = [
-        'manager',
+        'Менежер',
+        'Нягтлан',
+        'Ахлах нягтлан',
+        'Ерөнхий нягтлан',
+        'Дарга',
+        'Захирал',
         'admin',
     ];
 
-    const formDepartment = [
+    const employment = [
         'Мэдээлэл технологийн алба',
         'Инженер техникийн алба',
         'Үйл ажиллагааны алба',
@@ -107,7 +114,7 @@ export default function Login() {
         const { name, value } = e.target;
         setFormData(prevData => ({
             ...prevData,
-            [name]: value === 'role' && name === 'department' ? e.target.value : value
+            [name]: value === 'role' ? e.target.value : value
         }));
     };
 
@@ -125,18 +132,38 @@ export default function Login() {
                     <input value={formData.email} onChange={handleChange} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required />
                 </div>
                 <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-900">Чиг үүрэг</label>
+                    <label className="block mb-1 text-sm font-medium text-gray-900">Албан тушаал</label>
                     <select value={formData.role} onChange={handleChangeSelector} name="role" id="role" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" required>
                         <option value={formRole[0]}>{formRole[0]}</option>
                         <option value={formRole[1]}>{formRole[1]}</option>
+                        <option value={formRole[2]}>{formRole[2]}</option>
+                        <option value={formRole[3]}>{formRole[3]}</option>
+                        <option value={formRole[4]}>{formRole[4]}</option>
+                        <option value={formRole[5]}>{formRole[5]}</option>
+                        <option value={formRole[6]}>{formRole[6]}</option>
                     </select>
                 </div>
                 <div>
                     <label className="block mb-1 text-sm font-medium text-gray-900">Компани</label>
                     <select value={formData.department} onChange={handleChangeSelector} name="department" id="department" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" required>
-                        <option value={formDepartment[0]}>{formDepartment[0]}</option>
-                        <option value={formDepartment[1]}>{formDepartment[1]}</option>
-                        <option value={formDepartment[2]}>{formDepartment[2]}</option>
+                        <option value={companyData[0]}>{companyData[0]}</option>
+                        <option value={companyData[1]}>{companyData[1]}</option>
+                        <option value={companyData[2]}>{companyData[2]}</option>
+                        <option value={companyData[3]}>{companyData[3]}</option>
+                        <option value={companyData[4]}>{companyData[4]}</option>
+                        <option value={companyData[5]}>{companyData[5]}</option>
+                        <option value={companyData[6]}>{companyData[6]}</option>
+                        <option value={companyData[7]}>{companyData[7]}</option>
+                        <option value={companyData[8]}>{companyData[8]}</option>
+                        <option value={companyData[9]}>{companyData[9]}</option>
+                    </select>
+                </div>
+                <div>
+                    <label className="block mb-1 text-sm font-medium text-gray-900">Алба</label>
+                    <select value={formData.role} onChange={handleChangeSelector} name="role" id="department" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <option value={employment[0]}>{employment[0]}</option>
+                        <option value={employment[1]}>{employment[1]}</option>
+                        <option value={employment[2]}>{employment[2]}</option>
                     </select>
                 </div>
                 <div>
@@ -159,11 +186,3 @@ export default function Login() {
         </div>
     )
 }
-
-
-
-// dispatch(login({
-//     name: formData.username,
-//     email: formData.email,
-//     password: formData.password
-// }))

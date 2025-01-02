@@ -16,6 +16,7 @@ export async function POST(req) {
       phoneNumber,
       status,
       modifier,
+      createdDate
     } = await req.json();
     ataTicket.create({
       ticketType,
@@ -28,6 +29,7 @@ export async function POST(req) {
       phoneNumber,
       status,
       modifier,
+      createdDate
     });
     return NextResponse.json(
       { message: "Дуудлага бүртгэгдлээ" },

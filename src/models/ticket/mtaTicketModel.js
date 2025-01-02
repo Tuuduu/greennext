@@ -38,14 +38,26 @@ const ticketScheme = mongoose.Schema(
       type: String,
       require: [true, ""],
     },
-    modifier: {
+    modifierUserName: {
       type: String,
       require: [false, ""],
     },
+    modifierUserId: {
+      type: String,
+      require: [false, ""],
+    },
+    updatedDate: {
+      type: String,
+      require: [true, ""],
+    },
+    createdDate: {
+      type: String,
+      require: [true, ""],
+    }
   },
-  {
-    timestamps: true,
-  }
+  // {
+  //   timestamps: false,
+  // }
 );
 
 const mtaTicket =

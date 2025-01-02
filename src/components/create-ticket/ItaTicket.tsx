@@ -2,6 +2,7 @@
 import React from 'react'
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import  moment from "@/library/moment/moment"
 
 interface FormData {
     ticketType: string,
@@ -12,11 +13,12 @@ interface FormData {
     description: string,
     phoneNumber: string,
     status: string,
-    modifier: string
+    modifier: string,
+    createdDate: string
 }
 
 export default function ItaTicket() {
-
+    const date = moment()
     const router = useRouter();
     const [pending, setPending] = useState(false);
     const [message, setMessage] = useState("")
@@ -29,7 +31,8 @@ export default function ItaTicket() {
         description: '',
         phoneNumber: '',
         status: 'шинэ',
-        modifier: ''
+        modifier: '',
+        createdDate: date 
     });
 
     const ataTicketType = [
@@ -46,7 +49,7 @@ export default function ItaTicket() {
         console.log("form data: ", formData);
 
         try {
-            const res = await fetch('/api/ticket/ita',
+            const res = await fetch('/api/create-ticket/ita',
                 {
                     method: "POST",
                     headers: {

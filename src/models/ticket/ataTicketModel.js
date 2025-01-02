@@ -38,10 +38,11 @@ const ticketScheme = mongoose.Schema(
       type: String,
       require: [false, ""],
     },
+    createdDate: {
+      type: String,
+      require: [true, ""],
+    }
   },
-  {
-    timestamps: true,
-  }
 );
 
 const ataTicket =

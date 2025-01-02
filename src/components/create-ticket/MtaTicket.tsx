@@ -2,22 +2,27 @@
 import React from 'react'
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import  moment from "@/library/moment/moment"
 
 interface FormData {
     ticketType: string,
     username: string,
     company: string,
     position: string,
-    ticketTitle: string,
+    title: string,
     domain: string,
     description: string,
     phoneNumber: string,
     status: string,
-    modifier: string
+    modifierUserName: string,
+    modifierUserId: string,
+    updatedDate: string,
+    createdDate: string
 }
 
 export default function MtaTicket() {
 
+    const date = moment()
     const router = useRouter();
     const [pending, setPending] = useState(false);
     const [message, setMessage] = useState("")
@@ -26,12 +31,15 @@ export default function MtaTicket() {
         username: '',
         company: 'Грийн Групп',
         position: '',
-        ticketTitle: '',
+        title: '',
         domain: '',
         description: '',
         phoneNumber: '',
         status: 'шинэ',
-        modifier: ''
+        modifierUserName: '',
+        modifierUserId: '',
+        updatedDate: '',
+        createdDate: date
     });
 
     const ticketType = [
@@ -49,7 +57,7 @@ export default function MtaTicket() {
         console.log("form data: ", formData);
         try {
             setPending(true);
-            const res = await fetch('/api/ticket/mta',
+            const res = await fetch('/api/create-ticket/mta',
                 {
                     method: "POST",
                     headers: {
@@ -149,7 +157,7 @@ export default function MtaTicket() {
 
                 <div>
                     <label className="block mb-1 text-sm font-medium text-gray-900">Гарчиг</label>
-                    <input value={formData.ticketTitle} onChange={handleChange} type="text" name="ticketTitle" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Гарчиг оруулах" required />
+                    <input value={formData.title} onChange={handleChange} type="text" name="title" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Гарчиг оруулах" required />
                 </div>
 
                 <div>
@@ -178,10 +186,3 @@ export default function MtaTicket() {
     )
 }
 
-
-
-// dispatch(login({
-//     name: formData.username,
-//     email: formData.email,
-//     password: formData.password
-// }))
