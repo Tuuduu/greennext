@@ -7,7 +7,7 @@ const TicketTable = async () => {
     const serializedTickets = JSON.parse(JSON.stringify(ticketData));
 
     return (
-        <div className='w-full h-full px-10 bg-gray-50'>
+        <div className='w-full h-full bg-gray-50'>
             <TicketList ticket={serializedTickets}/>
         </div>
     );
