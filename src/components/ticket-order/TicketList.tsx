@@ -6,7 +6,7 @@ import PaginationTicket from "@/components/ticket-order/PaginationTicket";
 import TicketModal from "./TicketModal";
 
 export default function TicketList(ticket: any) {
-  const TecketsData = ticket.ticket;
+  const TecketsData = ticket.ticket.tickets;
   const [tickets, setTickets] = useState<any>([]); // Бүх өгөгдөл хадгалах
   const [filteredTickets, setFilteredTickets] = useState<any>([]); // Хайлтын дараах өгөгдөл
   const [currentPage, setCurrentPage] = useState(1); // Одоогийн хуудас
@@ -16,7 +16,6 @@ export default function TicketList(ticket: any) {
   const style1 = "text-gray-700 px-4 py-2 text-[14px] text-left";
   const style2 = "px-4 py-5 text-gray-700 text-[14px]";
 
-
   useEffect(() => {
     // Анхны өгөгдөл хадгалах
     if (Array.isArray(TecketsData)) {
@@ -25,23 +24,6 @@ export default function TicketList(ticket: any) {
     }
   }, [TecketsData]);
 
-  // useEffect(() => {
-  //   // Хайлтын утгаар өгөгдөл шүүх
-  //   const filtered = tickets.filter((ticket: any) => {
-  //     return (
-  //       ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //       ticket.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //       ticket.company.toLowerCase().includes(searchTerm.toLowerCase())
-  //     );
-  //   });
-   
-
-
-  //   setFilteredTickets(filtered);
-  //   setCurrentPage(1); // Шинэ хайлтаар эхний хуудсанд шилжих
-  // }, [searchTerm, tickets]);
-
-
   useEffect(() => {
     // Хайлтын утгаар болон статусаар өгөгдөл шүүх
     const filtered = tickets.filter((ticket: any) => {
@@ -49,22 +31,21 @@ export default function TicketList(ticket: any) {
         ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         ticket.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
         ticket.company.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesStatus = selectedStatus === "Бүгд" || ticket.status === selectedStatus;
-      
+      const matchesStatus =
+        selectedStatus === "Бүгд" || ticket.status === selectedStatus;
+
       return matchesSearchTerm && matchesStatus;
     });
     setFilteredTickets(filtered);
     setCurrentPage(1); // Шинэ хайлтаар эхний хуудсанд шилжих
   }, [searchTerm, tickets, selectedStatus]);
 
-  
-
   // Хуудасны өгөгдлийг тооцоолох
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentTickets = filteredTickets.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredTickets.length / pageSize); // Нийт хуудасны тоо
-  console.log("dataaa tickets ", TecketsData)
+  console.log("dataaa tickets ", TecketsData);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -77,32 +58,44 @@ export default function TicketList(ticket: any) {
         <div className="w-full flex justify-between items-start">
           <Search
             placeholder="Search for a ticket..."
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setSearchTerm(e.target.value) // Хайлтын утга өөрчлөгдөх бүрт `searchTerm`-ийг шинэчилнэ
+            onChange={
+              (e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearchTerm(e.target.value) // Хайлтын утга өөрчлөгдөх бүрт `searchTerm`-ийг шинэчилнэ
             }
           />
-          
+
           <div className="flex flex-row gap-4">
-          <button
-    className={`px-4 py-2 ${selectedStatus === "шинэ" ? "bg-green-600 text-white" : "bg-white"} border border-gray-300 rounded-md shadow-sm focus:outline-none`}
-    onClick={() => setSelectedStatus("шинэ")}
-  >
-    Шинэ
-  </button>
-  <button
-    className={`px-4 py-2 ${selectedStatus === "хаасан" ? "bg-green-600 text-white" : "bg-white"} border border-gray-300 rounded-md shadow-sm focus:outline-none`}
-    onClick={() => setSelectedStatus("хаасан")}
-  >
-    Хаасан
-  </button>
-  <button
-    className={`px-4 py-2 ${selectedStatus === "Бүгд" ? "bg-green-600 text-white" : "bg-white"} border border-gray-300 rounded-md shadow-sm focus:outline-none`}
-    onClick={() => setSelectedStatus("Бүгд")}
-  >
-    Бүгд
-  </button>
+            <button
+              className={`px-4 py-2 ${
+                selectedStatus === "шинэ"
+                  ? "bg-green-600 text-white"
+                  : "bg-white"
+              } border border-gray-300 rounded-md shadow-sm focus:outline-none`}
+              onClick={() => setSelectedStatus("шинэ")}
+            >
+              Шинэ
+            </button>
+            <button
+              className={`px-4 py-2 ${
+                selectedStatus === "хаасан"
+                  ? "bg-green-600 text-white"
+                  : "bg-white"
+              } border border-gray-300 rounded-md shadow-sm focus:outline-none`}
+              onClick={() => setSelectedStatus("хаасан")}
+            >
+              Хаасан
+            </button>
+            <button
+              className={`px-4 py-2 ${
+                selectedStatus === "Бүгд"
+                  ? "bg-green-600 text-white"
+                  : "bg-white"
+              } border border-gray-300 rounded-md shadow-sm focus:outline-none`}
+              onClick={() => setSelectedStatus("Бүгд")}
+            >
+              Бүгд
+            </button>
           </div>
-          
         </div>
         <table className="w-full border-collapse divide-y divide-white">
           <thead className="border-b-2 border-gray-200">
@@ -115,7 +108,9 @@ export default function TicketList(ticket: any) {
               <th className={style1}>Албан тушаал</th>
               <th className={style1}>Үүсгэсэн огно</th>
               <th className={style1}>Статус</th>
-              <th className="text-gray-700 px-4 py-2 text-[14px] text-center">Дэлгэрэнгүй</th>
+              <th className="text-gray-700 px-4 py-2 text-[14px] text-center">
+                Дэлгэрэнгүй
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
@@ -133,7 +128,6 @@ export default function TicketList(ticket: any) {
                   <TicketModal ticketData={item} />
                 </td>
               </tr>
-              
             ))}
           </tbody>
         </table>
