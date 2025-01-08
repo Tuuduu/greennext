@@ -6,8 +6,18 @@ import bcrypt from "bcrypt";
 export async function POST(req) {
   try {
     await connectDB();
-    const { username, email, password, role, department, profileImage } =
-      await req.json();
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      role,
+      department,
+      profileImage,
+      workingPart,
+      birthday,
+      sex,
+    } = await req.json();
     const exists = await user.findOne({ email: email });
     if (exists) {
       return NextResponse.json(
@@ -17,12 +27,16 @@ export async function POST(req) {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     await user.create({
-      username,
+      firstName,
+      lastName,
       email,
       password: hashedPassword,
       role,
       department,
       profileImage,
+      workingPart,
+      birthday,
+      sex,
     });
     return NextResponse.json(
       { message: "Хэрэглэгч амжилттай бүртгэгдлээ." },

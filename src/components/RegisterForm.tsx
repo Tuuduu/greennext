@@ -1,188 +1,291 @@
-"use client"
+"use client";
 
-import React from 'react'
-import { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import companyData from '@/data/data'
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import companyData from "@/data/data";
 
 interface FormData {
-    username: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    profileImage: string;
-    role: string;
-    department: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  role: string;
+  confirmPassword: string;
+  department: string;
+  workingPart: string;
+  birthday: string;
+  sex: string;
 }
 
 export default function Login() {
+  const router = useRouter();
+  const [pending, setPending] = useState(false);
+  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState<FormData>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    role: "",
+    confirmPassword: "",
+    department: "Грийн интернэшнл ХХК",
+    workingPart: "Мэдээлэл технологийн алба",
+    birthday: "",
+    sex: "",
+  });
 
-    const router = useRouter()
-    const [pending, setPending] = useState(false);
-    const [message, setMessage] = useState("")
-    const [formData, setFormData] = useState<FormData>({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        profileImage: '',
-        role: 'manager',
-        department: 'Мэдээлэл технологийн алба'
-    });
+  const workingPartList = [
+    "Мэдээлэл технологийн алба",
+    "Инженер техникийн алба",
+    "Үйл ажиллагааны алба",
+  ];
 
-    const formRole = [
-        'Менежер',
-        'Нягтлан',
-        'Ахлах нягтлан',
-        'Ерөнхий нягтлан',
-        'Дарга',
-        'Захирал',
-        'admin',
-    ];
-
-    const employment = [
-        'Мэдээлэл технологийн алба',
-        'Инженер техникийн алба',
-        'Үйл ажиллагааны алба',
-    ]
-
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("form data: ", formData);
-        if (formData.password != formData.confirmPassword) {
-            setMessage("Нууц үг таарахгүй байна.");
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("form data: ", formData);
+    if (formData.password != formData.confirmPassword) {
+      setMessage("Нууц үг таарахгүй байна.");
+    } else {
+      try {
+        const resUserExists = await fetch("api/userExists", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData.email),
+        });
+        const { user } = await resUserExists.json();
+        if (user) {
+          setPending(false);
+          setMessage("Бүртгэлтэй хэрэглэгч байна");
         } else {
-            try {
-                const resUserExists = await fetch('api/userExists', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formData.email)
-                });
-                const { user } = await resUserExists.json();
-                if (user) {
-                    setPending(false);
-                    setMessage("Бүртгэлтэй хэрэглэгч байна")
-                } else {
-
-                }
-            } catch (error) {
-
-            }
-            try {
-                setPending(true);
-                const res = await fetch('/api/register',
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(formData),
-                    });
-
-                if (res.ok) {
-                    setPending(false);
-                    const form = e.target as HTMLFormElement;
-                    form.reset();
-                    setMessage("Амжилттай бүртгэгдлээ.");
-                    alert("Амжилттай бүртгэгдлээ");
-                    router.push('/login');
-                } else {
-                    setMessage("Бүртгэлтэй хэрэглэгч байна.")
-                    setPending(false);
-                }
-            } catch (error) {
-                setPending(false)
-                console.log(error)
-            }
         }
+      } catch (error) {}
+      try {
+        setPending(true);
+        const res = await fetch("/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (res.ok) {
+          setPending(false);
+          const form = e.target as HTMLFormElement;
+          form.reset();
+          setMessage("Амжилттай бүртгэгдлээ.");
+          alert("Амжилттай бүртгэгдлээ");
+          router.push("/login");
+        } else {
+          setMessage("Бүртгэлтэй хэрэглэгч байна.");
+          setPending(false);
+        }
+      } catch (error) {
+        setPending(false);
+        console.log(error);
+      }
     }
+  };
 
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
-    };
-
-    const handleChangeSelector = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value === 'role' ? e.target.value : value
-        }));
-    };
-
-
-    return (
-        <div className='w-[500px] shadow-lg p-10 rounded-lg border-t-4 border-green-400'>
-            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-                <label className='font-bold text-lg text-center'>GREEN GROUP</label>
-                <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900">Хэрэглэгчийн нэр</label>
-                    <input value={formData.username} onChange={handleChange} type="name" name="username" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Хэрэглэгчийн нэр" required />
-                </div>
-                <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900">Хэрэглэгчийн Имэйл</label>
-                    <input value={formData.email} onChange={handleChange} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required />
-                </div>
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-900">Албан тушаал</label>
-                    <select value={formData.role} onChange={handleChangeSelector} name="role" id="role" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" required>
-                        <option value={formRole[0]}>{formRole[0]}</option>
-                        <option value={formRole[1]}>{formRole[1]}</option>
-                        <option value={formRole[2]}>{formRole[2]}</option>
-                        <option value={formRole[3]}>{formRole[3]}</option>
-                        <option value={formRole[4]}>{formRole[4]}</option>
-                        <option value={formRole[5]}>{formRole[5]}</option>
-                        <option value={formRole[6]}>{formRole[6]}</option>
-                    </select>
-                </div>
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-900">Компани</label>
-                    <select value={formData.department} onChange={handleChangeSelector} name="department" id="department" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" required>
-                        <option value={companyData[0]}>{companyData[0]}</option>
-                        <option value={companyData[1]}>{companyData[1]}</option>
-                        <option value={companyData[2]}>{companyData[2]}</option>
-                        <option value={companyData[3]}>{companyData[3]}</option>
-                        <option value={companyData[4]}>{companyData[4]}</option>
-                        <option value={companyData[5]}>{companyData[5]}</option>
-                        <option value={companyData[6]}>{companyData[6]}</option>
-                        <option value={companyData[7]}>{companyData[7]}</option>
-                        <option value={companyData[8]}>{companyData[8]}</option>
-                        <option value={companyData[9]}>{companyData[9]}</option>
-                    </select>
-                </div>
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-900">Алба</label>
-                    <select value={formData.role} onChange={handleChangeSelector} name="role" id="department" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" required>
-                        <option value={employment[0]}>{employment[0]}</option>
-                        <option value={employment[1]}>{employment[1]}</option>
-                        <option value={employment[2]}>{employment[2]}</option>
-                    </select>
-                </div>
-                <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 ">Нууц үг</label>
-                    <input value={formData.password} onChange={handleChange} type="password" name="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  focus:border-primary-600 block w-full p-2.5 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-                </div>
-                <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 ">Нууц үгээ баталгаажуулна уу</label>
-                    <input value={formData.confirmPassword} onChange={handleChange} type="password" name="confirmPassword" placeholder="Confirm Password" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  focus:border-primary-600 block w-full p-2.5 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-                </div>
-
-                <div className='w-full flex justify-center'>
-                    {message ? <p className='bg-red-400 py-1 px-4 rounded-lg shadow-lg text-sm text-gray-50 text-center'>{message}</p> : ""}
-                </div>
-                <button type="submit" className="w-full text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  focus-green-800">Бүртгүүлэх</button>
-                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Та бүртгэлтэй юу? <Link href={"/login"} className="font-medium text-primary-600 hover:underline dark:text-primary-500">Нэвтрэх</Link>
-                </p>
-            </form>
+  return (
+    <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+      <h1 className="text-2xl font-bold text-center text-green-600 mb-6">
+        GREEN OFFICE
+      </h1>
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        {/* Ерөнхий мэдээлэл */}
+        <div>
+          <h2 className="text-lg font-semibold text-gray-700 mb-4">
+            Ерөнхий мэдээлэл
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Хэрэглэгчийн нэр
+              </label>
+              <input
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="Нэр"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Хэрэглэгчийн овог
+              </label>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Овог"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+                required
+              />
+            </div>
+          </div>
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Имэйл
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="name@company.com"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+              required
+            />
+          </div>
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Төрсөн өдөр
+              </label>
+              <input
+                type="date"
+                name="birthday"
+                value={formData.birthday}
+                onChange={handleChange}
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Хүйс
+              </label>
+              <select
+                name="sex"
+                value={formData.sex}
+                onChange={handleChange}
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+                required
+              >
+                <option value="">Сонгох</option>
+                <option value="male">Эрэгтэй</option>
+                <option value="female">Эмэгтэй</option>
+              </select>
+            </div>
+          </div>
         </div>
-    )
+
+        {/* Алба болон Компани */}
+        <div>
+          <h2 className="text-lg font-semibold text-gray-700 mb-4">
+            Ажлын мэдээлэл
+          </h2>
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Компани
+            </label>
+            <select
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+              required
+            >
+              {companyData.map((part, index) => (
+                <option key={index} value={part}>
+                  {part}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Алба
+            </label>
+            <select
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+              required
+            >
+              {workingPartList.map((part, index) => (
+                <option key={index} value={part}>
+                  {part}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Нууцлалын мэдээлэл */}
+        <div>
+          <h2 className="text-lg font-semibold text-gray-700 mb-4">
+            Нууцлалын мэдээлэл
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Нууц үг
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Нууц үгээ баталгаажуулах
+              </label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="••••••••"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Зурвас */}
+        {message && (
+          <p className="text-red-600 text-sm text-center">{message}</p>
+        )}
+
+        {/* Бүртгүүлэх товч */}
+        <button
+          type="submit"
+          className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 focus:ring-4 focus:ring-green-300"
+        >
+          Бүртгүүлэх
+        </button>
+
+        {/* Нэвтрэх линк */}
+        <p className="text-sm text-center text-gray-500 mt-4">
+          Та бүртгэлтэй юу?{" "}
+          <Link href="/login" className="text-green-600 hover:underline">
+            Нэвтрэх
+          </Link>
+        </p>
+      </form>
+    </div>
+  );
 }

@@ -2,18 +2,26 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 
 // Хэрэглэгчийн интерфэйс тодорхойлох
 interface IUser extends Document {
-  username: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   profileImage?: string;
   role: string;
   department: string;
+  workingPart: string;
+  birthday: string;
+  sex: string;
 }
 
 // Хэрэглэгчийн схем тодорхойлох
 const userSchema: Schema<IUser> = new Schema(
   {
-    username: {
+    firstName: {
+      type: String,
+      required: [true, "Хэрэглэгчийн нэрийг заавал оруулна."],
+    },
+    lastName: {
       type: String,
       required: [true, "Хэрэглэгчийн нэрийг заавал оруулна."],
     },
@@ -30,11 +38,23 @@ const userSchema: Schema<IUser> = new Schema(
       type: String,
       required: false,
     },
+    birthday: {
+      type: String,
+      required: false,
+    },
+    sex: {
+      type: String,
+      required: false,
+    },
     role: {
+      type: String,
+      required: [false, "Заавал Оруулна."],
+    },
+    department: {
       type: String,
       required: [true, "Заавал Оруулна."],
     },
-    department: {
+    workingPart: {
       type: String,
       required: [true, "Заавал Оруулна."],
     },
