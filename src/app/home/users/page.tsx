@@ -1,12 +1,14 @@
-import React from 'react'
+import { getServerSession } from 'next-auth'
+import { redirect } from 'next/navigation'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import UserTable from '@/components/dashboard/users/UserTable'
-// import { useSession } from 'next-auth/react'
 
-export default function page() {
+export default async function page() {
 
-    // const { data: session } = useSession();
-
-    // console.log("session dataa: ", session)
+    const session = await getServerSession(authOptions);
+    if (!session) {
+            redirect('/')
+    }
 
     return (
         <div className='w-full'>

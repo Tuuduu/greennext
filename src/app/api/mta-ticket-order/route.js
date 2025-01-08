@@ -19,4 +19,5 @@ export default async function GET(request) {
     console.log("Error: ", error);
     return NextResponse.json({ message: "Error" }, { status: 500 });
   }
+  
 }

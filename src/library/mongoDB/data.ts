@@ -1,7 +1,6 @@
-import user from "@/models/userModel";
 import { connectDB } from "./connect";
+import user from "@/models/userModel";
 import mtaTicket from "@/models/ticket/mtaTicketModel";
-
 
 //// User data.
 export const fetchUser = async () => {
@@ -19,7 +18,8 @@ export const fetchUser = async () => {
 export const fetchMtaTicket = async () => {
   try {
     connectDB();
-    const tickets = await mtaTicket.find({ status: "шинэ" });
+    const result = await mtaTicket.find({});
+    const tickets = await result.json();
     return tickets;
   } catch (err) {
     console.log(err);

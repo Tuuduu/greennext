@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Search from "../content-header/Search";
-import PaginationTicket from "@/components/dashboard/ticket-order/PaginationTicket";
+import Search from "../dashboard/content-header/Search";
+import PaginationTicket from "@/components/ticket-order/PaginationTicket";
 import TicketModal from "./TicketModal";
 
 export default function TicketList(ticket: any) {
