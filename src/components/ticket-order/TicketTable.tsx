@@ -1,32 +1,47 @@
 "use client";
-import { useEffect, useState } from "react";
+import { fetchMtaTicket } from "@/library/mongoDB/data";
 import TicketList from "./TicketList";
+import { useState, useEffect } from "react";
 
 const TicketTable = () => {
-  const [ticket, setTicket] = useState(null);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchData() {
+    // API дуудлага хийх
+    const fetchData = async () => {
       try {
-        const data = await fetch("/api/ticketData");
-        console.log("dataaa ----> ", data);
-        setTicket(data);
+        const response = await fetch("/api/mta-ticket-order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ someData: "example" }),
+        });
+
+        const result = await response.json();
+        console.log("dataaa --->", result);
+        setData(result);
       } catch (error) {
-        console.error("Алдаа гарлаа:", error);
+        console.error("API fetch error:", error);
       } finally {
         setLoading(false);
       }
-    }
+    };
+
     fetchData();
-  }, []);
+  }, []); // хоосон dependency array: зөвхөн нэг удаа ажиллана
 
-  if (loading) return <p>Уншиж байна...</p>;
-  if (!ticket) return <p>No profile data</p>;
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
+  if (!data) {
+    return <p>No data available</p>;
+  }
   return (
     <div className="w-full h-full bg-gray-50">
-      <TicketList tickets={ticket} />
+      <TicketList ticket={data} />
     </div>
   );
 };
