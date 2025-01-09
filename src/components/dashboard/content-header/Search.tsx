@@ -1,17 +1,22 @@
-import React from 'react';
+import React from "react";
 
 interface SearchProps {
   placeholder: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // onChange event type
+  onSearch: (searchTerm: string) => void; // Хайлтын утгыг буцаах функц
 }
 
-const Search: React.FC<SearchProps> = ({ placeholder, onChange }) => {
+const Search: React.FC<SearchProps> = ({ placeholder, onSearch }) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSearch(e.target.value); // Хайлтын утгыг parent компонент руу дамжуулах
+  };
+
   return (
-    <form className="w-48">
+    <form className="w-full sm:w-64">
       <div className="relative">
-        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+        {/* Хайх икон */}
+        <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
           <svg
-            className="w-4 h-4 text-gray-500 dark:text-gray-400"
+            className="w-5 h-5 text-gray-500"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -26,13 +31,12 @@ const Search: React.FC<SearchProps> = ({ placeholder, onChange }) => {
             />
           </svg>
         </div>
+        {/* Хайх оролт */}
         <input
           type="search"
-          id="default-search"
-          onChange={onChange} // Хайлтын утгыг parent компонент руу дамжуулах
-          className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-800 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-300 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-green-500"
+          onChange={handleInputChange} // Хайлтын функц
+          className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500"
           placeholder={placeholder}
-          required
         />
       </div>
     </form>

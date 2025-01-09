@@ -1,49 +1,115 @@
-import { Pagination } from 'antd'
-import React from 'react'
-import Search from '../content-header/Search';
-import { fetchUser } from '@/library/mongoDB/data'
+"use client";
 
+import { useEffect, useState } from "react";
 
-const UserTable = async () => {
+const UserTable = () => {
+  const [users, setUsers] = useState<any[]>([]); // Бүх хэрэглэгчдийн мэдээлэл
+  const [filteredUsers, setFilteredUsers] = useState<any[]>([]); // Шүүгдсэн хэрэглэгчид
+  const [loading, setLoading] = useState(true); // Ачааллын төлөв
+  const [error, setError] = useState<string | null>(null); // Алдааны төлөв
 
-    const users = await fetchUser();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/users", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-    console.log("dataa: ", users)
+        if (!response.ok) {
+          throw new Error(`HTTP алдаа: ${response.status}`);
+        }
 
+        const result = await response.json();
+        if (result && result.data) {
+          setUsers(result.data); // Зөвхөн өгөгдлийг тохируулах
+          setFilteredUsers(result.data);
+        } else {
+          setUsers([]);
+          setFilteredUsers([]);
+        }
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return (
-        <div className='w-full h-full px-10 bg-gray-50'>
-            <div className='transition duration-150 ease-in-out w-full flex flex-col items-center gap-y-6 p-5 bg-white rounded-lg shadow hover:shadow-lg'>
-                <div className='w-full flex justify-start items-start'>
-                    <Search placeholder='search for a user...' />
-                </div>
-                <table className="w-full  border-collapse divide-y divide-white">
-                    <thead className='border-b-2 border-gray-200'>
-                        <tr className=''>
-                            <th className="text-gray-700 px-4 py-2 text-left">Name</th>
-                            <th className="text-gray-700 px-4 py-2 text-left">Email</th>
-                            {/* <th className="text-gray-700 px-4 py-2 text-left">Created at</th> */}
-                            <th className="text-gray-700 px-4 py-2 text-left">Role</th>
-                            <th className="text-gray-700 px-4 py-2 text-left">Department</th>
-                        </tr>
-                    </thead>
-                    <tbody className=' divide-y divide-gray-200'>
-                        {users.map((users: any) => (
-                            <tr key={users._id} className="">
-                                <td className="px-4 py-5 text-gray-700">{users.username}</td>
-                                <td className="px-4 py-5 text-gray-700">{users.email}</td>
-                                {/* <td className="px-4 py-5 text-gray-700">{users.createAt}</td> */}
-                                <td className="px-4 py-5 text-gray-700">{users.role}</td>
-                                <td className="px-4 py-5 text-gray-700">{users.department}</td>
+    fetchData();
+  }, []);
 
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                {/* <Pagination defaultCurrent={1} total={500} pageSizeOptions={[10, 20]} className='' /> */}
+  console.log("users dataa  ---> ", users);
+  // Хэрэглэгчдийг хайлтаар шүүх
+  const handleSearch = (term: string) => {
+    const filtered = users.filter(
+      (user) =>
+        user.firstName.toLowerCase().includes(term.toLowerCase()) ||
+        user.email.toLowerCase().includes(term.toLowerCase()) ||
+        user.role.toLowerCase().includes(term.toLowerCase()) ||
+        user.department.toLowerCase().includes(term.toLowerCase())
+    );
+    setFilteredUsers(filtered);
+  };
+
+  return (
+    <div className="w-full h-full px-6 bg-gray-50">
+      <div className="transition duration-150 ease-in-out w-full flex flex-col gap-y-6 p-6 bg-white rounded-lg shadow hover:shadow-lg">
+        {/* Ачаалж байна эсвэл алдаа харуулах */}
+        {loading && <p className="text-gray-700">Ачаалж байна...</p>}
+        {error && <p className="text-red-500">Алдаа: {error}</p>}
+
+        {!loading && !error && (
+          <>
+            {/* Хайх хэсэг */}
+            <div className="w-full flex justify-between items-center mb-4">
+              <input
+                type="text"
+                placeholder="Хэрэглэгчийн хайлт..."
+                onChange={(e) => handleSearch(e.target.value)}
+                className="p-2 border border-gray-300 rounded-lg w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
-        </div>
-    )
-}
+
+            {/* Хэрэглэгчдийн хүснэгт */}
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse divide-y divide-gray-200">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="text-gray-700 px-4 py-2 text-left">№</th>
+                    <th className="text-gray-700 px-4 py-2 text-left">Нэр</th>
+                    <th className="text-gray-700 px-4 py-2 text-left">Имэйл</th>
+                    <th className="text-gray-700 px-4 py-2 text-left">
+                      Компани
+                    </th>
+                    <th className="text-gray-700 px-4 py-2 text-left">Алба</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {filteredUsers.map((user: any, index: number) => (
+                    <tr key={user._id} className="hover:bg-gray-50">
+                      <td className="px-4 py-4 text-gray-700">{index + 1}</td>
+                      <td className="px-4 py-4 text-gray-700">
+                        {user.firstName}
+                      </td>
+                      <td className="px-4 py-4 text-gray-700">{user.email}</td>
+                      <td className="px-4 py-4 text-gray-700">
+                        {user.department}
+                      </td>
+                      <td className="px-4 py-4 text-gray-700">
+                        {user.workingPart}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default UserTable;

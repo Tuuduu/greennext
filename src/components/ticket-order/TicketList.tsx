@@ -52,7 +52,7 @@ export default function TicketList(ticket: any) {
   };
 
   return (
-    <div className="w-full h-full px-10 bg-gray-50">
+    <div className="w-full h-full pl-6 pr-2 bg-gray-50">
       <div className="transition duration-150 ease-in-out w-full flex flex-col items-center gap-y-6 p-5 bg-white rounded-lg shadow hover:shadow-lg">
         {/* Хайлтын талбар */}
         <div className="w-full flex justify-between items-start">

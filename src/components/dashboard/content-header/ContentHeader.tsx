@@ -1,39 +1,39 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function ContentHeader() {
-    // const router = useRouter();
-    const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
+  const pathname = usePathname(); // Динамик замыг авах
+  const [title, setTitle] = useState<string>("Ачаалж байна...");
 
-    // useEffect(() => {
-    //     // Зөвхөн router бүрэн бэлэн болсон үед state-г шинэчилнэ
-    //     if (router.isReady) {
-    //         const slug = (router.query.slug as string) || 'dashboard'; // URL-ийн slug утгыг авах
-    //         setActiveTab(slug);
-    //     }
-    // }, [router.isReady, router.query.slug]);
+  useEffect(() => {
+    // Pathname-д тулгуурлан гарчиг шинэчлэх
+    if (pathname) {
+      const slug = pathname.split("/").pop() || "dashboard"; // Pathname-аас сүүлийн хэсгийг авах
+      switch (slug) {
+        case "dashboard":
+          setTitle("Хяналтын самбар");
+          break;
+        case "users":
+          setTitle("Хэрэглэгчид");
+          break;
+        case "tasks":
+        case "ticket-order":
+          setTitle("Ажлын захиалга");
+          break;
+        default:
+          setTitle("Тохирох зам олдсонгүй");
+      }
+    }
+  }, [pathname]);
 
-    const renderContent = () => {
-        switch (activeTab) {
-            case 'dashboard':
-                return <h2 className="text-xl font-bold text-gray-700">Dashboard</h2>;
-            case 'users':
-                return <h2 className="text-xl font-bold text-gray-700">Хэрэглэгчид</h2>;
-            case 'tasks':
-                return <h2 className="text-xl font-bold text-gray-700">Ажлын захиалга</h2>;
-            default:
-                return <h2 className="text-xl font-bold text-gray-700">Тохирох зам олдсонгүй!</h2>;
-        }
-    };
-
-    return (
-        <div className="w-full h-auto p-10 bg-gray-50">
-            {/* Контентыг харуулах хэсэг */}
-            <div className="p-5 bg-white rounded-lg shadow">
-                {activeTab ? renderContent() : <h2 className="text-gray-500">Ачаалж байна...</h2>}
-            </div>
-        </div>
-    );
+  return (
+    <div className="w-full h-auto p-6 bg-gray-50">
+      {/* Контентын гарчиг */}
+      <div className="p-4 bg-white rounded-lg shadow-md">
+        <h2 className="text-xl font-bold text-gray-700">{title}</h2>
+      </div>
+    </div>
+  );
 }

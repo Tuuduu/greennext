@@ -31,7 +31,7 @@ export default function LoginForm() {
         setMessage("Имэйл эсвэл нууц үг буруу байна.");
         return;
       }
-      router.replace("/home");
+      router.replace("/home/dashboard");
     } catch (error) {
       console.log(error);
     }

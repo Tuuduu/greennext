@@ -1,12 +1,17 @@
-'use client'
-import { signOut } from 'next-auth/react'
+"use client";
+import { signOut } from "next-auth/react";
+import { AiOutlineLogout } from "react-icons/ai"; // Гарах товчийн икон
 
 export default function SignoutButton() {
-
-
-    return (
-        <div className="w-full flex flex-col items-center pb-5">
-            <button onClick={() => signOut({ callbackUrl: '/' })} className="text-white bg-green-600 shadow-md shadow-teal-500/50 dark:shadow-md dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-4/5">Гарах</button>
-        </div>
-    )
+  return (
+    <div className="w-full flex flex-col items-center pb-5">
+      <button
+        onClick={() => signOut({ callbackUrl: "/" })}
+        className="flex items-center gap-3 text-white bg-green-600 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-4/5 shadow-md transition-all"
+      >
+        <AiOutlineLogout size={20} />
+        Гарах
+      </button>
+    </div>
+  );
 }
