@@ -6,6 +6,8 @@ import profileImage from "@/picture/profile_av.jpg";
 export default function Profile() {
   const { data: session } = useSession();
 
+  console.log("session dataa -->", session);
+
   return (
     <div className="w-full flex flex-col items-center p-4">
       {/* Профайл зураг */}
@@ -24,10 +26,10 @@ export default function Profile() {
         {/* Хэрэглэгчийн мэдээлэл */}
         <div className="flex flex-col gap-y-1 items-center text-center">
           <h1 className="uppercase text-lg text-gray-700 font-bold">
-            {session?.user?.name || "Хэрэглэгчийн нэр"}
+            {session?.user?.firstName || "Хэрэглэгчийн нэр"}
           </h1>
           <h2 className="text-sm text-gray-500 font-medium">
-            {session?.user?.email || "Хэрэглэгчийн имэйл"}
+            {session?.user?.workingPart || "Хэрэглэгчийн имэйл"}
           </h2>
           <h3 className="uppercase text-xs text-gray-500 font-medium">
             {session?.user?.department || "Хэлтэс/алба"}

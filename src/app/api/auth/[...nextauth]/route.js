@@ -31,9 +31,10 @@ export const authOptions = {
 
           const userData = {
             userId: user._id.toString(), // `ObjectId`-г `string` хэлбэрт хөрвүүлж байна
-            name: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
-            role: user.role,
+            workingPart: user.workingPart,
             department: user.department,
             profileImage: user.profileImage,
           };
@@ -56,7 +57,8 @@ export const authOptions = {
       // Хэрэв нэвтрэх үед `user` байгаа бол `token`-д мэдээллийг нэмнэ
       if (user) {
         token.userId = user.userId; // `userId`-г `token`-д нэмнэ
-        token.role = user.role;
+        token.firstName = user.firstName;
+        token.workingPart = user.workingPart;
         token.department = user.department;
         token.profileImage = user.profileImage;
       }
@@ -65,7 +67,8 @@ export const authOptions = {
     async session({ session, token }) {
       // `token`-оос `session` рүү мэдээллийг дамжуулна
       session.user.userId = token.userId; // `userId`-г `session`-д нэмнэ
-      session.user.role = token.role;
+      session.user.firstName = token.firstName;
+      session.user.workingPart = token.workingPart;
       session.user.department = token.department;
       session.user.profileImage = token.profileImage;
       return session;

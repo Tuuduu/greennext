@@ -1,0 +1,32 @@
+@keyframes textGlow {
+  0% {
+    transform: scale(1);
+    text-shadow: 0 0 5px rgba(67, 160, 71, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    text-shadow: 0 0 15px rgba(102, 187, 106, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    text-shadow: 0 0 5px rgba(67, 160, 71, 0.5);
+  }
+}
+
+@keyframes leafBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animatedText {
+  animation: textGlow 7s ease-in-out infinite;
+}
+
+.leafAnimation {
+  animation: leafBounce 2s ease-in-out infinite;
+}

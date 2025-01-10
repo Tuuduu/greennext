@@ -5,6 +5,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Logo from "./Logo/Logo";
 
 interface FormData {
   email: string;
@@ -46,10 +47,10 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h1 className="text-2xl font-bold text-center text-green-600 mb-6">
-        GREEN OFFICE
-      </h1>
+    <div className="max-w-md mx-auto p-6 w-auto sm:w-1/3 bg-white shadow-lg rounded-lg">
+      <div className="w-full flex items-center justify-center pb-5">
+        <Logo />
+      </div>
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div>
           <label className="block text-sm font-medium text-gray-700">
