@@ -2,35 +2,40 @@
 import moment from "moment";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-import TicketButton from "./TicketButton";
 
 interface TicketData {
-  id: string;
+  _id: string;
   status: string;
-  [key: string]: any; // Хэрэв нэмэлт талбарууд байвал
+  [key: string]: any; // Нэмэлт талбарууд
 }
 
 interface FormData {
   status: string;
 }
 
-export default function TicketChangeStatus(ticketData: TicketData) {
+export default function TicketChangeStatus({
+  ticketData,
+  onStatusUpdate,
+}: {
+  ticketData: TicketData;
+  onStatusUpdate: (updatedTicket: TicketData) => void;
+}) {
   const { data: session } = useSession();
-  const dataId = ticketData.value.ticketData._id;
-  const date = moment();
+  const dataId = ticketData._id;
+  const date = moment().toISOString();
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState<FormData>({
-    status: "шинэ",
+    status: ticketData.status || "шинэ",
   });
   const [userData, setUserData] = useState({
     name: "",
     userId: "",
   });
 
-  const status = ["шинэ", "хаасан", "хүлээгдэж буй", "хоошлуулсан"];
+  const statusOptions = ["шинэ", "хаасан", "хүлээгдэж буй", "хоошлуулсан"];
 
-  // useEffect ашиглан session өгөгдлийг авах
+  // Session өгөгдлийг авах
   useEffect(() => {
     if (session?.user) {
       setUserData({
@@ -40,6 +45,7 @@ export default function TicketChangeStatus(ticketData: TicketData) {
     }
   }, [session]);
 
+  // Төлөв сонгох өөрчлөлт
   const handleChangeSelector = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -48,13 +54,14 @@ export default function TicketChangeStatus(ticketData: TicketData) {
     }));
   };
 
+  // Форм илгээх
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPending(true);
-    setMessage(""); // Clear previous messages
+    setMessage(""); // Өмнөх мессежүүдийг цэвэрлэх
 
     try {
-      const res = await fetch("/api/mta-ticket-order/ticket-config/", {
+      const res = await fetch("/api/ticket-order/ticket-config/", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -71,6 +78,11 @@ export default function TicketChangeStatus(ticketData: TicketData) {
       });
 
       if (res.ok) {
+        const updatedTicket = {
+          ...ticketData,
+          status: formData.status,
+        };
+        onStatusUpdate(updatedTicket); // Шинэчлэх функц дуудна
         setMessage("Ажлын захиалга амжилттай бүртгэгдлээ.");
       } else {
         setMessage("Алдаа гарлаа. Та дахин оролдоно уу.");
@@ -85,23 +97,44 @@ export default function TicketChangeStatus(ticketData: TicketData) {
 
   return (
     <div>
-      {message && <p className="text-green-500">{message}</p>}
-      <form onSubmit={handleSubmit}>
+      {/* Алдааны мессеж */}
+      {message && (
+        <p
+          className={`text-sm ${
+            message.includes("амжилттай") ? "text-green-600" : "text-red-500"
+          }`}
+        >
+          {message}
+        </p>
+      )}
+
+      {/* Форм */}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <select
           value={formData.status}
           onChange={handleChangeSelector}
           name="status"
           id="status"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:placeholder-gray-400 focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         >
-          {status.map((s, index) => (
+          {statusOptions.map((s, index) => (
             <option key={index} value={s}>
               {s}
             </option>
           ))}
         </select>
-        <TicketButton value={formData} />
+        <button
+          type="submit"
+          disabled={pending}
+          className={`px-4 py-2 rounded-md text-white text-sm transition-all ${
+            pending
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-green-600 hover:bg-green-700"
+          }`}
+        >
+          {pending ? "Хадгалж байна..." : "Хадгалах"}
+        </button>
       </form>
     </div>
   );

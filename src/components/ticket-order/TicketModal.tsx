@@ -1,56 +1,73 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import anime from "animejs";
 import TicketModalInfro from "./TicketModalInfro";
 import TicketChangeStatus from "./TicketChangeStatus";
 
-export default function TicketModal(ticketData: any) {
+export default function TicketModal({ ticketData }: any) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    anime({
+      targets: ".modal-content",
+      translateY: [0, -50],
+      opacity: [1, 0],
+      duration: 500,
+      easing: "easeInExpo",
+      complete: () => setIsOpen(false),
+    });
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      anime({
+        targets: ".modal-content",
+        translateY: [-50, 0],
+        opacity: [0, 1],
+        duration: 500,
+        easing: "easeOutExpo",
+      });
+    }
+  }, [isOpen]);
+
   return (
-    <div className="relative">
+    <>
       {/* Open Modal Button */}
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         className="bg-green-600 text-white text-[10px] px-4 py-2 rounded"
       >
         Дэлгэрэнгүй
       </button>
 
-      {/* Modal Overlay & Content */}
-      {isOpen && (
-        <div 
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          {/* Modal Box */}
+      {/* Modal Portal */}
+      {isOpen &&
+        ReactDOM.createPortal(
           <div
-            className="bg-white p-6 flex flex-col rounded shadow-lg transition-transform transform scale-95 opacity-0 animate-fade-in"
-            style={{
-              animation: "fadeIn 0.3s ease-out forwards",
-            }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+            onClick={handleClose} // Modal гадна дархад хаагдана
           >
-            <TicketModalInfro value={ticketData}/>
-            <TicketChangeStatus value={ticketData}/>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="bg-red-500 text-white px-4 py-2 rounded"
+            <div
+              className="modal-content bg-white p-6 max-w-lg w-full md:w-2/3 rounded-lg shadow-lg relative"
+              onClick={(e) => e.stopPropagation()} // Modal дотор дарвал хаагдахгүй
             >
-              Гарах
-            </button>
-          </div>
-
-          {/* Animation CSS */}
-          <style jsx>{`
-            @keyframes fadeIn {
-              from {
-                opacity: 0;
-                transform: scale(0.95);
-              }
-              to {
-                opacity: 1;
-                transform: scale(1);
-              }
-            }
-          `}</style>
-        </div>
-      )}
-    </div>
+              {/* Modal Content */}
+              <TicketModalInfro ticketData={ticketData} />
+              <TicketChangeStatus ticketData={ticketData} />
+              <button
+                onClick={handleClose}
+                className="bg-red-500 text-white mt-4 px-4 py-2 rounded w-full"
+              >
+                Гарах
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
+    </>
   );
 }
