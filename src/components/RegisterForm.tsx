@@ -213,8 +213,8 @@ export default function Login() {
               Алба
             </label>
             <select
-              name="department"
-              value={formData.department}
+              name="workingPart"
+              value={formData.workingPart}
               onChange={handleChange}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
               required

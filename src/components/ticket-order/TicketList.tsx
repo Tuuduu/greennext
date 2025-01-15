@@ -6,7 +6,7 @@ import PaginationTicket from "@/components/ticket-order/PaginationTicket";
 import TicketModal from "./TicketModal";
 
 export default function TicketList(ticket: any) {
-  const TecketsData = ticket.ticket.tickets;
+  const TecketsData = ticket.ticket; // Ирж буй өгөгдөл
   const [tickets, setTickets] = useState<any>([]); // Бүх өгөгдөл хадгалах
   const [filteredTickets, setFilteredTickets] = useState<any>([]); // Хайлтын дараах өгөгдөл
   const [currentPage, setCurrentPage] = useState(1); // Одоогийн хуудас
@@ -17,10 +17,15 @@ export default function TicketList(ticket: any) {
   const style2 = "px-4 py-5 text-gray-700 text-[14px]";
 
   useEffect(() => {
-    // Анхны өгөгдөл хадгалах
+    // Ирж буй өгөгдлийг массив эсэхийг шалгана
     if (Array.isArray(TecketsData)) {
-      setTickets(TecketsData);
-      setFilteredTickets(TecketsData); // Эхлэх үед бүх өгөгдлийг харуулах
+      setTickets(TecketsData); // Массив бол шууд ашиглана
+      setFilteredTickets(TecketsData);
+    } else if (TecketsData && typeof TecketsData === "object") {
+      setTickets([TecketsData]); // Объект бол массив болгон хувиргана
+      setFilteredTickets([TecketsData]);
+    } else {
+      console.error("Invalid data format:", TecketsData); // Буруу өгөгдлийн формат
     }
   }, [TecketsData]);
 
@@ -28,9 +33,11 @@ export default function TicketList(ticket: any) {
     // Хайлтын утгаар болон статусаар өгөгдөл шүүх
     const filtered = tickets.filter((ticket: any) => {
       const matchesSearchTerm =
-        ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        ticket.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        ticket.company.toLowerCase().includes(searchTerm.toLowerCase());
+        (ticket.title || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (ticket.username || "")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        (ticket.company || "").toLowerCase().includes(searchTerm.toLowerCase());
       const matchesStatus =
         selectedStatus === "Бүгд" || ticket.status === selectedStatus;
 
@@ -45,7 +52,6 @@ export default function TicketList(ticket: any) {
   const endIndex = startIndex + pageSize;
   const currentTickets = filteredTickets.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredTickets.length / pageSize); // Нийт хуудасны тоо
-  console.log("dataaa tickets ", TecketsData);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -58,10 +64,7 @@ export default function TicketList(ticket: any) {
         <div className="w-full flex justify-between items-start">
           <Search
             placeholder="Search for a ticket..."
-            onChange={
-              (e: React.ChangeEvent<HTMLInputElement>) =>
-                setSearchTerm(e.target.value) // Хайлтын утга өөрчлөгдөх бүрт `searchTerm`-ийг шинэчилнэ
-            }
+            onSearch={(term: string) => setSearchTerm(term)} // Хайлтын утгыг шинэчилнэ
           />
 
           <div className="flex flex-row gap-4">

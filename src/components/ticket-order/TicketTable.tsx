@@ -1,5 +1,4 @@
 "use client";
-import { fetchMtaTicket } from "@/library/mongoDB/data";
 import TicketList from "./TicketList";
 import { useState, useEffect } from "react";
 
@@ -11,7 +10,7 @@ const TicketTable = () => {
     // API дуудлага хийх
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/mta-ticket-order", {
+        const response = await fetch("/api/ticket-order", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -21,7 +20,7 @@ const TicketTable = () => {
 
         const result = await response.json();
         console.log("dataaa --->", result);
-        setData(result);
+        setData(result.tickets);
       } catch (error) {
         console.error("API fetch error:", error);
       } finally {

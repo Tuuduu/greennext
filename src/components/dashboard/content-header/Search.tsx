@@ -7,7 +7,7 @@ interface SearchProps {
 
 const Search: React.FC<SearchProps> = ({ placeholder, onSearch }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onSearch(e.target.value); // Хайлтын утгыг parent компонент руу дамжуулах
+    onSearch(e.target.value.trim()); // Хайлтын утгыг parent компонент руу дамжуулах
   };
 
   return (
