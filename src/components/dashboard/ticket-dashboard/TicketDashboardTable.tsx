@@ -3,46 +3,41 @@
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
 
-// Register Chart.js components
+// Chart.js бүртгэл
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
 const TicketDashboard = ({ data }: { data: any }) => {
-  // Default values to avoid undefined issues
+  // Өгөгдлийн анхдагч утга
   const planned = data?.planned || 15;
   const inProgress = data?.inProgress || 20;
   const completed = data?.completed || 20;
-  const newticket = data?.newticket || 25;
+  const newTicket = data?.newTicket || 25;
 
-  const total = planned + inProgress + completed + newticket;
+  const total = planned + inProgress + completed + newTicket;
 
-  // Chart data for Pie chart
+  // Pie Chart-ын өгөгдөл
   const chartData = {
     labels: ["Шинэ", "Хүлээгдэж буй", "Хийгдэж байгаа", "Хаасан"],
     datasets: [
       {
         label: "Ажлын захиалгууд",
-        data: [planned, inProgress, completed, newticket],
+        data: [newTicket, planned, inProgress, completed],
         backgroundColor: [
-          "#4BC0C0", // Төлөвлөсөн
+          "#4BC0C0", // Шинэ
           "#FFCD56", // Хүлээгдэж буй
           "#36A2EB", // Хийгдэж байгаа
-          "#FF6384", // Цуцлагдсан
+          "#FF6384", // Хаасан
         ],
-        hoverBackgroundColor: [
-          "#5AD3D1", // Hover төлөвлөсөн
-          "#FFD685", // Hover хүлээгдэж буй
-          "#4BC8FF", // Hover хийгдэж байгаа
-          "#FF809B", // Hover цуцлагдсан
-        ],
-        borderColor: "#ffffff", // White border for better visibility
-        borderWidth: 1,
+        hoverBackgroundColor: ["#5AD3D1", "#FFD685", "#4BC8FF", "#FF809B"],
+        borderColor: "#ffffff", // Илүү тод харагдуулах
+        borderWidth: 2,
       },
     ],
   };
 
   const options = {
     responsive: true,
-    maintainAspectRatio: false, // Disable aspect ratio maintenance
+    maintainAspectRatio: false, // Aspect ratio тохируулахгүй
     plugins: {
       legend: {
         position: "top" as const,
@@ -63,9 +58,9 @@ const TicketDashboard = ({ data }: { data: any }) => {
       },
       title: {
         display: true,
-        text: "",
+        text: "Ажлын захиалгын хуваарилалт",
         font: {
-          size: 14,
+          size: 16,
         },
       },
     },
@@ -77,15 +72,17 @@ const TicketDashboard = ({ data }: { data: any }) => {
   return (
     <div className="w-full bg-white flex flex-col items-center p-6 rounded-lg shadow">
       <h2 className="text-lg text-gray-600 font-bold">Ажлын захиалга</h2>
-      <div className="w-full h-auto flex flex-row">
-        <div className="w-[600px] h-[500px]">
+      <div className="w-full h-auto flex flex-row items-center justify-center">
+        {/* Pie Chart */}
+        <div className="w-[400px] h-[400px]">
           <Pie data={chartData} options={options} />
         </div>
-        <div className="mb-4 pt-10">
-          <p className="text-gray-600 font-bold pb-4">Нийт дуудлага: {total}</p>
-          <p className="text-gray-600">Шинэ: {newticket}</p>
-          <p className="text-gray-600">Хийгдэж байгаа: {inProgress}</p>
+        {/* Нэмэлт тайлбар */}
+        <div className="ml-8">
+          <p className="text-gray-600 font-bold mb-4">Нийт дуудлага: {total}</p>
+          <p className="text-gray-600">Шинэ: {newTicket}</p>
           <p className="text-gray-600">Хүлээгдэж буй: {planned}</p>
+          <p className="text-gray-600">Хийгдэж байгаа: {inProgress}</p>
           <p className="text-gray-600">Хаасан: {completed}</p>
         </div>
       </div>

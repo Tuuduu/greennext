@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import anime from "animejs";
+import Search from "../content-header/Search";
 
 const UserTable = () => {
   const [users, setUsers] = useState<any[]>([]); // Бүх хэрэглэгчдийн мэдээлэл
@@ -90,11 +91,9 @@ const UserTable = () => {
           <>
             {/* Хайх хэсэг */}
             <div className="w-full flex justify-between items-center mb-4">
-              <input
-                type="text"
-                placeholder="Хэрэглэгчийн хайлт..."
-                onChange={(e) => handleSearch(e.target.value)}
-                className="p-2 border border-gray-300 rounded-lg w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              <Search
+                placeholder="Хэрэглэгч хайх..."
+                onSearch={(term: string) => handleSearch(term)}
               />
             </div>
 

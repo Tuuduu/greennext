@@ -58,7 +58,6 @@ const TicketTable = () => {
   if (!data || (typeof data === "object" && Object.keys(data).length === 0)) {
     return <p>No data available</p>;
   }
-
   // Амжилттай өгөгдлийг харуулах
   return (
     <div className="w-full h-full bg-gray-50">

@@ -1,67 +1,66 @@
 import mongoose from "mongoose";
 
-const ticketScheme = mongoose.Schema(
+const ticketSchema = new mongoose.Schema(
   {
     ticketType: {
       type: String,
-      require: [true, "Дуудлагын төрөл заавал оруулна."],
+      required: [true, "Дуудлагын төрөл заавал оруулна."],
     },
     username: {
       type: String,
-      require: [true, "Хэрэглэгчийн нэр заавал оруулна."],
+      required: [true, "Хэрэглэгчийн нэр заавал оруулна."],
     },
     company: {
       type: String,
-      require: [true, "Ажилладаг компани заавал оруулна."],
+      required: [true, "Ажилладаг компани заавал оруулна."],
     },
     position: {
       type: String,
-      require: [true, "Албан тушаал заавал оруулна."],
+      required: [true, "Албан тушаал заавал оруулна."],
     },
     title: {
       type: String,
-      require: [true, "Гарчиг заавал оруулна."],
+      required: [true, "Гарчиг заавал оруулна."],
     },
     domain: {
       type: String,
-      require: [true, "Компьютерийн дугаар заавал оруулна."],
+      required: [true, "Компьютерийн дугаар заавал оруулна."],
     },
     description: {
       type: String,
-      require: [true, "Тайлбар заавал оруулна."],
+      required: [true, "Тайлбар заавал оруулна."],
     },
     phoneNumber: {
       type: String,
-      require: [true, "Утасны дугаар заавал оруулна."],
+      required: [true, "Утасны дугаар заавал оруулна."],
     },
     status: {
       type: String,
-      require: [true, ""],
+      required: [true, "Төлөв заавал оруулна."],
     },
     modifierUserName: {
       type: String,
-      require: [false, ""],
+      required: false, // Оруулалт албагүй
     },
     modifierUserId: {
       type: String,
-      require: [false, ""],
+      required: false, // Оруулалт албагүй
     },
     updatedDate: {
-      type: String,
-      require: [true, ""],
+      type: Date, // ISO форматад хадгалагдах тул төрөл нь Date
+      required: [true, "Шинэчлэгдсэн огноо заавал оруулна."],
     },
     createdDate: {
-      type: String,
-      require: [true, ""],
-    }
+      type: Date, // ISO форматад хадгалагдах тул төрөл нь Date
+      required: [true, "Үүссэн огноо заавал оруулна."],
+    },
   },
-  // {
-  //   timestamps: false,
-  // }
+  {
+    timestamps: false, // createdAt, updatedAt автоматаар үүсгэхгүй
+  }
 );
 
 const mtaTicket =
-  mongoose.models[["mta-tickets"]] ||
-  mongoose.model("mta-tickets", ticketScheme);
+  mongoose.models["mta-tickets"] || mongoose.model("mta-tickets", ticketSchema);
 
 export default mtaTicket;

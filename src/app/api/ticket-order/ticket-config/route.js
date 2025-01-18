@@ -17,11 +17,21 @@ export async function PATCH(req) {
       );
     }
 
+    // Шинэчлэгдсэн огноог нэмэх
+    const updatesWithDate = {
+      ...updates,
+      updatedDate: new Date().toISOString(), // ISO форматад огноо үүсгэх
+    };
+
     // Өгөгдөл шинэчлэх
-    const updatedTicket = await mtaTicket.findByIdAndUpdate(id, updates, {
-      new: true, // Шинэчлэх үйлдлийн дараах өгөгдлийг буцаана
-      runValidators: true, // Шалгуур (validation)-ийг ажиллуулна
-    });
+    const updatedTicket = await mtaTicket.findByIdAndUpdate(
+      id,
+      updatesWithDate,
+      {
+        new: true, // Шинэчлэх үйлдлийн дараах өгөгдлийг буцаана
+        runValidators: true, // Шалгуур (validation)-ийг ажиллуулна
+      }
+    );
 
     if (!updatedTicket) {
       return NextResponse.json(

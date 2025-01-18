@@ -9,7 +9,7 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative z-50">
       {/* Menu toggle button (Only visible on mobile) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -37,12 +37,12 @@ const Sidebar = () => {
       </div>
 
       {/* Overlay for small screens */}
-      {/* {isOpen && (
+      {isOpen && (
         <div
           onClick={() => setIsOpen(false)}
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
         ></div>
-      )} */}
+      )}
     </div>
   );
 };

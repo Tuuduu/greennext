@@ -1,16 +1,22 @@
 "use client";
-import moment from "moment";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
 interface TicketData {
   _id: string;
   status: string;
-  [key: string]: any; // Нэмэлт талбарууд
+  [key: string]: any;
 }
 
 interface FormData {
   status: string;
+}
+
+interface UserSession {
+  name?: string;
+  userId?: string;
+  email?: string;
+  [key: string]: any;
 }
 
 export default function TicketChangeStatus({
@@ -22,13 +28,12 @@ export default function TicketChangeStatus({
 }) {
   const { data: session } = useSession();
   const dataId = ticketData._id;
-  const date = moment().toISOString();
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState<FormData>({
     status: ticketData.status || "шинэ",
   });
-  const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState<UserSession>({
     name: "",
     userId: "",
   });
@@ -58,7 +63,7 @@ export default function TicketChangeStatus({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPending(true);
-    setMessage(""); // Өмнөх мессежүүдийг цэвэрлэх
+    setMessage("");
 
     try {
       const res = await fetch("/api/ticket-order/ticket-config/", {
@@ -70,23 +75,25 @@ export default function TicketChangeStatus({
           id: dataId,
           updates: {
             status: formData.status,
-            updatedDate: date,
-            modifierUserName: userData.name,
+            updatedDate: new Date().toISOString(), // ISO хэлбэрээр огноо үүсгэнэ
+            modifierUserName: userData.name || "Тодорхойгүй хэрэглэгч",
             modifierUserId: userData.userId,
           },
         }),
       });
 
-      if (res.ok) {
-        const updatedTicket = {
-          ...ticketData,
-          status: formData.status,
-        };
-        onStatusUpdate(updatedTicket); // Шинэчлэх функц дуудна
-        setMessage("Ажлын захиалга амжилттай бүртгэгдлээ.");
-      } else {
-        setMessage("Алдаа гарлаа. Та дахин оролдоно уу.");
+      const resJson = await res.json();
+      if (!res.ok) {
+        setMessage(resJson.message || "Алдаа гарлаа. Та дахин оролдоно уу.");
+        return;
       }
+
+      const updatedTicket = {
+        ...ticketData,
+        status: formData.status,
+      };
+      onStatusUpdate(updatedTicket); // Шинэчлэх функц дуудна
+      setMessage("Ажлын захиалга амжилттай бүртгэгдлээ.");
     } catch (error) {
       console.error("Error submitting form:", error);
       setMessage("Сүлжээний алдаа гарлаа.");
@@ -97,7 +104,6 @@ export default function TicketChangeStatus({
 
   return (
     <div>
-      {/* Алдааны мессеж */}
       {message && (
         <p
           className={`text-sm ${
@@ -108,7 +114,6 @@ export default function TicketChangeStatus({
         </p>
       )}
 
-      {/* Форм */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <select
           value={formData.status}
@@ -127,15 +132,42 @@ export default function TicketChangeStatus({
         <button
           type="submit"
           disabled={pending}
-          className={`px-4 py-2 rounded-md text-white text-sm transition-all ${
+          className={`px-4 py-2 rounded-md text-white text-sm flex items-center justify-center gap-2 transition-all ${
             pending
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-green-600 hover:bg-green-700"
           }`}
         >
-          {pending ? "Хадгалж байна..." : "Хадгалах"}
+          {pending ? (
+            <>
+              <span className="loader"></span>
+              <span>Хадгалж байна...</span>
+            </>
+          ) : (
+            "Хадгалах"
+          )}
         </button>
       </form>
+
+      {/* Spinner CSS */}
+      <style jsx>{`
+        .loader {
+          width: 1rem;
+          height: 1rem;
+          border: 2px solid transparent;
+          border-top: 2px solid white;
+          border-radius: 50%;
+          animation: spin 0.5s linear infinite;
+        }
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </div>
   );
 }

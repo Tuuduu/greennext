@@ -1,8 +1,9 @@
 import React from "react";
+import anime from "animejs";
 
 interface SearchProps {
   placeholder: string;
-  onSearch: (searchTerm: string) => void; // Хайлтын утгыг буцаах функц
+  onSearch: (searchTerm: string) => void; // Хайлтын утгыг parent компонент руу дамжуулах
 }
 
 const Search: React.FC<SearchProps> = ({ placeholder, onSearch }) => {
@@ -10,13 +11,28 @@ const Search: React.FC<SearchProps> = ({ placeholder, onSearch }) => {
     onSearch(e.target.value.trim()); // Хайлтын утгыг parent компонент руу дамжуулах
   };
 
+  const animateIcon = (icon: SVGSVGElement) => {
+    anime({
+      targets: icon,
+      scale: [1, 1.2, 1],
+      duration: 400,
+      easing: "easeInOutQuad",
+    });
+  };
+
   return (
     <form className="w-full sm:w-64">
-      <div className="relative">
+      <div
+        className="relative group"
+        onMouseEnter={(e) => {
+          const icon = e.currentTarget.querySelector("svg");
+          if (icon) animateIcon(icon);
+        }}
+      >
         {/* Хайх икон */}
-        <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+        <div className="absolute inset-y-0 left-3 flex items-center">
           <svg
-            className="w-5 h-5 text-gray-500"
+            className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors duration-150"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -35,7 +51,7 @@ const Search: React.FC<SearchProps> = ({ placeholder, onSearch }) => {
         <input
           type="search"
           onChange={handleInputChange} // Хайлтын функц
-          className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500"
+          className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 transition-all duration-150 ease-in-out group-hover:border-gray-400 group-focus:border-blue-500"
           placeholder={placeholder}
         />
       </div>
