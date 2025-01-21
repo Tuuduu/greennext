@@ -41,6 +41,13 @@ export default function Menu() {
         <AiOutlineOrderedList size={20} />
         Ажлын захиалга
       </button>
+      <button
+        onClick={() => router.push("/home/ticket-order")}
+        className={buttonStyle}
+      >
+        <AiOutlineOrderedList size={20} />
+        Санал хүсэлт
+      </button>
     </div>
   );
 }

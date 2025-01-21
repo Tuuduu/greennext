@@ -1,6 +1,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
+import moment from "@/library/moment/moment";
 
 interface TicketData {
   _id: string;
@@ -33,6 +34,7 @@ export default function TicketChangeStatus({
   const [formData, setFormData] = useState<FormData>({
     status: ticketData.status || "шинэ",
   });
+  const date = moment();
   const [userData, setUserData] = useState<UserSession>({
     name: "",
     userId: "",
@@ -75,7 +77,7 @@ export default function TicketChangeStatus({
           id: dataId,
           updates: {
             status: formData.status,
-            updatedDate: new Date().toISOString(), // ISO хэлбэрээр огноо үүсгэнэ
+            updatedDate: date, // ISO хэлбэрээр огноо үүсгэнэ
             modifierUserName: userData.name || "Тодорхойгүй хэрэглэгч",
             modifierUserId: userData.userId,
           },

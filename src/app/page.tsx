@@ -60,6 +60,14 @@ export default function Login() {
             Үйл ажиллагааны алба
             <AiOutlineArrowRight size={20} />
           </button>
+          <button
+            type="button"
+            onClick={() => router.push("/feedback")}
+            className={buttonStyle}
+          >
+            Санал хүсэлт илгээх
+            <AiOutlineArrowRight size={20} />
+          </button>
         </div>
       </div>
     </div>
