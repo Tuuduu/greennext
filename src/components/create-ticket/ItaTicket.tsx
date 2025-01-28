@@ -1,175 +1,221 @@
-"use client"
-import React from 'react'
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import  moment from "@/library/moment/moment"
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import moment from "@/library/moment/moment";
 
 interface FormData {
-    ticketType: string,
-    username: string,
-    company: string,
-    position: string,
-    ticketTitle: string,
-    description: string,
-    phoneNumber: string,
-    status: string,
-    modifier: string,
-    createdDate: string
+  ticketType: string;
+  username: string;
+  company: string;
+  position: string;
+  ticketTitle: string;
+  description: string;
+  phoneNumber: string;
+  status: string;
+  modifier: string;
+  createdDate: string;
 }
 
 export default function ItaTicket() {
-    const date = moment()
-    const router = useRouter();
-    const [pending, setPending] = useState(false);
-    const [message, setMessage] = useState("")
-    const [formData, setFormData] = useState<FormData>({
-        ticketType: 'Цахилгаан',
-        username: '',
-        company: 'Грийн Групп',
-        position: '',
-        ticketTitle: '',
-        description: '',
-        phoneNumber: '',
-        status: 'шинэ',
-        modifier: '',
-        createdDate: date 
-    });
+  const date = moment();
+  const router = useRouter();
+  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState<FormData>({
+    ticketType: "Цахилгаан",
+    username: "",
+    company: "Грийн Групп",
+    position: "",
+    ticketTitle: "",
+    description: "",
+    phoneNumber: "",
+    status: "шинэ",
+    modifier: "",
+    createdDate: date,
+  });
 
-    const ataTicketType = [
-        "Цахилгаан", "Бусад"
-    ];
+  const ticketTypes = ["Цахилгаан", "Бусад"];
 
-    const company = [
-        "Грийн Групп", "Грийн ХХК", "Грийн Интернэшнл", "Грийн Фактори", "Грийн Трейд", "Грийн Импекс",
-        "Грийн Индастри", "Грийн Дистрбьюшн", "Грийн Прожект", "Грийн Финтек", "Актив Гарден"
-    ];
+  const companies = [
+    "Грийн Групп",
+    "Грийн ХХК",
+    "Грийн Интернэшнл",
+    "Грийн Фактори",
+    "Грийн Трейд",
+    "Грийн Импекс",
+    "Грийн Индастри",
+    "Грийн Дистрбьюшн",
+    "Грийн Прожект",
+    "Грийн Финтек",
+    "Актив Гарден",
+  ];
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("form data: ", formData);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/create-ticket/ita", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-        try {
-            const res = await fetch('/api/create-ticket/ita',
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(formData),
-                });
-
-            if (res.ok) {
-                setPending(false);
-                const form = e.target as HTMLFormElement;
-                form.reset();
-                setMessage("Ажлын захиалга амжилттай бүртгэгдлээ.");
-                alert("Ажлын захиалга амжилттай бүртгэгдлээ.");
-                router.push('/');
-            } else {
-                setMessage("Алдаа гарлаа.")
-                setPending(false);
-            }
-        } catch (error) {
-            setPending(false)
-            console.log(error)
-        }
+      if (res.ok) {
+        setFormData({
+          ticketType: "Цахилгаан",
+          username: "",
+          company: "Грийн Групп",
+          position: "",
+          ticketTitle: "",
+          description: "",
+          phoneNumber: "",
+          status: "шинэ",
+          modifier: "",
+          createdDate: date,
+        });
+        setMessage("Ажлын захиалга амжилттай бүртгэгдлээ.");
+        alert("Ажлын захиалга амжилттай бүртгэгдлээ.");
+        router.push("/");
+      } else {
+        setMessage("Алдаа гарлаа.");
+      }
+    } catch (error) {
+      setMessage("Алдаа гарлаа.");
+      console.error(error);
     }
+  };
 
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
+  return (
+    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 px-4">
+      <div className="w-full max-w-lg bg-white/50 backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300">
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <h2 className="text-2xl font-bold text-center text-gray-700">
+            ИТА АЖЛЫН ДУУДЛАГА
+          </h2>
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
-    };
+          <div>
+            <label className="block text-sm font-medium text-gray-900">
+              Дуудлагын төрөл
+            </label>
+            <select
+              value={formData.ticketType}
+              onChange={handleChange}
+              name="ticketType"
+              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+              required
+            >
+              {ticketTypes.map((type, index) => (
+                <option key={index} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
 
-    const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
-    };
+          {[
+            {
+              label: "Овог, нэр",
+              name: "username",
+              placeholder: "Овог, нэр оруулах",
+            },
+            {
+              label: "Албан тушаал",
+              name: "position",
+              placeholder: "Албан тушаал оруулах",
+            },
+            {
+              label: "Гарчиг",
+              name: "ticketTitle",
+              placeholder: "Гарчиг оруулах",
+            },
+            {
+              label: "Утасны дугаар",
+              name: "phoneNumber",
+              placeholder: "Утасны дугаар оруулах",
+              type: "number",
+            },
+          ].map((field, index) => (
+            <div key={index}>
+              <label className="block text-sm font-medium text-gray-900">
+                {field.label}
+              </label>
+              <input
+                value={(formData as any)[field.name]}
+                onChange={handleChange}
+                type={field.type || "text"}
+                name={field.name}
+                placeholder={field.placeholder}
+                className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+            </div>
+          ))}
 
-    const handleChangeSelector = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value === 'ticketType' && name === 'company' ? e.target.value : value
-        }));
-    };
+          <div>
+            <label className="block text-sm font-medium text-gray-900">
+              Ажилладаг компани
+            </label>
+            <select
+              value={formData.company}
+              onChange={handleChange}
+              name="company"
+              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+              required
+            >
+              {companies.map((company, index) => (
+                <option key={index} value={company}>
+                  {company}
+                </option>
+              ))}
+            </select>
+          </div>
 
-    return (
-        <div className='w-[500px] shadow-lg p-10 rounded-lg border-t-4 border-green-400'>
-            <form className="space-y-4 md:space-y-3" onSubmit={handleSubmit}>
-                <label className='font-bold text-lg text-center'>ИТА АЖЛЫН ДУУДЛАГА</label>
+          <div>
+            <label className="block text-sm font-medium text-gray-900">
+              Нэмэлт тайлбар
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={handleChange}
+              name="description"
+              placeholder="Нэмэлт тайлбар оруулах"
+              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
 
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-900">Дуудлагын төрөл</label>
-                    <select value={formData.ticketType} onChange={handleChangeSelector} name="ticketType" id="ticketType" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" required>
-                        <option value={ataTicketType[0]}>{ataTicketType[0]}</option>
-                        <option value={ataTicketType[1]}>{ataTicketType[1]}</option>
-                    </select>
-                </div>
+          {message && (
+            <p
+              className={`py-2 px-4 rounded-lg text-center text-sm ${
+                message === "Алдаа гарлаа."
+                  ? "bg-red-400 text-white"
+                  : "bg-green-400 text-white"
+              }`}
+            >
+              {message}
+            </p>
+          )}
 
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-900">Овог, нэр</label>
-                    <input value={formData.username} onChange={handleChange} type="text" name="username" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Овог, нэр оруулах" required />
-                </div>
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-900 ">Ажилладаг компани</label>
-                    <select value={formData.company} onChange={handleChangeSelector} name="company" id="company" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" required>
-                        <option value={company[0]}>{company[0]}</option>
-                        <option value={company[1]}>{company[1]}</option>
-                        <option value={company[2]}>{company[2]}</option>
-                        <option value={company[3]}>{company[3]}</option>
-                        <option value={company[4]}>{company[4]}</option>
-                        <option value={company[5]}>{company[5]}</option>
-                        <option value={company[6]}>{company[6]}</option>
-                        <option value={company[7]}>{company[7]}</option>
-                        <option value={company[8]}>{company[8]}</option>
-                        <option value={company[9]}>{company[9]}</option>
-                        <option value={company[10]}>{company[10]}</option>
-                    </select>
-
-                </div>
-
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-900">Албан тушаал</label>
-                    <input value={formData.position} onChange={handleChange} type="text" name="position" id="position" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Албан тушаал оруулах" required />
-                </div>
-
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-900">Гарчиг</label>
-                    <input value={formData.ticketTitle} onChange={handleChange} type="text" name="ticketTitle" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Гарчиг оруулах" required />
-                </div>
-
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-900">Нэмэлт тайлбар</label>
-                    <textarea value={formData.description} name="description" id="description" onChange={handleChangeTextArea} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
-                </div>
-
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-900">Утасны дугаар</label>
-                    <input value={formData.phoneNumber} onChange={handleChange} type="number" name="phoneNumber" id="phoneNumber" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Утасны дугаар оруулах" required />
-                </div>
-
-
-                <div className='w-full flex justify-center'>
-                    {message ? <p className={`${message == "Алдаа гарлаа." ? "bg-red-400" : "bg-green-400"} py-1 px-4 rounded-lg shadow-lg text-sm text-gray-50 text-center`}>{message}</p> : ""}
-                </div>
-                <button type="submit" className="w-full text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  focus-green-800">ИЛГЭЭХ</button>
-            </form>
-        </div>
-    )
+          <button
+            type="submit"
+            className="w-full rounded-lg bg-green-500 py-2.5 px-4 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300"
+          >
+            ИЛГЭЭХ
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
-
-
-
-// dispatch(login({
-//     name: formData.username,
-//     email: formData.email,
-//     password: formData.password
-// }))

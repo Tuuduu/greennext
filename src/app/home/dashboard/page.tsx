@@ -10,7 +10,7 @@ export default async function page() {
   }
 
   return (
-    <div className="w-full h-screen bg-gray-50 flex flex-col items-center">
+    <div className="w-full h-screen flex flex-col items-center">
       <DashboardTable />
     </div>
   );

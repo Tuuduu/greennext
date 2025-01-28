@@ -5,49 +5,35 @@ import {
   AiOutlineHome,
   AiOutlineUser,
   AiOutlineOrderedList,
+  AiOutlineMail,
 } from "react-icons/ai"; // Икон ашигласан
+
+const menuItems = [
+  { icon: AiOutlineHome, label: "Dashboard", path: "/home/dashboard" },
+  { icon: AiOutlineUser, label: "Хэрэглэгчид", path: "/home/users" },
+  {
+    icon: AiOutlineOrderedList,
+    label: "Ажлын захиалга",
+    path: "/home/ticket-order",
+  },
+  { icon: AiOutlineMail, label: "Санал хүсэлт", path: "/home/feedback" },
+];
 
 export default function Menu() {
   const router = useRouter();
 
-  const buttonStyle =
-    "flex items-center gap-3 text-white bg-green-600 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-left w-4/5 transition-all";
-
   return (
-    <div className="w-full flex flex-col items-center mt-8 gap-5">
-      {/* Dashboard товч */}
-      <button
-        onClick={() => router.push("/home/dashboard")}
-        className={buttonStyle}
-      >
-        <AiOutlineHome size={20} />
-        Dashboard
-      </button>
-
-      {/* Хэрэглэгчид товч */}
-      <button
-        onClick={() => router.push("/home/users")}
-        className={buttonStyle}
-      >
-        <AiOutlineUser size={20} />
-        Хэрэглэгчид
-      </button>
-
-      {/* Ажлын захиалга товч */}
-      <button
-        onClick={() => router.push("/home/ticket-order")}
-        className={buttonStyle}
-      >
-        <AiOutlineOrderedList size={20} />
-        Ажлын захиалга
-      </button>
-      <button
-        onClick={() => router.push("/home/ticket-order")}
-        className={buttonStyle}
-      >
-        <AiOutlineOrderedList size={20} />
-        Санал хүсэлт
-      </button>
+    <div className="w-full flex flex-col items-center mt-8 gap-4">
+      {menuItems.map((item, index) => (
+        <button
+          key={index}
+          onClick={() => router.push(item.path)}
+          className="flex items-center gap-3 text-gray-800 bg-gray-100 hover:bg-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 text-left w-4/5 shadow-sm border border-gray-200 transition-all duration-200 transform hover:-translate-y-1"
+        >
+          <item.icon size={20} className="text-green-600" />
+          {item.label}
+        </button>
+      ))}
     </div>
   );
 }

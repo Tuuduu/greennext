@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import anime from "animejs";
 import Search from "../content-header/Search";
+import RegisterForm from "@/components/RegisterForm";
 
 const UserTable = () => {
   const [users, setUsers] = useState<any[]>([]); // Бүх хэрэглэгчдийн мэдээлэл
@@ -81,7 +82,7 @@ const UserTable = () => {
   };
 
   return (
-    <div className="w-full h-full px-4 md:px-6 bg-gray-50">
+    <div className="w-full h-full">
       <div className="transition duration-150 ease-in-out w-full flex flex-col gap-y-6 p-4 md:p-6 bg-white rounded-lg shadow hover:shadow-lg">
         {/* Ачаалж байна эсвэл алдаа харуулах */}
         {loading && <p className="text-gray-700">Ачаалж байна...</p>}
@@ -95,6 +96,7 @@ const UserTable = () => {
                 placeholder="Хэрэглэгч хайх..."
                 onSearch={(term: string) => handleSearch(term)}
               />
+              <RegisterForm buttonName={"Хэрэглэгч нэмэх"} />
             </div>
 
             {/* Хэрэглэгчдийн хүснэгт */}

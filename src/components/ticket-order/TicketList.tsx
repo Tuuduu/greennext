@@ -69,7 +69,7 @@ export default function TicketList({ ticket }: { ticket: any[] }) {
   };
 
   return (
-    <div className="w-full h-full px-4 md:px-6 bg-gray-50">
+    <div className="w-full h-full">
       <div className="transition duration-150 ease-in-out w-full flex flex-col gap-y-6 p-6 bg-white rounded-lg shadow hover:shadow-lg">
         {/* Хайлтын хэсэг */}
         <div className="w-full flex justify-between items-center mb-4">

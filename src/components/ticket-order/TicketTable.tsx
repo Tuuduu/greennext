@@ -60,7 +60,7 @@ const TicketTable = () => {
   }
   // Амжилттай өгөгдлийг харуулах
   return (
-    <div className="w-full h-full bg-gray-50">
+    <div className="w-full h-full">
       <TicketList ticket={data} />
     </div>
   );

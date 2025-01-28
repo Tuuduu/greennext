@@ -11,66 +11,80 @@ export const authOptions = {
       credentials: {},
 
       async authorize(credentials) {
+        if (!credentials || !credentials.email || !credentials.password) {
+          throw new Error("Э-мэйл болон нууц үг шаардлагатай."); // Validate inputs
+        }
+
         const { email, password } = credentials;
 
         try {
+          // Connect to MongoDB
           await connectDB();
-          const user = await User.findOne({ email: email });
+
+          // Find user by email
+          const user = await User.findOne({ email });
           if (!user) {
-            return null; // Хэрэглэгч олдсонгүй
+            throw new Error("Ийм хэрэглэгч олдсонгүй."); // User not found
           }
 
+          // Compare hashed passwords
           const hashedPasswordMatch = await bcrypt.compare(
             password,
             user.password
           );
-
           if (!hashedPasswordMatch) {
-            return null; // Нууц үг буруу
+            throw new Error("Нууц үг буруу байна."); // Incorrect password
           }
 
-          const userData = {
-            userId: user._id.toString(), // `ObjectId`-г `string` хэлбэрт хөрвүүлж байна
+          // Return user data for session
+          return {
+            userId: user._id.toString(),
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
             workingPart: user.workingPart,
             department: user.department,
             profileImage: user.profileImage,
+            role: user.role,
+            permissions: user.permissions,
           };
-
-          return userData; // Хэрэглэгчийн мэдээллийг буцаана
         } catch (error) {
-          console.log("Error: ", error);
-          return null; // Алдаа гарвал `null` буцаана
+          console.error("Authorization Error: ", error);
+          throw new Error("Нэвтрэхэд алдаа гарлаа. Дахин оролдоно уу.");
         }
       },
     }),
   ],
-  secret: process.env.NEXTAUT_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || "default_secret", // Default secret for dev
   pages: {
     signIn: "/register",
     signOut: "/",
   },
   callbacks: {
     async jwt({ token, user }) {
-      // Хэрэв нэвтрэх үед `user` байгаа бол `token`-д мэдээллийг нэмнэ
       if (user) {
-        token.userId = user.userId; // `userId`-г `token`-д нэмнэ
+        // Add user data to token
+        token.userId = user.userId;
         token.firstName = user.firstName;
         token.workingPart = user.workingPart;
         token.department = user.department;
         token.profileImage = user.profileImage;
+        token.role = user.role;
+        token.permissions = user.permissions;
       }
       return token;
     },
     async session({ session, token }) {
-      // `token`-оос `session` рүү мэдээллийг дамжуулна
-      session.user.userId = token.userId; // `userId`-г `session`-д нэмнэ
-      session.user.firstName = token.firstName;
-      session.user.workingPart = token.workingPart;
-      session.user.department = token.department;
-      session.user.profileImage = token.profileImage;
+      // Pass token data to session
+      session.user = {
+        userId: token.userId,
+        firstName: token.firstName,
+        workingPart: token.workingPart,
+        department: token.department,
+        profileImage: token.profileImage,
+        role: token.role,
+        permissions: token.permissions,
+      };
       return session;
     },
   },

@@ -1,73 +1,108 @@
 "use client";
+
 import { useRouter } from "next/navigation";
-import { AiOutlineArrowRight } from "react-icons/ai"; // Икон нэмсэн
+import anime from "animejs/lib/anime.es.js"; // Anime.js
+import { AiOutlineArrowRight } from "react-icons/ai";
+import { useRef } from "react";
+import Logo from "@/components/Logo/Logo";
 
 export default function Login() {
   const router = useRouter();
+  const buttonRefs = useRef<HTMLDivElement[]>([]); // Ref for buttons with their wrapper divs
+
+  // Hover animation for buttons
+  const handleMouseEnter = (index: number) => {
+    const button = buttonRefs.current[index];
+    if (button) {
+      anime({
+        targets: button,
+        scale: 1.05, // Илүү мэдэгдэхүйц өсгөлт
+        duration: 100, // Smooth animation duration
+        easing: "easeOutQuad", // Илүү smooth easing
+      });
+    }
+  };
+
+  const handleMouseLeave = (index: number) => {
+    const button = buttonRefs.current[index];
+    if (button) {
+      anime({
+        targets: button,
+        scale: 1,
+        duration: 150, // Илүү удаан хугацаа
+        easing: "easeOutQuad", // Ижил easing
+      });
+    }
+  };
+
+  // Click animation for buttons
+  const handleClick = (index: number, link: string) => {
+    const button = buttonRefs.current[index];
+    if (button) {
+      // Fade-out animation for the clicked button
+      anime({
+        targets: button,
+        opacity: [1, 0], // Сарниж алга болох
+        translateX: [-20, 20],
+        easing: "easeInOutQuad",
+        duration: 500, // Анимацийн үргэлжлэх хугацаа
+        complete: () => {
+          router.push(link); // Шинэ хуудас руу шилжих
+        },
+      });
+    }
+  };
 
   const buttonStyle =
-    "w-full flex items-center justify-center gap-2 text-white bg-yellow-400 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5 transition-all";
+    "w-full flex items-center justify-center gap-2 text-white bg-gradient-to-r from-blue-400 to-green-500 font-medium rounded-lg text-sm px-5 py-2.5 shadow-md transition-transform transform";
 
   return (
-    <div className="bg-gray-50 relative w-full h-screen flex items-center justify-center">
-      {/* Админы нэвтрэх хэсэг */}
+    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 px-4">
+      {/* Login button for admin */}
       <div className="absolute top-5 right-5">
         <button
           type="button"
           onClick={() => router.push("/login")}
-          className="focus:outline-none flex gap-x-2 text-white bg-green-700 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 transition-all"
+          className="focus:outline-none flex gap-x-2 text-white bg-green-700 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 shadow-lg transform transition-transform hover:scale-105"
         >
           нэвтрэх
           <AiOutlineArrowRight size={20} />
         </button>
       </div>
 
-      {/* Үндсэн контент */}
-      <div className="z-10 backdrop-blur-md bg-white/90 shadow-lg p-10 rounded-lg border-t-4 border-green-400 w-[350px] sm:w-[450px]">
-        {/* Лого хэсэг */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="bg-green-500 text-white text-xl px-2 font-bold rounded-2xl w-auto h-auto flex items-center justify-center shadow-lg">
-            GREEN OFFICE
-          </div>
-        </div>
-
-        {/* Захиалга үүсгэх товчлуурууд */}
-        <h2 className="pb-6 text-center font-bold text-sm lg:text-lg text-gray-700">
+      {/* Main Content */}
+      <div className="w-full max-w-lg bg-white/50 backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300">
+        {/* Logo Section */}
+        <Logo />
+        {/* Order Buttons */}
+        <h2 className="pb-6 text-center font-bold text-lg text-gray-700">
           Ажлын захиалга үүсгэх
         </h2>
         <div className="flex flex-col gap-y-4">
-          <button
-            type="button"
-            onClick={() => router.push("/ticket/mta")}
-            className={buttonStyle}
-          >
-            Мэдээлэл технологийн алба
-            <AiOutlineArrowRight size={20} />
-          </button>
-          <button
-            type="button"
-            onClick={() => router.push("/ticket/ita")}
-            className={buttonStyle}
-          >
-            Инженер техникийн алба
-            <AiOutlineArrowRight size={20} />
-          </button>
-          <button
-            type="button"
-            onClick={() => router.push("/ticket/ata")}
-            className={buttonStyle}
-          >
-            Үйл ажиллагааны алба
-            <AiOutlineArrowRight size={20} />
-          </button>
-          <button
-            type="button"
-            onClick={() => router.push("/feedback")}
-            className={buttonStyle}
-          >
-            Санал хүсэлт илгээх
-            <AiOutlineArrowRight size={20} />
-          </button>
+          {[
+            { text: "Мэдээлэл технологийн алба", link: "/ticket/mta" },
+            { text: "Инженер техникийн алба", link: "/ticket/ita" },
+            { text: "Үйл ажиллагааны алба", link: "/ticket/ata" },
+          ].map((item, index) => (
+            <div
+              key={index}
+              ref={(el) => {
+                if (el) buttonRefs.current[index] = el;
+              }} // Assign ref dynamically
+              className="relative"
+            >
+              <button
+                type="button"
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave(index)}
+                onClick={() => handleClick(index, item.link)}
+                className={buttonStyle}
+              >
+                {item.text}
+                <AiOutlineArrowRight size={20} />
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -5,13 +5,15 @@ interface IUser extends Document {
   firstName: string;
   lastName: string;
   email: string;
+  employment: string;
   password: string;
   profileImage?: string;
-  role: string;
   department: string;
   workingPart: string;
   birthday: string;
   sex: string;
+  role: string; // Default: "user"
+  permissions: string[];
 }
 
 // Хэрэглэгчийн схем тодорхойлох
@@ -46,10 +48,6 @@ const userSchema: Schema<IUser> = new Schema(
       type: String,
       required: false,
     },
-    role: {
-      type: String,
-      required: [false, "Заавал Оруулна."],
-    },
     department: {
       type: String,
       required: [true, "Заавал Оруулна."],
@@ -58,6 +56,12 @@ const userSchema: Schema<IUser> = new Schema(
       type: String,
       required: [true, "Заавал Оруулна."],
     },
+    employment: {
+      type: String,
+      required: [true, "Заавал Оруулна."],
+    },
+    role: { type: String, default: "user" }, // Default role: "user"
+    permissions: { type: [String], default: [] }, // Default: empty array
   },
   {
     timestamps: true,
