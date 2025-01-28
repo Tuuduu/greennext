@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import anime from "animejs";
-import companyList from "@/data/data";
 
 interface UserModalProps {
   isOpen: boolean;
@@ -17,50 +16,88 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
     email: "",
     password: "",
     role: "user", // Default role
-    workingPart: "",
-    department: "",
+    employment: "Мэдээлэл технологийн инженер",
+    workingPart: "Мэдээлэл технологийн алба",
+    department: "Грийн Интернэшнл ХХК",
     permissions: [],
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     onSubmit(formData);
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      role: "user",
+      employment: "Мэдээлэл технологийн инженер",
+      workingPart: "Мэдээлэл технологийн алба",
+      department: "Грийн Интернэшнл ХХК",
+      permissions: [],
+    });
+    setIsSubmitting(false);
   };
 
-  // Модал гарч ирэхэд анимаци хийх
-  if (isOpen) {
+  useEffect(() => {
+    if (isOpen) {
+      anime({
+        targets: ".modal-overlay",
+        opacity: [0, 1],
+        duration: 500,
+        easing: "easeOutQuad",
+      });
+      anime({
+        targets: ".modal-content",
+        opacity: [0, 1],
+        scale: [0.8, 1],
+        duration: 500,
+        easing: "easeOutQuad",
+      });
+    }
+  }, [isOpen]);
+
+  const closeModal = () => {
+    anime({
+      targets: ".modal-overlay",
+      opacity: [1, 0],
+      duration: 500,
+      easing: "easeInQuad",
+    });
     anime({
       targets: ".modal-content",
-      opacity: [0, 1],
-      scale: [0.9, 1],
+      opacity: [1, 0],
+      scale: [1, 0.8],
       duration: 500,
-      easing: "easeOutQuad",
+      easing: "easeInQuad",
+      complete: () => onClose(),
     });
-  }
+  };
 
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="modal-content bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative">
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50"
+          onClick={closeModal} // Close modal when clicking outside
+        >
+          <div className="modal-overlay fixed inset-0 bg-black/50"></div>
+          <div
+            className="modal-content bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative"
+            onClick={(e) => e.stopPropagation()} // Prevent modal from closing on content click
+          >
             <button
-              onClick={() => {
-                anime({
-                  targets: ".modal-content",
-                  opacity: [1, 0],
-                  scale: [1, 0.9],
-                  duration: 500,
-                  easing: "easeInQuad",
-                  complete: () => onClose(),
-                });
-              }}
+              onClick={closeModal}
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
             >
               ✕
@@ -69,19 +106,19 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
             <form className="space-y-4" onSubmit={handleFormSubmit}>
               <input
                 type="text"
-                name="firstName"
-                value={formData.firstName}
+                name="lastName"
+                value={formData.lastName}
                 onChange={handleChange}
-                placeholder="Нэр"
+                placeholder="Овог"
                 className="w-full border p-2 rounded"
                 required
               />
               <input
                 type="text"
-                name="lastName"
-                value={formData.lastName}
+                name="firstName"
+                value={formData.firstName}
                 onChange={handleChange}
-                placeholder="Овог"
+                placeholder="Нэр"
                 className="w-full border p-2 rounded"
                 required
               />
@@ -111,41 +148,62 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
               >
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
-                <option value="manager">Manager</option>
+                <option value="SuperAdmin">SuperAdmin</option>
               </select>
-              <input
-                type="text"
+              <select
                 name="workingPart"
                 value={formData.workingPart}
                 onChange={handleChange}
-                placeholder="Ажиллах хэсэг"
-                className="w-full border p-2 rounded"
-                required
-              />
-              <select
-                name="department"
-                value={formData.role}
-                onChange={handleChange}
                 className="w-full border p-2 rounded"
               >
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-                <option value="manager">Manager</option>
+                <option value="Мэдээлэл технологийн алба">
+                  Мэдээлэл технологийн алба
+                </option>
+                <option value="Инженер техникийн алба">
+                  Инженер техникийн алба
+                </option>
+                <option value="Үйл ажиллагааны алба">
+                  Үйл ажиллагааны алба
+                </option>
               </select>
-              <input
-                type="text"
+              <select
                 name="department"
                 value={formData.department}
                 onChange={handleChange}
-                placeholder="Хэлтэс"
                 className="w-full border p-2 rounded"
-                required
-              />
+              >
+                <option value="Грийн Интернэшнл ХХК">
+                  Грийн Интернэшнл ХХК
+                </option>
+                <option value="Грийн Трейд ХХК">Грийн Трейд ХХК</option>
+                <option value="Грийн Импекс ХХК">Грийн Импекс ХХК</option>
+                <option value="Грийн Индастри ХХК">Грийн Индастри ХХК</option>
+                <option value="Грийн Фактори ХХК">Грийн Фактори ХХК</option>
+              </select>
+              <select
+                name="employment"
+                value={formData.employment}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+              >
+                <option value="Мэдээлэл технологийн инженер">
+                  Мэдээлэл технологийн инженер
+                </option>
+                <option value="Холбоо дохиоллын инженер">
+                  Холбоо дохиоллын инженер
+                </option>
+                <option value="Сүлжээний инженер">Сүлжээний инженер</option>
+                <option value="Электроникийн инженер">
+                  Электроникийн инженер
+                </option>
+              </select>
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+                className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 flex items-center justify-center gap-2"
+                disabled={isSubmitting}
               >
-                Хэрэглэгч нэмэх
+                {isSubmitting ? "Илгээж байна..." : "Хэрэглэгч нэмэх"}{" "}
+                <span>🚀</span>
               </button>
             </form>
           </div>

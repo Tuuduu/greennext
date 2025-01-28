@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import anime from "animejs";
 import Search from "../content-header/Search";
 import RegisterForm from "@/components/RegisterForm";
+import UserActionsModal from "@/components/UserActionsModal";
 
 const UserTable = () => {
   const [users, setUsers] = useState<any[]>([]); // Бүх хэрэглэгчдийн мэдээлэл
@@ -11,37 +12,39 @@ const UserTable = () => {
   const [loading, setLoading] = useState(true); // Ачааллын төлөв
   const [error, setError] = useState<string | null>(null); // Алдааны төлөв
   const [currentPage, setCurrentPage] = useState(1); // Одоогийн хуудас
+  const [selectedUser, setSelectedUser] = useState<any | null>(null); // Сонгогдсон хэрэглэгч
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal төлөв
   const pageSize = 10; // Нэг хуудсан дахь элементүүдийн тоо
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/users", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+  const fetchData = async () => {
+    try {
+      const response = await fetch("/api/users", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        if (!response.ok) {
-          throw new Error(`HTTP алдаа: ${response.status}`);
-        }
-
-        const result = await response.json();
-        if (result && result.data) {
-          setUsers(result.data); // Зөвхөн өгөгдлийг тохируулах
-          setFilteredUsers(result.data);
-        } else {
-          setUsers([]);
-          setFilteredUsers([]);
-        }
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error(`HTTP алдаа: ${response.status}`);
       }
-    };
 
+      const result = await response.json();
+      if (result && result.data) {
+        setUsers(result.data); // Зөвхөн өгөгдлийг тохируулах
+        setFilteredUsers(result.data);
+      } else {
+        setUsers([]);
+        setFilteredUsers([]);
+      }
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -70,6 +73,31 @@ const UserTable = () => {
     setCurrentPage(1); // Шинэ хайлтаар эхний хуудсанд очих
   };
 
+  const handleEditUser = (user: any) => {
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    if (!userId) return console.error("Хэрэглэгчийн ID олдсонгүй.");
+
+    try {
+      const response = await fetch(`/api/users?id=${userId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        console.log("Хэрэглэгч амжилттай устгагдлаа.");
+        fetchData(); // Хэрэглэгчдийн жагсаалтыг дахин татаж шинэчлэх
+      } else {
+        const errorData = await response.json();
+        console.error("Устгах үед алдаа гарлаа: ", errorData.message);
+      }
+    } catch (err) {
+      console.error("Хэрэглэгч устгах үед алдаа: ", err);
+    }
+  };
+
   // Pagination data
   const totalPages = Math.ceil(filteredUsers.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
@@ -96,7 +124,10 @@ const UserTable = () => {
                 placeholder="Хэрэглэгч хайх..."
                 onSearch={(term: string) => handleSearch(term)}
               />
-              <RegisterForm buttonName={"Хэрэглэгч нэмэх"} />
+              <RegisterForm
+                buttonName={"Хэрэглэгч нэмэх"}
+                onRegisterSuccess={fetchData}
+              />
             </div>
 
             {/* Хэрэглэгчдийн хүснэгт */}
@@ -114,10 +145,13 @@ const UserTable = () => {
                       Имэйл
                     </th>
                     <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
-                      Компани
+                      Алба
                     </th>
                     <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
-                      Алба
+                      Албан тушаал
+                    </th>
+                    <th className="text-gray-700 px-2 md:px-4 py-2 text-center">
+                      Үйлдэл
                     </th>
                   </tr>
                 </thead>
@@ -137,7 +171,21 @@ const UserTable = () => {
                         {user.department}
                       </td>
                       <td className="px-2 md:px-4 py-4 text-gray-700">
-                        {user.workingPart}
+                        {user.employment || "Хуучин хэрэглэгч"}
+                      </td>
+                      <td className="px-2 md:px-4 py-4 text-center text-gray-700">
+                        <button
+                          onClick={() => handleEditUser(user)}
+                          className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+                        >
+                          Засах
+                        </button>
+                        <button
+                          onClick={() => handleDeleteUser(user._id)}
+                          className="bg-red-500 text-white px-2 py-1 rounded ml-2 hover:bg-red-600"
+                        >
+                          Устгах
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -178,6 +226,15 @@ const UserTable = () => {
           </>
         )}
       </div>
+
+      {/* Засварлах болон устгах Modal */}
+      {isModalOpen && selectedUser && (
+        <UserActionsModal
+          user={selectedUser}
+          onClose={() => setIsModalOpen(false)}
+          onSaveSuccess={fetchData}
+        />
+      )}
     </div>
   );
 };

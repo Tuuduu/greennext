@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { AiOutlineArrowLeft } from "react-icons/ai";
 import Logo from "./Logo/Logo";
 
 interface FormData {
   email: string;
   password: string;
+  remember: boolean;
 }
 
 export default function LoginForm() {
@@ -17,21 +17,50 @@ export default function LoginForm() {
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
+    remember: false, // Сануулах төлөв
   });
   const [message, setMessage] = useState("");
 
+  // LocalStorage-оос мэдээлэл авах
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("savedEmail");
+    const savedPassword = localStorage.getItem("savedPassword");
+
+    if (savedEmail && savedPassword) {
+      setFormData((prev) => ({
+        ...prev,
+        email: savedEmail,
+        password: savedPassword,
+        remember: true,
+      }));
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
       const res = await signIn("credentials", {
         email: formData.email,
         password: formData.password,
         redirect: false,
       });
+
       if (res?.error) {
         setMessage("Имэйл эсвэл нууц үг буруу байна.");
         return;
       }
+
+      // Хэрэв хэрэглэгч "Сануулах" сонголт хийсэн бол localStorage-д хадгалах
+      if (formData.remember) {
+        localStorage.setItem("savedEmail", formData.email);
+        localStorage.setItem("savedPassword", formData.password);
+      } else {
+        // Хэрэв "Сануулах" сонголт хийгээгүй бол localStorage-ийг цэвэрлэх
+        localStorage.removeItem("savedEmail");
+        localStorage.removeItem("savedPassword");
+      }
+
       router.replace("/home/dashboard");
     } catch (error) {
       console.log(error);
@@ -39,10 +68,10 @@ export default function LoginForm() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -89,6 +118,9 @@ export default function LoginForm() {
               <input
                 type="checkbox"
                 id="remember"
+                name="remember"
+                checked={formData.remember}
+                onChange={handleChange}
                 className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-green-500"
               />
               <label
@@ -116,12 +148,7 @@ export default function LoginForm() {
           >
             Нэвтрэх
           </button>
-          <p className="text-sm text-center text-gray-500 mt-4">
-            Та бүртгэлгүй юу?{" "}
-            <Link href="/register" className="text-green-600 hover:underline">
-              Бүртгүүлэх
-            </Link>
-          </p>
+
           <p className="text-sm text-center text-gray-500">
             Ажлын захиалга{" "}
             <Link href="/" className="text-green-600 hover:underline">

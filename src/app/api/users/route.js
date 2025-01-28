@@ -3,6 +3,7 @@ import User from "@/models/userModel"; // User модел
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth"; // NextAuth-н сесс авах
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"; // NextAuth тохиргоо
+import bcrypt from "bcrypt"; // bcrypt-ийг импортлох
 
 // GET хүсэлтээр хэрэглэгчдийн жагсаалтыг авах
 export async function GET() {
@@ -33,7 +34,7 @@ export async function GET() {
     let filter = {};
     if (role === "superAdmin") {
       filter = {}; // Admin бүх хэрэглэгчийн жагсаалт авах
-    } else if (role === "manager" || role === "admin") {
+    } else if (role === "user" || role === "admin") {
       if (!workingPart) {
         return NextResponse.json(
           {
@@ -65,9 +66,9 @@ export async function GET() {
 }
 
 // POST хүсэлтээр шинэ хэрэглэгч нэмэх
-export async function POST() {
+export async function POST(request) {
+  // request-ийг параметрээр хүлээж авна
   await connectDB(); // MongoDB-тэй холбогдох
-
   try {
     const session = await getServerSession(authOptions); // Нэвтэрсэн хэрэглэгчийн сесс авах
 
@@ -79,7 +80,7 @@ export async function POST() {
       );
     }
 
-    const body = await request.json();
+    const body = await request.json(); // request-ээс JSON өгөгдлийг уншина
     const {
       firstName,
       lastName,
@@ -88,6 +89,7 @@ export async function POST() {
       role,
       workingPart,
       department,
+      employment,
       permissions,
     } = body;
 
@@ -99,7 +101,8 @@ export async function POST() {
       !password ||
       !role ||
       !workingPart ||
-      !department
+      !department ||
+      !employment
     ) {
       return NextResponse.json(
         { success: false, message: "All fields are required" },
@@ -128,6 +131,7 @@ export async function POST() {
       role,
       workingPart,
       department,
+      employment,
       permissions: permissions || [], // Permissions хүлээж авах эсвэл хоосон массив
     });
 
@@ -141,6 +145,106 @@ export async function POST() {
     console.error("Error creating user: ", error);
     return NextResponse.json(
       { success: false, message: "Error creating user" },
+      { status: 500 }
+    );
+  }
+}
+
+// PUT хүсэлтээр хэрэглэгч засварлах
+export async function PUT(request) {
+  await connectDB();
+
+  try {
+    const session = await getServerSession(authOptions);
+
+    // Нэвтэрсэн хэрэглэгч admin эсэхийг шалгах
+    if (!session || session.user.role !== "admin") {
+      return NextResponse.json(
+        { success: false, message: "Forbidden: Only admins can update users" },
+        { status: 403 }
+      );
+    }
+
+    const body = await request.json();
+    const { _id, ...updatedFields } = body;
+
+    if (!_id) {
+      return NextResponse.json(
+        { success: false, message: "User ID is required" },
+        { status: 400 }
+      );
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(_id, updatedFields, {
+      new: true, // Update хийсний дараа шинэ утгыг буцаах
+    });
+
+    if (!updatedUser) {
+      return NextResponse.json(
+        { success: false, message: "User not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "User updated successfully",
+        data: updatedUser,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error updating user: ", error);
+    return NextResponse.json(
+      { success: false, message: "Error updating user" },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE хүсэлтээр хэрэглэгч устгах
+export async function DELETE(request) {
+  await connectDB();
+
+  try {
+    const session = await getServerSession(authOptions);
+
+    // Нэвтэрсэн хэрэглэгч admin эсэхийг шалгах
+    if (!session || session.user.role !== "admin") {
+      return NextResponse.json(
+        { success: false, message: "Forbidden: Only admins can delete users" },
+        { status: 403 }
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("id"); // URL-аас ID авах
+
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "User ID is required" },
+        { status: 400 }
+      );
+    }
+
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return NextResponse.json(
+        { success: false, message: "User not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "User deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting user: ", error);
+    return NextResponse.json(
+      { success: false, message: "Error deleting user" },
       { status: 500 }
     );
   }
