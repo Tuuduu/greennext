@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -22,32 +23,62 @@ ChartJS.register(
 );
 
 const TicketCompanyDashboard = () => {
-  const company = [
-    "Грийн групп ХХК",
-    "Грийн трейд ХХК",
-    "Грийн импекс ХХК",
-    "Грийн индастри ХХК",
-    "Грийн интернэшнл ХХК",
-    "Грийн Фастори ХХК",
-    "Грийн Финтек ХХК",
-    "Актив гарден ХХК",
-    "Грийн форжект ХХК",
+  const [ticketData, setTicketData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/ticket-order");
+        if (!response.ok) throw new Error("API-с өгөгдөл татахад алдаа гарлаа");
+
+        const data = await response.json();
+        setTicketData(data.tickets);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) return <p>Өгөгдөл ачааллаж байна...</p>;
+  if (error) return <p className="text-red-500">Алдаа: {error}</p>;
+
+  // Компаниудын жагсаалт
+  const companyNames = [
+    "Грийн Групп",
     "Грийн ХХК",
+    "Грийн Интернэшнл",
+    "Грийн Фактори",
+    "Грийн Трейд",
+    "Грийн Импекс",
+    "Грийн Индастри",
+    "Грийн Дистрбьюшн",
+    "Грийн Форжект",
+    "Грийн Финтек",
+    "Актив Гарден",
   ];
 
-  // Random дуудлагын тоо
-  const callData = company.map(() => Math.floor(Math.random() * 100) + 10);
+  console.log("Ticket dataaaa ---> ", ticketData);
+  // Компани бүрийн тасалбарын тоог тоолох
+  const companyTicketCounts = companyNames.map((company) => {
+    return ticketData.filter((ticket: any) => ticket.company === company)
+      .length;
+  });
 
   // Horizontal Bar Chart-ийн дата
   const barChartData = {
-    labels: company,
+    labels: companyNames,
     datasets: [
       {
         label: "Дуудлагын тоо",
-        data: callData,
+        data: companyTicketCounts,
         backgroundColor: [
           "#4BC0C0",
-          "#FFCD56",
+          "#f48771",
           "#36A2EB",
           "#FF6384",
           "#9966FF",
@@ -56,6 +87,7 @@ const TicketCompanyDashboard = () => {
           "#6B7280",
           "#A3E635",
           "#22D3EE",
+          "#FFCD56",
         ],
         borderColor: "#ffffff",
         borderWidth: 1,
@@ -117,7 +149,9 @@ const TicketCompanyDashboard = () => {
       {/* Нийт дуудлагын тоо */}
       <p className="text-gray-600 font-medium mt-6">
         Нийт дуудлагын тоо:{" "}
-        <span className="font-bold">{callData.reduce((a, b) => a + b, 0)}</span>
+        <span className="font-bold">
+          {companyTicketCounts.reduce((a, b) => a + b, 0)}
+        </span>
       </p>
     </div>
   );

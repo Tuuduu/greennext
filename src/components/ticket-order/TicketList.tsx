@@ -10,7 +10,7 @@ export default function TicketList({ ticket }: { ticket: any[] }) {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("шинэ");
+  const [selectedStatus, setSelectedStatus] = useState("Шинэ");
 
   // Тасалбар шүүх
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function TicketList({ ticket }: { ticket: any[] }) {
             onSearch={(term: string) => setSearchTerm(term)}
           />
           <div className="flex gap-2 md:gap-4">
-            {["шинэ", "хаасан", "Бүгд"].map((status) => (
+            {["Шинэ", "Хаасан", "Бүгд"].map((status) => (
               <button
                 key={status}
                 className={`px-3 md:px-4 py-2 text-sm md:text-base ${
@@ -151,9 +151,9 @@ export default function TicketList({ ticket }: { ticket: any[] }) {
                   <td className="px-2 md:px-4 py-4 text-gray-700">
                     <span
                       className={`px-2 py-1 rounded-md text-sm ${
-                        item.status === "шинэ"
+                        item.status === "Шинэ"
                           ? "bg-green-100 text-green-800"
-                          : item.status === "хаасан"
+                          : item.status === "Хаасан"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                       }`}

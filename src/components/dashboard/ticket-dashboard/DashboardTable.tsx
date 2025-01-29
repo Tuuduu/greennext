@@ -5,7 +5,7 @@ import TicketCompanyDashboard from "./TicketCompanyDashboard";
 export default function DashboardTable() {
   return (
     <div className="w-full flex flex-col gap-y-5">
-      <TicketDashboardTable data={""} />
+      <TicketDashboardTable />
       {/* <UserDashboardTab data={""} /> */}
       <TicketCompanyDashboard />
     </div>

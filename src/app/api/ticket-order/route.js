@@ -49,8 +49,17 @@ export async function POST(request) {
         );
     }
 
+    // User ID-д тулгуурлан tickets-ийг тооцоолох
+    const userTicketsCount = tickets.reduce((acc, ticket) => {
+      const userId = ticket.modifierUserId;
+      if (userId) {
+        acc[userId] = (acc[userId] || 0) + 1;
+      }
+      return acc;
+    }, {});
+
     // Зөвхөн тохирох загвараас өгөгдөл буцаах
-    return NextResponse.json({ tickets }, { status: 200 });
+    return NextResponse.json({ tickets, userTicketsCount }, { status: 200 });
   } catch (error) {
     console.error("Error: ", error);
     return NextResponse.json(
@@ -61,8 +70,40 @@ export async function POST(request) {
 }
 
 export async function GET(request) {
-  return NextResponse.json(
-    { message: "GET request not supported here" },
-    { status: 405 }
-  );
+  await connectDB();
+
+  try {
+    const tickets = await mtaTicket.find({});
+
+    // User ID-д тулгуурлан tickets-ийг тооцоолох
+    const userTicketsCount = tickets.reduce((acc, ticket) => {
+      const userId = ticket.modifierUserId;
+      if (userId) {
+        acc[userId] = (acc[userId] || 0) + 1;
+      }
+      return acc;
+    }, {});
+
+    // "Хаасан" төлөвтэй тасалбаруудыг тоолох
+    const closedTicketsCount = tickets.reduce((acc, ticket) => {
+      if (ticket.status === "Хаасан") {
+        const userId = ticket.modifierUserId;
+        if (userId) {
+          acc[userId] = (acc[userId] || 0) + 1;
+        }
+      }
+      return acc;
+    }, {});
+
+    return NextResponse.json(
+      { tickets, userTicketsCount, closedTicketsCount },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error: ", error);
+    return NextResponse.json(
+      { message: "Error fetching tickets" },
+      { status: 500 }
+    );
+  }
 }

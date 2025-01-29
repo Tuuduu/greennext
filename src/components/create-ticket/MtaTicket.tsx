@@ -64,7 +64,7 @@ export default function MtaTicket() {
     "Грийн Импекс",
     "Грийн Индастри",
     "Грийн Дистрбьюшн",
-    "Грийн Прожект",
+    "Грийн Форжект",
     "Грийн Финтек",
     "Актив Гарден",
   ];
@@ -105,7 +105,7 @@ export default function MtaTicket() {
           domain: "",
           description: "",
           phoneNumber: "",
-          status: "шинэ",
+          status: "Шинэ",
           modifierUserName: "",
           modifierUserId: "",
           updatedDate: "",

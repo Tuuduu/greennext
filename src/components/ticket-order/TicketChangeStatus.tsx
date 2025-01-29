@@ -32,7 +32,7 @@ export default function TicketChangeStatus({
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState<FormData>({
-    status: ticketData.status || "шинэ",
+    status: ticketData.status || "Шинэ",
   });
   const date = moment();
   const [userData, setUserData] = useState<UserSession>({
@@ -40,7 +40,7 @@ export default function TicketChangeStatus({
     userId: "",
   });
 
-  const statusOptions = ["шинэ", "хаасан", "хүлээгдэж буй", "хоошлуулсан"];
+  const statusOptions = ["Шинэ", "Хаасан", "Хүлээгдэж байна", "Хийгдэж байна"];
 
   // Session өгөгдлийг авах
   useEffect(() => {
