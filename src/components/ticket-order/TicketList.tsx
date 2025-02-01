@@ -70,7 +70,7 @@ export default function TicketList({ ticket }: { ticket: any[] }) {
 
   return (
     <div className="w-full h-full">
-      <div className="transition duration-150 ease-in-out w-full flex flex-col gap-y-6 p-6 bg-white rounded-lg shadow hover:shadow-lg">
+      <div className="transition duration-150 ease-in-out w-full flex flex-col gap-y-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg">
         {/* Хайлтын хэсэг */}
         <div className="w-full flex justify-between items-center mb-4">
           <Search
@@ -84,8 +84,8 @@ export default function TicketList({ ticket }: { ticket: any[] }) {
                 className={`px-3 md:px-4 py-2 text-sm md:text-base ${
                   selectedStatus === status
                     ? "bg-green-600 text-white"
-                    : "bg-white text-gray-700"
-                } border border-gray-300 rounded-md shadow-sm focus:outline-none hover:bg-gray-100`}
+                    : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                } border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none hover:bg-gray-100 dark:hover:bg-gray-600`}
                 onClick={() => setSelectedStatus(status)}
               >
                 {status}
@@ -96,66 +96,71 @@ export default function TicketList({ ticket }: { ticket: any[] }) {
 
         {/* Хүснэгт */}
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse divide-y divide-gray-200 text-sm md:text-base">
-            <thead className="bg-gray-200 text-gray-700 font-semibold">
+          <table className="w-full border-collapse divide-y divide-gray-200 dark:divide-gray-700 text-sm md:text-base">
+            <thead className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold">
               <tr>
-                <th className="text-gray-700 px-2 md:px-4 py-2 text-left">№</th>
-                <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
+                <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
+                  №
+                </th>
+                <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
                   Төрөл
                 </th>
-                <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
+                <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
                   Гарчиг
                 </th>
-                <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
+                <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
                   Нэр
                 </th>
-                <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
+                <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
                   Компани
                 </th>
-                <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
+                <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
                   Албан тушаал
                 </th>
-                <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
+                <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
                   Үүсгэсэн огно
                 </th>
-                <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
+                <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
                   Статус
                 </th>
                 <th className="px-2 md:px-4 py-2 text-center">Дэлгэрэнгүй</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {currentTickets.map((item, index) => (
-                <tr key={item._id} className="hover:bg-gray-50">
-                  <td className="px-2 md:px-4 py-4 text-gray-700">
+                <tr
+                  key={item._id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
+                  <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                     {startIndex + index + 1}
                   </td>
-                  <td className="px-2 md:px-4 py-4 text-gray-700">
+                  <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                     {item.ticketType}
                   </td>
-                  <td className="px-2 md:px-4 py-4 text-gray-700">
+                  <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                     {item.title || "Хоосон"}
                   </td>
-                  <td className="px-2 md:px-4 py-4 text-gray-700">
+                  <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                     {item.username}
                   </td>
-                  <td className="px-2 md:px-4 py-4 text-gray-700">
+                  <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                     {item.company}
                   </td>
-                  <td className="px-2 md:px-4 py-4 text-gray-700">
+                  <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                     {item.position}
                   </td>
-                  <td className="px-2 md:px-4 py-4 text-gray-700">
+                  <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                     {item.createdDate}
                   </td>
-                  <td className="px-2 md:px-4 py-4 text-gray-700">
+                  <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                     <span
                       className={`px-2 py-1 rounded-md text-sm ${
                         item.status === "Шинэ"
-                          ? "bg-green-100 text-green-800"
+                          ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
                           : item.status === "Хаасан"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-gray-100 text-gray-800"
+                          ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
+                          : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
                       }`}
                     >
                       {item.status}

@@ -98,22 +98,22 @@ export default function ItaTicket() {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 px-4">
-      <div className="w-full max-w-lg bg-white/50 backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300">
+    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
+      <div className="w-full max-w-lg bg-white/50 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:border-gray-700">
         <form className="space-y-6" onSubmit={handleSubmit}>
-          <h2 className="text-2xl font-bold text-center text-gray-700">
+          <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-gray-300">
             ИТА АЖЛЫН ДУУДЛАГА
           </h2>
 
           <div>
-            <label className="block text-sm font-medium text-gray-900">
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
               Дуудлагын төрөл
             </label>
             <select
               value={formData.ticketType}
               onChange={handleChange}
               name="ticketType"
-              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
               required
             >
               {ticketTypes.map((type, index) => (
@@ -148,7 +148,7 @@ export default function ItaTicket() {
             },
           ].map((field, index) => (
             <div key={index}>
-              <label className="block text-sm font-medium text-gray-900">
+              <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
                 {field.label}
               </label>
               <input
@@ -157,21 +157,21 @@ export default function ItaTicket() {
                 type={field.type || "text"}
                 name={field.name}
                 placeholder={field.placeholder}
-                className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
                 required
               />
             </div>
           ))}
 
           <div>
-            <label className="block text-sm font-medium text-gray-900">
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
               Ажилладаг компани
             </label>
             <select
               value={formData.company}
               onChange={handleChange}
               name="company"
-              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
               required
             >
               {companies.map((company, index) => (
@@ -183,7 +183,7 @@ export default function ItaTicket() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-900">
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
               Нэмэлт тайлбар
             </label>
             <textarea
@@ -191,7 +191,7 @@ export default function ItaTicket() {
               onChange={handleChange}
               name="description"
               placeholder="Нэмэлт тайлбар оруулах"
-              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>

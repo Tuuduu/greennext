@@ -11,7 +11,7 @@ export default function Profile() {
   return (
     <div className="w-full flex flex-col items-center p-4">
       {/* Профайл зураг */}
-      <div className="border-b border-gray-200 pb-6 flex flex-col items-center gap-4">
+      <div className="border-b border-gray-200 dark:border-gray-700 pb-6 flex flex-col items-center gap-4">
         <div className="w-24 h-24 border-4 border-green-500 shadow-lg rounded-full overflow-hidden">
           <Image
             alt="Profile image"
@@ -25,13 +25,13 @@ export default function Profile() {
         </div>
         {/* Хэрэглэгчийн мэдээлэл */}
         <div className="flex flex-col gap-y-1 items-center text-center">
-          <h1 className="uppercase text-lg text-gray-700 font-bold">
+          <h1 className="uppercase text-lg text-gray-700 dark:text-gray-300 font-bold">
             {session?.user?.firstName || "Хэрэглэгчийн нэр"}
           </h1>
-          <h2 className="text-sm text-gray-500 font-medium">
+          <h2 className="text-sm text-gray-500 dark:text-gray-400 font-medium">
             {session?.user?.workingPart || "Хэрэглэгчийн имэйл"}
           </h2>
-          <h3 className="uppercase text-xs text-gray-500 font-medium">
+          <h3 className="uppercase text-xs text-gray-500 dark:text-gray-400 font-medium">
             {session?.user?.department || "Хэлтэс/алба"}
           </h3>
         </div>

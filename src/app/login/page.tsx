@@ -12,7 +12,7 @@ export default async function page() {
   }
 
   return (
-    <div className="bg-gray-50 grid place-items-center h-screen">
+    <div className="bg-gray-50 dark:bg-gray-900 grid place-items-center h-screen">
       <LoginForm />
     </div>
   );

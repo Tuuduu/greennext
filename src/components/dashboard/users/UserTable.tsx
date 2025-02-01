@@ -111,9 +111,11 @@ const UserTable = () => {
 
   return (
     <div className="w-full h-full">
-      <div className="transition duration-150 ease-in-out w-full flex flex-col gap-y-6 p-4 md:p-6 bg-white rounded-lg shadow hover:shadow-lg">
+      <div className="transition duration-150 ease-in-out w-full flex flex-col gap-y-6 p-4 md:p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg">
         {/* Ачаалж байна эсвэл алдаа харуулах */}
-        {loading && <p className="text-gray-700">Ачаалж байна...</p>}
+        {loading && (
+          <p className="text-gray-700 dark:text-gray-300">Ачаалж байна...</p>
+        )}
         {error && <p className="text-red-500">Алдаа: {error}</p>}
 
         {!loading && !error && (
@@ -132,48 +134,51 @@ const UserTable = () => {
 
             {/* Хэрэглэгчдийн хүснэгт */}
             <div className="overflow-x-auto">
-              <table className="w-full border-collapse divide-y divide-gray-200 text-sm md:text-base">
-                <thead className="bg-gray-100">
+              <table className="w-full border-collapse divide-y divide-gray-200 dark:divide-gray-700 text-sm md:text-base">
+                <thead className="bg-gray-100 dark:bg-gray-700">
                   <tr>
-                    <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
+                    <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
                       №
                     </th>
-                    <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
+                    <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
                       Нэр
                     </th>
-                    <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
+                    <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
                       Имэйл
                     </th>
-                    <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
+                    <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
                       Алба
                     </th>
-                    <th className="text-gray-700 px-2 md:px-4 py-2 text-left">
+                    <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
                       Албан тушаал
                     </th>
-                    <th className="text-gray-700 px-2 md:px-4 py-2 text-center">
+                    <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-center">
                       Үйлдэл
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {currentData.map((user: any, index: number) => (
-                    <tr key={user._id} className="hover:bg-gray-50">
-                      <td className="px-2 md:px-4 py-4 text-gray-700">
+                    <tr
+                      key={user._id}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                         {startIndex + index + 1}
                       </td>
-                      <td className="px-2 md:px-4 py-4 text-gray-700">
+                      <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                         {user.firstName}
                       </td>
-                      <td className="px-2 md:px-4 py-4 text-gray-700">
+                      <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                         {user.email}
                       </td>
-                      <td className="px-2 md:px-4 py-4 text-gray-700">
+                      <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                         {user.department}
                       </td>
-                      <td className="px-2 md:px-4 py-4 text-gray-700">
+                      <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                         {user.employment || "Хуучин хэрэглэгч"}
                       </td>
-                      <td className="px-2 md:px-4 py-4 text-center text-gray-700">
+                      <td className="px-2 md:px-4 py-4 text-center text-gray-700 dark:text-gray-300">
                         <button
                           onClick={() => handleEditUser(user)}
                           className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
@@ -207,7 +212,7 @@ const UserTable = () => {
                 >
                   Өмнөх
                 </button>
-                <span className="px-4 py-2 border bg-white text-gray-700">
+                <span className="px-4 py-2 border bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   {currentPage} / {totalPages}
                 </span>
                 <button

@@ -137,8 +137,8 @@ const TicketCompanyDashboard = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-8 p-6 bg-white rounded-lg shadow">
-      <h2 className="text-lg text-center text-gray-600 font-bold">
+    <div className="w-full flex flex-col gap-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
+      <h2 className="text-lg text-center text-gray-600 dark:text-gray-300 font-bold">
         Компанийн дуудлагын тоо
       </h2>
 
@@ -147,7 +147,7 @@ const TicketCompanyDashboard = () => {
       </div>
 
       {/* Нийт дуудлагын тоо */}
-      <p className="text-gray-600 font-medium mt-6">
+      <p className="text-gray-600 dark:text-gray-300 font-medium mt-6">
         Нийт дуудлагын тоо:{" "}
         <span className="font-bold">
           {companyTicketCounts.reduce((a, b) => a + b, 0)}

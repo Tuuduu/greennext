@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
+import anime from "animejs";
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
@@ -22,6 +23,7 @@ interface Engineer {
 }
 
 const TicketDashboard = () => {
+  const loaderRef = useRef<HTMLDivElement>(null);
   const [tickets, setTickets] = useState<TicketData>({
     planned: 0,
     inProgress: 0,
@@ -37,6 +39,19 @@ const TicketDashboard = () => {
   const [engineers, setEngineers] = useState<Engineer[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (loaderRef.current) {
+      anime({
+        targets: ".loader-skeleton",
+        opacity: [0.2, 1],
+        duration: 1000,
+        easing: "easeInOutQuad",
+        loop: true,
+        direction: "alternate",
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,7 +121,6 @@ const TicketDashboard = () => {
     fetchData();
   }, []);
 
-  if (loading) return <p>Өгөгдөл ачааллаж байна...</p>;
   if (error) return <p className="text-red-500">Алдаа: {error}</p>;
 
   const { planned, inProgress, completed, newTicket } = tickets;
@@ -128,23 +142,23 @@ const TicketDashboard = () => {
   };
 
   return (
-    <div className="w-full bg-white p-6 rounded-lg shadow">
-      <h2 className="text-lg text-gray-600 font-bold">
+    <div className="w-full bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+      <h2 className="text-lg text-gray-600 dark:text-gray-300 font-bold">
         Мэдээлэл технологийн албаны ажлын захиалга
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="w-full pt-4">
-          <ul className="space-y-4 text-sm max-h-[420px] rounded-lg overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-300 ">
+          <ul className="space-y-4 text-sm max-h-[420px] rounded-lg overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
             {engineers.map((engineer, index) => (
               <li
                 key={index}
-                className="flex items-center justify-between bg-gray-100 p-4 rounded-lg shadow"
+                className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow"
               >
-                <span className="text-gray-700 font-medium">
+                <span className="text-gray-700 dark:text-gray-300 font-medium">
                   {engineer.employment}:{" "}
                   <p className="font-bold">{engineer.firstName}</p>
                 </span>
-                <span className="text-blue-600 font-bold">
+                <span className="text-blue-600 dark:text-blue-400 font-bold">
                   {engineer.ticketCount}
                 </span>
               </li>
@@ -155,7 +169,7 @@ const TicketDashboard = () => {
           <div className="w-[300px] h-[300px]">
             <Pie data={chartData} />
           </div>
-          <div className="mt-4 text-gray-600">
+          <div className="mt-4 text-gray-600 dark:text-gray-300">
             <p>Шинэ: {newTicket}</p>
             <p>Хүлээгдэж байна: {planned}</p>
             <p>Хийгдэж байна: {inProgress || 0}</p>

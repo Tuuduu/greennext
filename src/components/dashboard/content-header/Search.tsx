@@ -32,7 +32,7 @@ const Search: React.FC<SearchProps> = ({ placeholder, onSearch }) => {
         {/* Хайх икон */}
         <div className="absolute inset-y-0 left-3 flex items-center">
           <svg
-            className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors duration-150"
+            className="w-5 h-5 text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300 transition-colors duration-150"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -51,7 +51,7 @@ const Search: React.FC<SearchProps> = ({ placeholder, onSearch }) => {
         <input
           type="search"
           onChange={handleInputChange} // Хайлтын функц
-          className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 transition-all duration-150 ease-in-out group-hover:border-gray-400 group-focus:border-blue-500"
+          className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500 transition-all duration-150 ease-in-out group-hover:border-gray-400 dark:group-hover:border-gray-500"
           placeholder={placeholder}
         />
       </div>

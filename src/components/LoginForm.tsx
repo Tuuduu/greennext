@@ -76,8 +76,8 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 px-4">
-      <div className="w-full max-w-md bg-white/50 backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300">
+    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
+      <div className="w-full max-w-md bg-white/50 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:border-gray-700">
         {/* Лого хэсэг */}
         <div className="w-full flex items-center justify-center pb-6">
           <Logo />
@@ -86,7 +86,7 @@ export default function LoginForm() {
         {/* Form хэсэг */}
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Имэйл хаяг
             </label>
             <input
@@ -95,12 +95,12 @@ export default function LoginForm() {
               value={formData.email}
               onChange={handleChange}
               placeholder="name@company.com"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white focus:ring-green-500 focus:border-green-500"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Нууц үг
             </label>
             <input
@@ -109,7 +109,7 @@ export default function LoginForm() {
               value={formData.password}
               onChange={handleChange}
               placeholder="••••••••"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white focus:ring-green-500 focus:border-green-500"
               required
             />
           </div>
@@ -121,11 +121,11 @@ export default function LoginForm() {
                 name="remember"
                 checked={formData.remember}
                 onChange={handleChange}
-                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-green-500"
+                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 dark:border-gray-700 dark:bg-gray-700 dark:text-white focus:ring-green-500"
               />
               <label
                 htmlFor="remember"
-                className="ml-2 text-sm font-medium text-gray-700"
+                className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
               >
                 Сануулах
               </label>
@@ -138,18 +138,18 @@ export default function LoginForm() {
             </a>
           </div>
           {message && (
-            <p className="text-sm text-red-500 bg-red-100 py-2 px-4 rounded-lg">
+            <p className="text-sm text-red-500 bg-red-100 dark:bg-red-700 py-2 px-4 rounded-lg">
               {message}
             </p>
           )}
           <button
             type="submit"
-            className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 focus:ring-4 focus:ring-green-300"
+            className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-700"
           >
             Нэвтрэх
           </button>
 
-          <p className="text-sm text-center text-gray-500">
+          <p className="text-sm text-center text-gray-500 dark:text-gray-300">
             Ажлын захиалга{" "}
             <Link href="/" className="text-green-600 hover:underline">
               үүсгэх.

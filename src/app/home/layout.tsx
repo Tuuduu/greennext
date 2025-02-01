@@ -7,7 +7,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="w-full h-screen flex flex-row bg-gradient-to-r from-blue-100 via-gray-50 to-white">
+    <div className="w-full h-screen flex flex-row bg-gradient-to-r from-blue-100 via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Sidebar хэсэг */}
       <div className="shadow-lg">
         <Sidebar />

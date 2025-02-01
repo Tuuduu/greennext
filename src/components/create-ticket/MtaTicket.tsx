@@ -34,7 +34,7 @@ export default function MtaTicket() {
     domain: "",
     description: "",
     phoneNumber: "",
-    status: "шинэ",
+    status: "Шинэ",
     modifierUserName: "",
     modifierUserId: "",
     updatedDate: "",
@@ -150,25 +150,25 @@ export default function MtaTicket() {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100">
+    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
       <div
         ref={formRef}
-        className="w-[500px] backdrop-blur-lg bg-white/40 shadow-2xl p-10 rounded-3xl border border-gray-300"
+        className="w-[500px] backdrop-blur-lg bg-white/40 dark:bg-gray-800/40 shadow-2xl p-10 rounded-3xl border border-gray-300 dark:border-gray-700"
       >
         <form className="space-y-4 md:space-y-3" onSubmit={handleSubmit}>
-          <h2 className="font-bold text-xl text-center text-gray-700">
+          <h2 className="font-bold text-xl text-center text-gray-700 dark:text-gray-300">
             МТА АЖЛЫН ДУУДЛАГА
           </h2>
           <div className="grid grid-cols-2 gap-x-4">
             <div>
-              <label className="block mb-1 text-sm font-medium text-gray-900">
+              <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
                 Дуудлагын төрөл
               </label>
               <select
                 value={formData.ticketType}
                 onChange={handleChangeSelector}
                 name="ticketType"
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
               >
                 {ticketType.map((type, index) => (
@@ -180,7 +180,7 @@ export default function MtaTicket() {
             </div>
 
             <div>
-              <label className="block mb-1 text-sm font-medium text-gray-900">
+              <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
                 Овог, нэр
               </label>
               <input
@@ -188,7 +188,7 @@ export default function MtaTicket() {
                 onChange={handleChange}
                 type="text"
                 name="username"
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Овог, нэр оруулах"
                 required
               />
@@ -196,14 +196,14 @@ export default function MtaTicket() {
           </div>
           <div className="grid grid-cols-2 gap-x-4">
             <div>
-              <label className="block mb-1 text-sm font-medium text-gray-900">
+              <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
                 Ажилладаг компани
               </label>
               <select
                 value={formData.company}
                 onChange={handleChangeSelector}
                 name="company"
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
               >
                 {company.map((comp, index) => (
@@ -215,7 +215,7 @@ export default function MtaTicket() {
             </div>
 
             <div>
-              <label className="block mb-1 text-sm font-medium text-gray-900">
+              <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
                 Албан тушаал
               </label>
               <input
@@ -223,7 +223,7 @@ export default function MtaTicket() {
                 onChange={handleChange}
                 type="text"
                 name="position"
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Албан тушаал оруулах"
                 required
               />
@@ -231,7 +231,7 @@ export default function MtaTicket() {
           </div>
           <div className="grid grid-cols-2 gap-x-4">
             <div>
-              <label className="block mb-1 text-sm font-medium text-gray-900">
+              <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
                 Гарчиг
               </label>
               <input
@@ -239,14 +239,14 @@ export default function MtaTicket() {
                 onChange={handleChange}
                 type="text"
                 name="title"
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Гарчиг оруулах"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-1 text-sm font-medium text-gray-900">
+              <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
                 Компьютерын дугаар
               </label>
               <input
@@ -254,28 +254,28 @@ export default function MtaTicket() {
                 onChange={handleChange}
                 type="text"
                 name="domain"
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="INT01 гэх мэт"
                 required
               />
             </div>
           </div>
           <div>
-            <label className="block mb-1 text-sm font-medium text-gray-900">
+            <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
               Нэмэлт тайлбар
             </label>
             <textarea
               value={formData.description}
               name="description"
               onChange={handleChangeTextArea}
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder=""
               required
             />
           </div>
 
           <div>
-            <label className="block mb-1 text-sm font-medium text-gray-900">
+            <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
               Утасны дугаар
             </label>
             <input
@@ -283,7 +283,7 @@ export default function MtaTicket() {
               onChange={handleChange}
               type="number"
               name="phoneNumber"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Утасны дугаар оруулах"
               required
             />
@@ -303,7 +303,7 @@ export default function MtaTicket() {
 
           <button
             type="submit"
-            className="w-full text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-transform transform hover:scale-105"
+            className="w-full text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-transform transform hover:scale-105"
           >
             ИЛГЭЭХ
           </button>

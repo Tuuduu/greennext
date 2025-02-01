@@ -5,6 +5,7 @@ import anime from "animejs/lib/anime.es.js"; // Anime.js
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { useRef } from "react";
 import Logo from "@/components/Logo/Logo";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function Login() {
   const router = useRouter();
@@ -57,7 +58,7 @@ export default function Login() {
     "w-full flex items-center justify-center gap-2 text-white bg-gradient-to-r from-blue-400 to-green-500 font-medium rounded-lg text-sm px-5 py-2.5 shadow-md transition-transform transform";
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 px-4">
+    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
       {/* Login button for admin */}
       <div className="absolute top-5 right-5">
         <button
@@ -69,13 +70,15 @@ export default function Login() {
           <AiOutlineArrowRight size={20} />
         </button>
       </div>
-
+      <div className="absolute top-5 left-5">
+        <ThemeToggle />
+      </div>
       {/* Main Content */}
-      <div className="w-full max-w-lg bg-white/50 backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300">
+      <div className="w-full max-w-lg bg-white/50 backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:bg-gray-700/50 dark:border-gray-600">
         {/* Logo Section */}
         <Logo />
         {/* Order Buttons */}
-        <h2 className="pb-6 text-center font-bold text-lg text-gray-700">
+        <h2 className="pb-6 text-center font-bold text-lg text-gray-700 dark:text-gray-200">
           Ажлын захиалга үүсгэх
         </h2>
         <div className="flex flex-col gap-y-4">
@@ -96,7 +99,7 @@ export default function Login() {
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={() => handleMouseLeave(index)}
                 onClick={() => handleClick(index, item.link)}
-                className={buttonStyle}
+                className={`${buttonStyle} dark:from-blue-600 dark:to-green-700`}
               >
                 {item.text}
                 <AiOutlineArrowRight size={20} />
