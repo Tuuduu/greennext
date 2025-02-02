@@ -27,7 +27,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/api/register/route.js",
-    "src/models/userModel.ts"
+    "src/models/userModel.ts",
+    "src/app/Provider.js"
   ],
   "exclude": ["node_modules"]
 }

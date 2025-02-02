@@ -1,10 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const getInitialTheme = () => {
+  if (typeof window !== "undefined") {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.classList.toggle("dark", savedTheme === "dark"); // 🟢 Theme-г анх ачаалахад тохируулна
+    return savedTheme;
+  }
+  return "light"; // SSR үед анхдагч утга
+};
+
 const initialState = {
-  theme:
-    typeof window !== "undefined"
-      ? localStorage.getItem("theme") || "light"
-      : "light",
+  theme: getInitialTheme(),
 };
 
 export const themeSlice = createSlice({
@@ -12,14 +18,27 @@ export const themeSlice = createSlice({
   initialState,
   reducers: {
     toggleTheme: (state) => {
-      state.theme = state.theme === "dark" ? "light" : "dark";
-      localStorage.setItem("theme", state.theme);
-      document.documentElement.classList.toggle("dark", state.theme === "dark");
+      if (typeof window !== "undefined") {
+        const newTheme = state.theme === "dark" ? "light" : "dark";
+        state.theme = newTheme;
+
+        localStorage.setItem("theme", newTheme);
+        document.documentElement.classList.remove("dark"); // 🔥 Алдааг засах: `toggle` биш, `remove`
+        if (newTheme === "dark") {
+          document.documentElement.classList.add("dark");
+        }
+      }
     },
     setTheme: (state, action) => {
-      state.theme = action.payload;
-      localStorage.setItem("theme", state.theme);
-      document.documentElement.classList.toggle("dark", state.theme === "dark");
+      if (typeof window !== "undefined") {
+        state.theme = action.payload;
+
+        localStorage.setItem("theme", action.payload);
+        document.documentElement.classList.remove("dark"); // 🔥 Алдааг засах: `toggle` биш, `remove`
+        if (action.payload === "dark") {
+          document.documentElement.classList.add("dark");
+        }
+      }
     },
   },
 });

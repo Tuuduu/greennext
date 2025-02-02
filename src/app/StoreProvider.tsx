@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "../library/redux/store"; // Зөв import хийх
+import { store, persistor } from "../library/redux/store";
 
 export default function StoreProvider({ children }: { children: ReactNode }) {
   return (

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import TicketDashboardTable from "./TicketDashboardTable";
 import TicketCompanyDashboard from "./TicketCompanyDashboard";
