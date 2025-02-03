@@ -1,5 +1,5 @@
 import React from "react";
-import FeedbackTable from "../../components/feedback/FeedbackTable";
+import FeedbackTable from "@/components/feedback/FeedbackTable";
 
 export default function page() {
   return (

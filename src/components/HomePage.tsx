@@ -5,7 +5,7 @@ import anime from "animejs/lib/anime.es.js";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { useRef } from "react";
 import Logo from "@/components/Logo/Logo";
-import ThemeToggle from "../components/ThemeToggle";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function HomePage() {
   const router = useRouter();
@@ -58,9 +58,18 @@ export default function HomePage() {
     "w-full flex items-center justify-center gap-2 text-white bg-gradient-to-r from-blue-400 to-green-500 font-medium rounded-lg text-sm px-5 py-2.5 shadow-md transition-transform transform";
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
+
+    <div className="w-full min-h-screen h-screen flex flex-col bg-gradient-to-r from-blue-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
+          <div className="w-full h-full flex items-center justify-center">
       {/* Login button for admin */}
-      <div className="absolute top-5 right-5">
+      <div className="absolute top-5 right-5 flex gap-x-4">
+      <button
+          type="button"
+          onClick={() => router.push("/feedback")}
+          className="focus:outline-none flex gap-x-2 text-white bg-green-700 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 shadow-lg transform transition-transform hover:scale-105"
+        >
+          🌟 Санал хүсэлт 📝
+        </button>
         <button
           type="button"
           onClick={() => router.push("/login")}
@@ -108,6 +117,13 @@ export default function HomePage() {
           ))}
         </div>
       </div>
+    </div>
+    {/* footer */}
+    <div className="w-full grid grid-cols-3 py-4">
+    <p className="font-light text-sm text-gray-700 dark:text-gray-300 text-left">2025/02/03</p>
+      <p className="font-light text-sm text-gray-700 dark:text-gray-300 text-center">© 2025 Грийн Групп ХХК</p>
+      <p className="font-light text-sm text-gray-700 dark:text-gray-300 text-right">v1.0.0</p>
+    </div>
     </div>
   );
 }

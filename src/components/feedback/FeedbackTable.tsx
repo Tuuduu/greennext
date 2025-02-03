@@ -3,9 +3,11 @@ import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import moment from "@/library/moment/moment";
+import companyData from "@/data/data";
 
 interface FormData {
   feedbackType: string;
+  company: string;
   title: string;
   description: string;
   createdDate: string;
@@ -18,6 +20,7 @@ export default function FeedbackTable() {
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState<FormData>({
     feedbackType: "Бусад",
+    company: "Грийн Интернэшнл ХХК",
     title: "",
     description: "",
     createdDate: date,
@@ -82,81 +85,94 @@ export default function FeedbackTable() {
   };
 
   return (
-    <div className="w-[500px] shadow-lg p-10 rounded-lg border-t-4 border-green-400">
-      <form className="space-y-4 md:space-y-3" onSubmit={handleSubmit}>
-        <label className="font-bold text-lg text-center uppercase">
-          Санал хүсэлт
-        </label>
-
-        <div>
-          <label className="block mb-1 text-sm font-medium text-gray-900">
-            Төрөл
-          </label>
-          <select
-            value={formData.feedbackType}
-            onChange={handleChangeSelector}
-            name="feedbackType"
-            id="feedbackType"
-            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500"
-            required
-          >
-            <option value={feedbackType[0]}>{feedbackType[0]}</option>
-            <option value={feedbackType[1]}>{feedbackType[1]}</option>
-            <option value={feedbackType[2]}>{feedbackType[2]}</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block mb-1 text-sm font-medium text-gray-900">
-            Гарчиг
-          </label>
-          <input
-            value={formData.title}
-            onChange={handleChange}
-            type="text"
-            name="title"
-            id="title"
-            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder=""
-            required
-          />
-        </div>
-
-        <div className="">
-          <label className="block mb-1 text-sm font-medium text-gray-900">
-            Тайлбар
-          </label>
-          <textarea
-            value={formData.description}
-            name="description"
-            id="description"
-            onChange={handleChangeTextArea}
-            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full h-48 p-2.5 dark:placeholder-gray-400  focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder=""
-            required
-          />
-        </div>
-
-        <div className="w-full flex justify-center">
-          {message ? (
+    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
+      <div className="w-full max-w-lg bg-white/50 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:border-gray-700">
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-gray-300">
+            Санал хүсэлт
+          </h2>
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+              Компани
+            </label>
+            <select
+              value={formData.company}
+              onChange={handleChangeSelector}
+              name="company"
+              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+            >
+              {companyData.map((company: any, index: number) => (
+                <option key={index} value={company}>
+                  {company}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+              Төрөл
+            </label>
+            <select
+              value={formData.feedbackType}
+              onChange={handleChangeSelector}
+              name="feedbackType"
+              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+            >
+              {feedbackType.map((type, index) => (
+                <option key={index} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+              Гарчиг
+            </label>
+            <input
+              value={formData.title}
+              onChange={handleChange}
+              type="text"
+              name="title"
+              placeholder="Гарчиг оруулах"
+              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+              Тайлбар
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={handleChangeTextArea}
+              name="description"
+              placeholder="Тайлбар оруулах"
+              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
+          {message && (
             <p
-              className={`${
-                message == "Алдаа гарлаа." ? "bg-red-400" : "bg-green-400"
-              } py-1 px-4 rounded-lg shadow-lg text-sm text-gray-50 text-center`}
+              className={`py-2 px-4 rounded-lg text-center text-sm ${
+                message === "Алдаа гарлаа."
+                  ? "bg-red-400 text-white"
+                  : "bg-green-400 text-white"
+              }`}
             >
               {message}
             </p>
-          ) : (
-            ""
           )}
-        </div>
-        <button
-          type="submit"
-          className="w-full text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  focus-green-800"
-        >
-          ИЛГЭЭХ
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="w-full rounded-lg bg-green-500 py-2.5 px-4 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300"
+          >
+            ИЛГЭЭХ
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const feedbackScheme = mongoose.Schema({
+  company: {
+    type: String,
+    require: [true, "Санал хүсэлтийн компани заавал оруулна."],
+  },
   feedbackType: {
     type: String,
     require: [true, "Санал хүсэлтийн төрөл заавал оруулна."],
