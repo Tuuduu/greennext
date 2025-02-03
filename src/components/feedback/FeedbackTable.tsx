@@ -45,7 +45,6 @@ export default function FeedbackTable() {
         const form = e.target as HTMLFormElement;
         form.reset();
         setMessage("Санал хүсэлт амжилттай бүртгэгдлээ.");
-        alert("Санал хүсэлт амжилттай бүртгэгдлээ.");
         router.push("/");
       } else {
         setMessage("Алдаа гарлаа.");
@@ -156,10 +155,8 @@ export default function FeedbackTable() {
           </div>
           {message && (
             <p
-              className={`py-2 px-4 rounded-lg text-center text-sm ${
-                message === "Алдаа гарлаа."
-                  ? "bg-red-400 text-white"
-                  : "bg-green-400 text-white"
+              className={` rounded-lg text-center text-sm ${
+                message === "Алдаа гарлаа." ? "text-red-400" : "text-green-400"
               }`}
             >
               {message}

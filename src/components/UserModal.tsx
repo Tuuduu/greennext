@@ -196,6 +196,9 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 <option value="Электроникийн инженер">
                   Электроникийн инженер
                 </option>
+                <option value="Систем администратор">
+                  Систем администратор
+                </option>
               </select>
               <button
                 type="submit"

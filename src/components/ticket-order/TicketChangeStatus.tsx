@@ -105,7 +105,7 @@ export default function TicketChangeStatus({
   };
 
   return (
-    <div>
+    <div className="w-full ">
       {message && (
         <p
           className={`text-sm ${
@@ -122,7 +122,7 @@ export default function TicketChangeStatus({
           onChange={handleChangeSelector}
           name="status"
           id="status"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 text-sm rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         >
           {statusOptions.map((s, index) => (
@@ -134,10 +134,8 @@ export default function TicketChangeStatus({
         <button
           type="submit"
           disabled={pending}
-          className={`px-4 py-2 rounded-md text-white text-sm flex items-center justify-center gap-2 transition-all ${
-            pending
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700"
+          className={`w-full rounded-lg bg-green-500 py-2.5 px-4 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300 ${
+            pending ? "cursor-not-allowed bg-gray-400" : ""
           }`}
         >
           {pending ? (

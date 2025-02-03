@@ -4,12 +4,16 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Profile from "./Profile";
 import Menu from "./Menu";
 import SignoutButton from "./SignoutButton";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="h-screen relative z-50">
+      <div className="absolute top-4 left-4 z-50">
+        <ThemeToggle />
+      </div>
       {/* Menu toggle button (Mobile only) */}
       <button
         onClick={() => setIsOpen(!isOpen)}

@@ -1,5 +1,10 @@
+import FeedbackList from "@/components/dashboard/feedbackList/FeedbackList";
 import React from "react";
 
 export default function page() {
-  return <div>feedback</div>;
+  return (
+    <div>
+      <FeedbackList />
+    </div>
+  );
 }

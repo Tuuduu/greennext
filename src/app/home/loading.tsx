@@ -20,7 +20,7 @@ const Loading = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900 p-6">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-800 p-6 rounded-lg">
       <p
         ref={textRef}
         className="text-lg font-bold text-gray-700 dark:text-gray-300"

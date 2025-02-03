@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import anime from "animejs";
-import TicketModalInfro from "./TicketModalInfro";
-import TicketChangeStatus from "./TicketChangeStatus";
 
-export default function TicketModal({
-  ticketData,
-  onStatusUpdate,
-}: {
-  ticketData: any;
-  onStatusUpdate: (updatedTicket: any) => void;
-}) {
+export default function FeedbackModal({ feedbackData }: { feedbackData: any }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -86,15 +78,31 @@ export default function TicketModal({
             onClick={handleClose}
           >
             <div
-              className="modal-content w-full max-w-lg bg-white/90 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:border-gray-700 relative"
+              className="modal-content w-full max-w-lg bg-white/50 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:border-gray-700 relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Content */}
-              <TicketModalInfro ticketData={ticketData} />
-              <TicketChangeStatus
-                ticketData={ticketData}
-                onStatusUpdate={onStatusUpdate}
-              />
+              <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-gray-300 mb-6">
+                Дэлгэрэнгүй мэдээлэл
+              </h2>
+              <ul className="space-y-4">
+                {[
+                  { label: "Компани", value: feedbackData.company },
+                  { label: "Гарчиг", value: feedbackData.title },
+                  { label: "Төрөл", value: feedbackData.feedbackType },
+                  { label: "Тайлбар", value: feedbackData.description },
+                  { label: "Үүсэгсэн огноо", value: feedbackData.createdDate },
+                ].map((item, index) => (
+                  <li key={index} className="flex justify-between">
+                    <span className="font-medium text-gray-900 dark:text-gray-300">
+                      {item.label}
+                    </span>
+                    <span className="text-gray-700 dark:text-gray-400">
+                      {item.value}
+                    </span>
+                  </li>
+                ))}
+              </ul>
               <button
                 onClick={handleClose}
                 className="w-full mt-4 rounded-lg bg-red-500 py-2.5 px-4 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300"

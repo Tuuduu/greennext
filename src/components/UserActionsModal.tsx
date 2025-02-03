@@ -186,6 +186,7 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
             </option>
             <option value="Сүлжээний инженер">Сүлжээний инженер</option>
             <option value="Электроникийн инженер">Электроникийн инженер</option>
+            <option value="Систем администратор">Систем администратор</option>
           </select>
           {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
           <button

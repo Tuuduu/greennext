@@ -44,9 +44,6 @@ const TicketCompanyDashboard = () => {
     fetchData();
   }, []);
 
-  if (loading) return <p>Өгөгдөл ачааллаж байна...</p>;
-  if (error) return <p className="text-red-500">Алдаа: {error}</p>;
-
   // Компаниудын жагсаалт
   const companyNames = [
     "Грийн Групп",

@@ -47,6 +47,7 @@ export const authOptions = {
             profileImage: user.profileImage,
             role: user.role,
             permissions: user.permissions,
+            employment: user.employment,
           };
         } catch (error) {
           console.error("Authorization Error: ", error);
@@ -63,7 +64,6 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        // Add user data to token
         token.userId = user.userId;
         token.firstName = user.firstName;
         token.workingPart = user.workingPart;
@@ -71,11 +71,11 @@ export const authOptions = {
         token.profileImage = user.profileImage;
         token.role = user.role;
         token.permissions = user.permissions;
+        token.employment = user.employment;
       }
       return token;
     },
     async session({ session, token }) {
-      // Pass token data to session
       session.user = {
         userId: token.userId,
         firstName: token.firstName,
@@ -84,6 +84,7 @@ export const authOptions = {
         profileImage: token.profileImage,
         role: token.role,
         permissions: token.permissions,
+        employment: token.employment,
       };
       return session;
     },
