@@ -2,7 +2,7 @@ import { connectDB } from "@/library/mongoDB/connect"; // MongoDB-тэй хол�
 import User from "@/models/userModel"; // User модел
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth"; // NextAuth-н сесс авах
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"; // NextAuth тохиргоо
+import { authOptions } from "@/library/nextauth/AuthOptions"; // NextAuth тохиргоо
 import bcrypt from "bcrypt"; // bcrypt-ийг импортлох
 
 // GET хүсэлтээр хэрэглэгчдийн жагсаалтыг авах

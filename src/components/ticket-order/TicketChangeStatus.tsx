@@ -15,7 +15,7 @@ interface FormData {
 
 interface UserSession {
   name?: string;
-  userId?: string;
+  userId?: string; // ✅ userId-г TypeScript-д зөвшөөрсөн
   email?: string;
   [key: string]: any;
 }
@@ -45,10 +45,11 @@ export default function TicketChangeStatus({
   // Session өгөгдлийг авах
   useEffect(() => {
     if (session?.user) {
-      setUserData({
+      setUserData((prev) => ({
+        ...prev,
         name: session.user.name || "",
-        userId: session.user.userId || "",
-      });
+        userId: (session.user as UserSession).userId || "", // ✅ TypeScript алдааг зассан
+      }));
     }
   }, [session]);
 

@@ -23,6 +23,9 @@ export default function ContentHeader() {
         case "ticket-order":
           setTitle("Ажлын захиалга");
           break;
+        case "feedback":
+          setTitle("Санал хүсэлт");
+          break;
         default:
           setTitle("Тохирох зам олдсонгүй");
       }

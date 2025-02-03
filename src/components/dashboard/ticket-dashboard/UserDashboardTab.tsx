@@ -11,7 +11,7 @@ import {
   LinearScale,
 } from "chart.js";
 
-// Register Chart.js components
+// Chart.js бүртгэл
 ChartJS.register(
   BarElement,
   Tooltip,
@@ -22,13 +22,13 @@ ChartJS.register(
 );
 
 const UsersDashboard = ({ data }: { data: any }) => {
-  // Default values to avoid undefined issues
+  // Default утгууд
   const totalUsers = data?.totalUsers || 100;
   const companyUsers = data?.companyUsers || 40;
   const departmentUsers = data?.departmentUsers || 30;
   const positionUsers = data?.positionUsers || 20;
 
-  // Chart data for Bar chart
+  // Chart data
   const chartData = {
     labels: [
       "Нийт хэрэглэгч",
@@ -52,12 +52,13 @@ const UsersDashboard = ({ data }: { data: any }) => {
           "#4BC8FF", // Hover Албаны хэрэглэгч
           "#FF809B", // Hover Албан тушаалтай хэрэглэгч
         ],
-        borderColor: "#ffffff", // White border for better visibility
+        borderColor: "#ffffff",
         borderWidth: 2,
       },
     ],
   };
 
+  // Chart Options (Зассан animation тохиргоотой)
   const options = {
     responsive: true,
     plugins: {
@@ -107,7 +108,8 @@ const UsersDashboard = ({ data }: { data: any }) => {
       },
     },
     animation: {
-      animateScale: true,
+      duration: 1000,
+      easing: "easeInOutQuad" as const,
     },
   };
 

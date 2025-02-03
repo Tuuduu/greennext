@@ -28,7 +28,8 @@
     ".next/types/**/*.ts",
     "src/app/api/register/route.js",
     "src/models/userModel.ts",
-    "src/app/Provider.js"
+    "src/app/Provider.js",
+    "src/app/api/auth/[...nextauth]/route.js"
   ],
   "exclude": ["node_modules"]
 }

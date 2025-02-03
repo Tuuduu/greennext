@@ -4,7 +4,7 @@ import itaTicket from "@/models/ticket/itaTicketModel";
 import mtaTicket from "@/models/ticket/mtaTicketModel";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/library/nextauth/AuthOptions";
 
 export async function POST(request) {
   await connectDB();

@@ -78,7 +78,7 @@ export default function FeedbackModal({ feedbackData }: { feedbackData: any }) {
             onClick={handleClose}
           >
             <div
-              className="modal-content w-full max-w-lg bg-white/50 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:border-gray-700 relative"
+              className="modal-content w-full max-w-lg bg-white/80 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:border-gray-700 relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Content */}
