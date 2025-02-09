@@ -59,7 +59,6 @@ const TicketCompanyDashboard = () => {
     "Актив Гарден",
   ];
 
-  console.log("Ticket dataaaa ---> ", ticketData);
   // Компани бүрийн тасалбарын тоог тоолох
   const companyTicketCounts = companyNames.map((company) => {
     return ticketData.filter((ticket: any) => ticket.company === company)

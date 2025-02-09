@@ -97,7 +97,7 @@ export default function FeedbackModal({ feedbackData }: { feedbackData: any }) {
                     <span className="font-medium text-gray-900 dark:text-gray-300">
                       {item.label}
                     </span>
-                    <span className="text-gray-700 dark:text-gray-400">
+                    <span className="text-gray-700 text-right dark:text-gray-400">
                       {item.value}
                     </span>
                   </li>

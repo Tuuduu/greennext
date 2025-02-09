@@ -74,6 +74,29 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
     }
   };
 
+  const handleDeleteUser = async () => {
+    if (!formData._id) return console.error("Хэрэглэгчийн ID олдсонгүй.");
+
+    try {
+      const response = await fetch(`/api/users?id=${formData._id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        console.log("Хэрэглэгч амжилттай устгагдлаа.");
+        onSaveSuccess();
+        onClose();
+      } else {
+        const errorData = await response.json();
+        console.error("Устгах үед алдаа гарлаа: ", errorData.message);
+        setError(errorData.message || "Хэрэглэгч устгах үед алдаа гарлаа.");
+      }
+    } catch (err: any) {
+      console.error("Хэрэглэгч устгах үед алдаа: ", err);
+      setError(err.message || "Хэрэглэгч устгах үед алдаа гарлаа.");
+    }
+  };
+
   const handleClose = () => {
     anime({
       targets: ".modal-overlay",
@@ -98,16 +121,18 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
     >
       <div className="modal-overlay fixed inset-0 bg-black/50"></div>
       <div
-        className="modal-content bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative"
+        className="modal-content bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-lg relative"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={handleClose}
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+          className="absolute top-2 right-2 text-gray-600 dark:text-gray-300 hover:text-gray-800"
         >
           ✕
         </button>
-        <h2 className="text-lg font-semibold mb-4">Хэрэглэгч засах</h2>
+        <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
+          Хэрэглэгч засах
+        </h2>
         <form className="space-y-4">
           <input
             type="text"
@@ -115,7 +140,7 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
             value={formData.firstName}
             onChange={handleChange}
             placeholder="Нэр"
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
             required
           />
           <input
@@ -124,7 +149,7 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
             value={formData.lastName}
             onChange={handleChange}
             placeholder="Овог"
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
             required
           />
           <input
@@ -133,14 +158,23 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
             value={formData.email}
             onChange={handleChange}
             placeholder="Имэйл"
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Нууц үг"
+            className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
             required
           />
           <select
             name="role"
             value={formData.role}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
           >
             <option value="user">User</option>
             <option value="admin">Admin</option>
@@ -150,7 +184,7 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
             name="workingPart"
             value={formData.workingPart}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
           >
             <option value="Мэдээлэл технологийн алба">
               Мэдээлэл технологийн алба
@@ -164,7 +198,7 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
             name="department"
             value={formData.department}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
           >
             <option value="Грийн Интернэшнл ХХК">Грийн Интернэшнл ХХК</option>
             <option value="Грийн Трейд ХХК">Грийн Трейд ХХК</option>
@@ -176,7 +210,7 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
             name="employment"
             value={formData.employment}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
           >
             <option value="Мэдээлэл технологийн инженер">
               Мэдээлэл технологийн инженер
@@ -196,6 +230,14 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
             disabled={isSaving}
           >
             {isSaving ? "Хадгалж байна..." : "Хадгалах"}
+          </button>
+          <button
+            type="button"
+            onClick={handleDeleteUser}
+            className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 mt-2"
+            disabled={isSaving}
+          >
+            Устгах
           </button>
         </form>
       </div>

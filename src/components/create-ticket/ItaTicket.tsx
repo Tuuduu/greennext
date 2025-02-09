@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import anime from "animejs/lib/anime.es.js";
 import moment from "@/library/moment/moment";
 
 interface FormData {
@@ -33,6 +34,8 @@ export default function ItaTicket() {
     createdDate: date,
   });
 
+  const formRef = useRef<HTMLDivElement>(null); // Ref for the form container
+
   const ticketTypes = ["Цахилгаан", "Бусад"];
 
   const companies = [
@@ -49,8 +52,33 @@ export default function ItaTicket() {
     "Актив Гарден",
   ];
 
+  const handleSubmitAnimation = () => {
+    if (formRef.current) {
+      anime({
+        targets: formRef.current,
+        scale: [1, 1.05, 1],
+        easing: "easeInOutQuad",
+        duration: 500,
+      });
+    }
+  };
+
+  const handleBackAnimation = () => {
+    if (formRef.current) {
+      anime({
+        targets: formRef.current,
+        translateX: [0, -1000],
+        opacity: [1, 0],
+        easing: "easeInOutQuad",
+        duration: 500,
+        complete: () => router.back(),
+      });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    handleSubmitAnimation();
     try {
       const res = await fetch("/api/create-ticket/ita", {
         method: "POST",
@@ -74,7 +102,7 @@ export default function ItaTicket() {
           createdDate: date,
         });
         setMessage("Ажлын захиалга амжилттай бүртгэгдлээ.");
-        alert("Ажлын захиалга амжилттай бүртгэгдлээ.");
+        // alert("Ажлын захиалга амжилттай бүртгэгдлээ.");
         router.push("/");
       } else {
         setMessage("Алдаа гарлаа.");
@@ -99,21 +127,27 @@ export default function ItaTicket() {
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
-      <div className="w-full max-w-lg bg-white/50 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:border-gray-700">
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-gray-300">
+      <div
+        ref={formRef}
+        className="w-full max-w-lg bg-white/50 dark:bg-gray-800/40 shadow-2xl p-10 rounded-3xl border border-gray-300 dark:border-gray-700 backdrop-blur-lg"
+      >
+        <form
+          className="space-y-4 md:space-y-3 relative"
+          onSubmit={handleSubmit}
+        >
+          <h2 className="font-bold text-xl text-center text-gray-700 dark:text-gray-300">
             ИТА АЖЛЫН ДУУДЛАГА
           </h2>
 
           <div>
-            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
               Дуудлагын төрөл
             </label>
             <select
               value={formData.ticketType}
               onChange={handleChange}
               name="ticketType"
-              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             >
               {ticketTypes.map((type, index) => (
@@ -123,7 +157,24 @@ export default function ItaTicket() {
               ))}
             </select>
           </div>
-
+          <div>
+            <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Ажилладаг компани
+            </label>
+            <select
+              value={formData.company}
+              onChange={handleChange}
+              name="company"
+              className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required
+            >
+              {companies.map((company, index) => (
+                <option key={index} value={company}>
+                  {company}
+                </option>
+              ))}
+            </select>
+          </div>
           {[
             {
               label: "Овог, нэр",
@@ -148,7 +199,7 @@ export default function ItaTicket() {
             },
           ].map((field, index) => (
             <div key={index}>
-              <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+              <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
                 {field.label}
               </label>
               <input
@@ -157,33 +208,14 @@ export default function ItaTicket() {
                 type={field.type || "text"}
                 name={field.name}
                 placeholder={field.placeholder}
-                className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
               />
             </div>
           ))}
 
           <div>
-            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
-              Ажилладаг компани
-            </label>
-            <select
-              value={formData.company}
-              onChange={handleChange}
-              name="company"
-              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
-              required
-            >
-              {companies.map((company, index) => (
-                <option key={index} value={company}>
-                  {company}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
               Нэмэлт тайлбар
             </label>
             <textarea
@@ -191,7 +223,7 @@ export default function ItaTicket() {
               onChange={handleChange}
               name="description"
               placeholder="Нэмэлт тайлбар оруулах"
-              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             />
           </div>
@@ -208,12 +240,21 @@ export default function ItaTicket() {
             </p>
           )}
 
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-green-500 py-2.5 px-4 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300"
-          >
-            ИЛГЭЭХ
-          </button>
+          <div className="w-full flex justify-between">
+            <button
+              type="button"
+              onClick={handleBackAnimation}
+              className="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-transform transform hover:scale-105"
+            >
+              Буцах
+            </button>
+            <button
+              type="submit"
+              className="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-transform transform hover:scale-105"
+            >
+              ИЛГЭЭХ
+            </button>
+          </div>
         </form>
       </div>
     </div>

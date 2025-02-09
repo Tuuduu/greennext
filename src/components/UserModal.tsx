@@ -93,16 +93,18 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
         >
           <div className="modal-overlay fixed inset-0 bg-black/50"></div>
           <div
-            className="modal-content bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative"
+            className="modal-content bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md relative"
             onClick={(e) => e.stopPropagation()} // Prevent modal from closing on content click
           >
             <button
               onClick={closeModal}
-              className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+              className="absolute top-2 right-2 text-gray-600 dark:text-gray-300 hover:text-gray-800"
             >
               ✕
             </button>
-            <h2 className="text-lg font-semibold mb-4">Хэрэглэгч нэмэх</h2>
+            <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
+              Хэрэглэгч нэмэх
+            </h2>
             <form className="space-y-4" onSubmit={handleFormSubmit}>
               <input
                 type="text"
@@ -110,7 +112,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 value={formData.lastName}
                 onChange={handleChange}
                 placeholder="Овог"
-                className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                 required
               />
               <input
@@ -119,7 +121,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder="Нэр"
-                className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                 required
               />
               <input
@@ -128,7 +130,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Имэйл"
-                className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                 required
               />
               <input
@@ -137,14 +139,14 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Нууц үг"
-                className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                 required
               />
               <select
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
               >
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
@@ -154,7 +156,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 name="workingPart"
                 value={formData.workingPart}
                 onChange={handleChange}
-                className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
               >
                 <option value="Мэдээлэл технологийн алба">
                   Мэдээлэл технологийн алба
@@ -170,7 +172,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 name="department"
                 value={formData.department}
                 onChange={handleChange}
-                className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
               >
                 <option value="Грийн Интернэшнл ХХК">
                   Грийн Интернэшнл ХХК
@@ -184,7 +186,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 name="employment"
                 value={formData.employment}
                 onChange={handleChange}
-                className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
               >
                 <option value="Мэдээлэл технологийн инженер">
                   Мэдээлэл технологийн инженер

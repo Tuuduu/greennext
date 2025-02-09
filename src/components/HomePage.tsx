@@ -39,20 +39,8 @@ export default function HomePage() {
 
   // Click animation for buttons
   const handleClick = (index: number, link: string) => {
+    router.push(link);
     const button = buttonRefs.current[index];
-    if (button) {
-      // Fade-out animation for the clicked button
-      anime({
-        targets: button,
-        opacity: [1, 0], // Сарниж алга болох
-        translateX: [-20, 20],
-        easing: "easeInOutQuad",
-        duration: 500, // Анимацийн үргэлжлэх хугацаа
-        complete: () => {
-          router.push(link); // Шинэ хуудас руу шилжих
-        },
-      });
-    }
   };
 
   const buttonStyle =
@@ -68,7 +56,7 @@ export default function HomePage() {
             onClick={() => router.push("/feedback")}
             className="focus:outline-none flex gap-x-2 text-white bg-green-700 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 shadow-lg transform transition-transform hover:scale-105"
           >
-            🌟 Санал хүсэлт 📝
+            🌟 санал хүсэлт 📝
           </button>
           <button
             type="button"
@@ -95,7 +83,7 @@ export default function HomePage() {
               { text: "Мэдээлэл технологийн алба", link: "/ticket/mta" },
               { text: "Инженер техникийн алба", link: "/ticket/ita" },
               { text: "Үйл ажиллагааны алба", link: "/ticket/ata" },
-            ].map((item, index) => (
+            ].map((item: any, index: number) => (
               <div
                 key={index}
                 ref={(el) => {
@@ -128,7 +116,7 @@ export default function HomePage() {
           © 2025 Грийн Групп ХХК
         </p>
         <p className="font-light text-sm text-gray-700 dark:text-gray-300 text-right">
-          v1.0.0
+          v1.0.3
         </p>
       </div>
     </div>

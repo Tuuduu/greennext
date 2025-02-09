@@ -14,8 +14,8 @@ interface FormData {
 }
 
 interface UserSession {
-  name?: string;
-  userId?: string; // ✅ userId-г TypeScript-д зөвшөөрсөн
+  firstName?: string;
+  id?: string; // ✅ userId-г TypeScript-д зөвшөөрсөн
   email?: string;
   [key: string]: any;
 }
@@ -28,6 +28,7 @@ export default function TicketChangeStatus({
   onStatusUpdate: (updatedTicket: TicketData) => void;
 }) {
   const { data: session } = useSession();
+
   const dataId = ticketData._id;
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
@@ -36,8 +37,8 @@ export default function TicketChangeStatus({
   });
   const date = moment();
   const [userData, setUserData] = useState<UserSession>({
-    name: "",
-    userId: "",
+    firstName: "",
+    id: "",
   });
 
   const statusOptions = ["Шинэ", "Хаасан", "Хүлээгдэж байна", "Хийгдэж байна"];
@@ -47,8 +48,8 @@ export default function TicketChangeStatus({
     if (session?.user) {
       setUserData((prev) => ({
         ...prev,
-        name: session.user.name || "",
-        userId: (session.user as UserSession).userId || "", // ✅ TypeScript алдааг зассан
+        firstName: session.user.firstName || "",
+        id: (session.user as UserSession).id || "",
       }));
     }
   }, [session]);
@@ -79,8 +80,8 @@ export default function TicketChangeStatus({
           updates: {
             status: formData.status,
             updatedDate: date, // ISO хэлбэрээр огноо үүсгэнэ
-            modifierUserName: userData.name || "Тодорхойгүй хэрэглэгч",
-            modifierUserId: userData.userId,
+            modifierUserName: userData.firstName || "Тодорхойгүй хэрэглэгч",
+            modifierUserId: userData.id,
           },
         }),
       });

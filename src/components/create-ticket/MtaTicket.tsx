@@ -81,6 +81,19 @@ export default function MtaTicket() {
     }
   };
 
+  const handleBackAnimation = () => {
+    if (formRef.current) {
+      anime({
+        targets: formRef.current,
+        translateX: [0, -1000],
+        opacity: [1, 0],
+        easing: "easeInOutQuad",
+        duration: 500,
+        complete: () => router.back(),
+      });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSubmitAnimation();
@@ -155,7 +168,10 @@ export default function MtaTicket() {
         ref={formRef}
         className="w-[500px] backdrop-blur-lg bg-white/40 dark:bg-gray-800/40 shadow-2xl p-10 rounded-3xl border border-gray-300 dark:border-gray-700"
       >
-        <form className="space-y-4 md:space-y-3" onSubmit={handleSubmit}>
+        <form
+          className="space-y-4 md:space-y-3 relative"
+          onSubmit={handleSubmit}
+        >
           <h2 className="font-bold text-xl text-center text-gray-700 dark:text-gray-300">
             МТА АЖЛЫН ДУУДЛАГА
           </h2>
@@ -301,12 +317,21 @@ export default function MtaTicket() {
             )}
           </div>
 
-          <button
-            type="submit"
-            className="w-full text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-transform transform hover:scale-105"
-          >
-            ИЛГЭЭХ
-          </button>
+          <div className="w-full flex justify-between">
+            <button
+              type="button"
+              onClick={handleBackAnimation}
+              className="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-transform transform hover:scale-105"
+            >
+              Буцах
+            </button>
+            <button
+              type="submit"
+              className="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-transform transform hover:scale-105"
+            >
+              ИЛГЭЭХ
+            </button>
+          </div>
         </form>
       </div>
     </div>

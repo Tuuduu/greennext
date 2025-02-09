@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
 import anime from "animejs";
+import EmploymentDashboard from "./EmploymentDashboard";
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
@@ -15,7 +16,7 @@ interface TicketData {
 }
 
 interface Engineer {
-  userId: string;
+  _id: string;
   firstName: string;
   employment: string;
   workingPart: string;
@@ -97,19 +98,17 @@ const TicketDashboard = () => {
 
         // userTicketsCount-г ашиглан userData-тай нэгтгэх
         const updatedEngineers: Engineer[] = usersData.data.map((user: any) => {
-          // `_id`-г ашиглан userId-г тодорхойлох
           const userId = String(user._id);
           const userTicket = userTicketsArray.find(
-            (ticket) => String(ticket.userId) === userId // `_id`-г String болгож харьцуулах
+            (ticket) => String(ticket.userId) === userId
           );
-
           return {
             ...user,
-            userId: userId, // `_id`-г userId болгож хадгална
+            userId: userId,
             ticketCount: userTicket ? userTicket.ticketCount : 0,
           };
         });
-
+        console.log("updatedEngineers --> ", updatedEngineers);
         setEngineers(updatedEngineers);
       } catch (err: any) {
         setError(err.message);
@@ -147,24 +146,7 @@ const TicketDashboard = () => {
         Мэдээлэл технологийн албаны ажлын захиалга
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="w-full pt-4">
-          <ul className="space-y-4 text-sm max-h-[420px] rounded-lg overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
-            {engineers.map((engineer, index) => (
-              <li
-                key={index}
-                className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow"
-              >
-                <span className="text-gray-700 dark:text-gray-300 font-medium">
-                  {engineer.employment}:{" "}
-                  <p className="font-bold">{engineer.firstName}</p>
-                </span>
-                <span className="text-blue-600 dark:text-blue-400 font-bold">
-                  {engineer.ticketCount}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <EmploymentDashboard employment={engineers ?? []} />
         <div className="flex flex-col items-center">
           <div className="w-[300px] h-[300px]">
             <Pie data={chartData} />

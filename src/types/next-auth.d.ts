@@ -5,6 +5,7 @@ declare module "next-auth" {
   // This technique is called module augmentation
   interface Session {
     user: {
+      firstName: string;
       userId: string;
       // Include the default properties
       name?: string | null;

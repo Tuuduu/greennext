@@ -166,13 +166,19 @@ export async function PUT(request) {
     }
 
     const body = await request.json();
-    const { _id, ...updatedFields } = body;
+    const { _id, password, ...updatedFields } = body;
 
     if (!_id) {
       return NextResponse.json(
         { success: false, message: "User ID is required" },
         { status: 400 }
       );
+    }
+
+    // Хэрэв шинэ password ирсэн бол bcrypt ашиглан хэш хийх
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updatedFields.password = hashedPassword;
     }
 
     const updatedUser = await User.findByIdAndUpdate(_id, updatedFields, {
