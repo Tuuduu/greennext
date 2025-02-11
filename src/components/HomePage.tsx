@@ -116,7 +116,7 @@ export default function HomePage() {
           © 2025 Грийн Групп ХХК
         </p>
         <p className="font-light text-sm text-gray-700 dark:text-gray-300 text-right">
-          v1.0.8
+          v1.0.11
         </p>
       </div>
     </div>
