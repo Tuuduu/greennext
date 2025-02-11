@@ -78,14 +78,14 @@ export default function FeedbackModal({ feedbackData }: { feedbackData: any }) {
             onClick={handleClose}
           >
             <div
-              className="modal-content w-full max-w-lg bg-white/80 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:border-gray-700 relative"
+              className="modal-content w-full max-w-lg bg-white/80 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-6 2xl:p-8 rounded-3xl border border-gray-300 dark:border-gray-700 relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Content */}
-              <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-gray-300 mb-6">
+              <h2 className="text-lg 2xl:text-2xl font-bold text-center text-gray-700 dark:text-gray-300 mb-6">
                 Дэлгэрэнгүй мэдээлэл
               </h2>
-              <ul className="space-y-4">
+              <ul className="2xl:space-y-4 space-y-2 tex-[12px] 2xl:text-[14px]">
                 {[
                   { label: "Компани", value: feedbackData.company },
                   { label: "Гарчиг", value: feedbackData.title },
@@ -105,7 +105,7 @@ export default function FeedbackModal({ feedbackData }: { feedbackData: any }) {
               </ul>
               <button
                 onClick={handleClose}
-                className="w-full mt-4 rounded-lg bg-red-500 py-2.5 px-4 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300"
+                className="w-full mt-4 rounded-lg bg-red-500 py-2 2xl:py-2.5 px-4 text-[12px] 2xl:text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300"
               >
                 Гарах
               </button>

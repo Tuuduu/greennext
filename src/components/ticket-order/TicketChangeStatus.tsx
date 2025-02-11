@@ -110,7 +110,7 @@ export default function TicketChangeStatus({
     <div className="w-full ">
       {message && (
         <p
-          className={`text-sm ${
+          className={`text-[12px] 2xl:text-sm ${
             message.includes("амжилттай") ? "text-green-600" : "text-red-500"
           }`}
         >
@@ -118,13 +118,13 @@ export default function TicketChangeStatus({
         </p>
       )}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 2xl:gap-4">
         <select
           value={formData.status}
           onChange={handleChangeSelector}
           name="status"
           id="status"
-          className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 text-sm rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 text-sm rounded-lg p-1.5 2xl:p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         >
           {statusOptions.map((s, index) => (
@@ -136,7 +136,7 @@ export default function TicketChangeStatus({
         <button
           type="submit"
           disabled={pending}
-          className={`w-full rounded-lg bg-green-500 py-2.5 px-4 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300 ${
+          className={`w-full rounded-lg bg-green-500 py-2 2xl:py-2.5 px-4 text-[12px] 2xl:text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300 ${
             pending ? "cursor-not-allowed bg-gray-400" : ""
           }`}
         >

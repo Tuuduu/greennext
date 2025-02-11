@@ -61,11 +61,11 @@ export default function TicketModalInfo({ ticketData }: { ticketData: any }) {
   ];
 
   return (
-    <div className="w-full max-w-lg pb-4">
-      <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-gray-300 mb-6">
+    <div className="w-full max-w-lg pb-2 2xl:pb-4">
+      <h2 className="text-md 2xl:text-2xl font-bold text-center text-gray-700 dark:text-gray-300 mb-6">
         Дэлгэрэнгүй мэдээлэл
       </h2>
-      <ul className="space-y-4">
+      <ul className="space-y-2 2xl:space-y-4 text-sm 2xl:text-base">
         {items.map((item, index) => (
           <li
             key={index}
@@ -74,7 +74,7 @@ export default function TicketModalInfo({ ticketData }: { ticketData: any }) {
             onMouseLeave={() => handleMouseLeave(index)}
           >
             <span className="font-medium text-gray-900 dark:text-gray-300">
-              {item.label}
+              {item.label}:
             </span>
             <span className="text-gray-700 dark:text-gray-400 text-right text-wrap truncate block w-1/2 cursor-pointer overflow-hidden">
               {item.value}

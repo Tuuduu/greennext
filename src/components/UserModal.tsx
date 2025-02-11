@@ -102,10 +102,13 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
             >
               ✕
             </button>
-            <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
+            <h2 className="text-md 2xl:text-lg text-center font-semibold mb-4 text-gray-700 dark:text-gray-300">
               Хэрэглэгч нэмэх
             </h2>
-            <form className="space-y-4" onSubmit={handleFormSubmit}>
+            <form
+              className="space-y-2 2xl:space-y-4 text-[12px] 2xl:text-[14px]"
+              onSubmit={handleFormSubmit}
+            >
               <input
                 type="text"
                 name="lastName"

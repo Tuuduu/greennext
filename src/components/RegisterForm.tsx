@@ -62,7 +62,7 @@ const UsersPage = ({
   };
 
   return (
-    <div className="p-6 relative">
+    <div className="p-4 2xl:p-6 relative">
       <button
         onClick={() => {
           setIsModalOpen(true);

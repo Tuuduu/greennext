@@ -121,7 +121,7 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
     >
       <div className="modal-overlay fixed inset-0 bg-black/50"></div>
       <div
-        className="modal-content bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-lg relative"
+        className="modal-content bg-white dark:bg-gray-800 p-4 2xl:p-6 rounded-lg shadow-lg w-full max-w-lg relative"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -130,10 +130,10 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
         >
           ✕
         </button>
-        <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
+        <h2 className="text-[14px] 2xl:text-lg text-center font-semibold mb-4 text-gray-700 dark:text-gray-300">
           Хэрэглэгч засах
         </h2>
-        <form className="space-y-4">
+        <form className="space-y-2 2xl:space-y-4 text-[12px] 2xl:text-sm">
           <input
             type="text"
             name="firstName"
@@ -226,7 +226,7 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
           <button
             type="button"
             onClick={handleSave}
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+            className="w-full bg-blue-500 text-[12px] 2xl:text-[14px] text-white py-2 rounded hover:bg-blue-600"
             disabled={isSaving}
           >
             {isSaving ? "Хадгалж байна..." : "Хадгалах"}
@@ -234,7 +234,7 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
           <button
             type="button"
             onClick={handleDeleteUser}
-            className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 mt-2"
+            className="w-full bg-red-500 text-white text-[12px] 2xl:text-[14px] py-2 rounded hover:bg-red-600 mt-2"
             disabled={isSaving}
           >
             Устгах

@@ -86,7 +86,7 @@ export default function TicketModal({
             onClick={handleClose}
           >
             <div
-              className="modal-content w-full max-w-lg bg-white/90 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:border-gray-700 relative"
+              className="modal-content w-1/3 2xl:w-1/2 2xl:max-w-lg h-auto bg-white/90 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:border-gray-700 relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Content */}
@@ -97,7 +97,7 @@ export default function TicketModal({
               />
               <button
                 onClick={handleClose}
-                className="w-full mt-4 rounded-lg bg-red-500 py-2.5 px-4 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300"
+                className="w-full mt-2 2xl:mt-4 rounded-lg bg-red-500 py-2 2xl:py-2.5 px-4 text-[12px] 2xl:text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300"
               >
                 Гарах
               </button>
