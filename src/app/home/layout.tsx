@@ -16,7 +16,7 @@ export default function RootLayout({
       {/* Main Content хэсэг */}
       <div className="flex flex-col w-full h-full overflow-hidden">
         {/* Content Header хэсэг */}
-        <div className="sticky top-0 z-10 pt-6 px-6">
+        <div className="sticky top-0 z-10 pt-4 2xl:pt-6 px-6">
           <ContentHeader />
         </div>
 

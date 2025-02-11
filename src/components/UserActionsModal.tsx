@@ -178,7 +178,7 @@ const UserActionsModal: React.FC<UserActionsModalProps> = ({
           >
             <option value="user">User</option>
             <option value="admin">Admin</option>
-            <option value="SuperAdmin">SuperAdmin</option>
+            <option value="superAdmin">SuperAdmin</option>
           </select>
           <select
             name="workingPart"

@@ -67,15 +67,20 @@ export async function GET() {
 
 // POST хүсэлтээр шинэ хэрэглэгч нэмэх
 export async function POST(request) {
-  // request-ийг параметрээр хүлээж авна
   await connectDB(); // MongoDB-тэй холбогдох
   try {
     const session = await getServerSession(authOptions); // Нэвтэрсэн хэрэглэгчийн сесс авах
 
-    // Нэвтэрсэн хэрэглэгч admin эсэхийг шалгах
-    if (!session || session.user.role !== "admin") {
+    // Нэвтэрсэн хэрэглэгч байхгүй эсвэл эрх нь admin, superAdmin биш бол
+    if (
+      !session ||
+      (session.user.role !== "admin" && session.user.role !== "superAdmin")
+    ) {
       return NextResponse.json(
-        { success: false, message: "Forbidden: Only admins can create users" },
+        {
+          success: false,
+          message: "Forbidden: Only superAdmins and admins can create users",
+        },
         { status: 403 }
       );
     }
@@ -119,6 +124,20 @@ export async function POST(request) {
       );
     }
 
+    // Admin зөвхөн "user" болон "moderator" үүсгэж чадна
+    if (
+      session.user.role === "admin" &&
+      (role === "admin" || role === "superAdmin")
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Forbidden: Admins can only create users and moderators",
+        },
+        { status: 403 }
+      );
+    }
+
     // Password hash хийх
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -157,16 +176,19 @@ export async function PUT(request) {
   try {
     const session = await getServerSession(authOptions);
 
-    // Нэвтэрсэн хэрэглэгч admin эсэхийг шалгах
-    if (!session || session.user.role !== "admin") {
+    // Нэвтэрсэн хэрэглэгч байхгүй бол
+    if (!session) {
       return NextResponse.json(
-        { success: false, message: "Forbidden: Only admins can update users" },
-        { status: 403 }
+        { success: false, message: "Unauthorized: Please log in" },
+        { status: 401 }
       );
     }
 
+    const { user } = session;
+
+    // PUT хүсэлтээс мэдээллийг авах
     const body = await request.json();
-    const { _id, password, ...updatedFields } = body;
+    const { _id, password, role, ...updatedFields } = body;
 
     if (!_id) {
       return NextResponse.json(
@@ -175,22 +197,65 @@ export async function PUT(request) {
       );
     }
 
-    // Хэрэв шинэ password ирсэн бол bcrypt ашиглан хэш хийх
-    if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      updatedFields.password = hashedPassword;
-    }
-
-    const updatedUser = await User.findByIdAndUpdate(_id, updatedFields, {
-      new: true, // Update хийсний дараа шинэ утгыг буцаах
-    });
-
-    if (!updatedUser) {
+    // Өөрчлөх гэж буй хэрэглэгчийн мэдээллийг авах
+    const targetUser = await User.findById(_id);
+    if (!targetUser) {
       return NextResponse.json(
         { success: false, message: "User not found" },
         { status: 404 }
       );
     }
+
+    // Role-тэй холбоотой шалгалтууд
+    if (user.role === "user") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Forbidden: Users cannot modify other users",
+        },
+        { status: 403 }
+      );
+    }
+
+    if (user.role === "admin") {
+      // Admin хэрэглэгч SuperAdmin-ийг өөрчилж болохгүй
+      if (targetUser.role === "superAdmin") {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Forbidden: Admins cannot modify superAdmins",
+          },
+          { status: 403 }
+        );
+      }
+
+      // Admin хэрэглэгч SuperAdmin болгох өөрчлөлт хийж болохгүй
+      if (role === "superAdmin") {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Forbidden: Admins cannot assign users as superAdmin",
+          },
+          { status: 403 }
+        );
+      }
+    }
+
+    // Password шинэчлэлтийг хийх (хэрэв шинэ нууц үг ирсэн бол)
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updatedFields.password = hashedPassword;
+    }
+
+    // Role өөрчлөх гэж байвал зөвшөөрөгдсөн эсэхийг шалгах
+    if (role) {
+      updatedFields.role = role;
+    }
+
+    // Хэрэглэгчийн мэдээллийг шинэчлэх
+    const updatedUser = await User.findByIdAndUpdate(_id, updatedFields, {
+      new: true, // Шинэчлэгдсэн мэдээллийг буцаах
+    });
 
     return NextResponse.json(
       {
@@ -208,7 +273,6 @@ export async function PUT(request) {
     );
   }
 }
-
 // DELETE хүсэлтээр хэрэглэгч устгах
 export async function DELETE(request) {
   await connectDB();
@@ -216,10 +280,13 @@ export async function DELETE(request) {
   try {
     const session = await getServerSession(authOptions);
 
-    // Нэвтэрсэн хэрэглэгч admin эсэхийг шалгах
-    if (!session || session.user.role !== "admin") {
+    // Нэвтэрсэн хэрэглэгч байхгүй эсвэл superAdmin биш бол хориглох
+    if (!session || session.user.role !== "superAdmin") {
       return NextResponse.json(
-        { success: false, message: "Forbidden: Only admins can delete users" },
+        {
+          success: false,
+          message: "Forbidden: Only superAdmins can delete users",
+        },
         { status: 403 }
       );
     }
@@ -234,14 +301,29 @@ export async function DELETE(request) {
       );
     }
 
-    const deletedUser = await User.findByIdAndDelete(userId);
+    // Өөрчлөх гэж буй хэрэглэгчийг шалгах
+    const targetUser = await User.findById(userId);
 
-    if (!deletedUser) {
+    if (!targetUser) {
       return NextResponse.json(
         { success: false, message: "User not found" },
         { status: 404 }
       );
     }
+
+    // superAdmin өөрийгөө устгаж болохгүй
+    if (targetUser.role === "superAdmin") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Forbidden: You cannot delete another superAdmin",
+        },
+        { status: 403 }
+      );
+    }
+
+    // Хэрэглэгчийг устгах
+    await User.findByIdAndDelete(userId);
 
     return NextResponse.json(
       { success: true, message: "User deleted successfully" },

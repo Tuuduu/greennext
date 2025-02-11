@@ -65,14 +65,7 @@ export default function ItaTicket() {
 
   const handleBackAnimation = () => {
     if (formRef.current) {
-      anime({
-        targets: formRef.current,
-        translateX: [0, -1000],
-        opacity: [1, 0],
-        easing: "easeInOutQuad",
-        duration: 500,
-        complete: () => router.back(),
-      });
+      router.back();
     }
   };
 
@@ -138,82 +131,84 @@ export default function ItaTicket() {
           <h2 className="font-bold text-xl text-center text-gray-700 dark:text-gray-300">
             ИТА АЖЛЫН ДУУДЛАГА
           </h2>
-
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
-              Дуудлагын төрөл
-            </label>
-            <select
-              value={formData.ticketType}
-              onChange={handleChange}
-              name="ticketType"
-              className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              required
-            >
-              {ticketTypes.map((type, index) => (
-                <option key={index} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
-              Ажилладаг компани
-            </label>
-            <select
-              value={formData.company}
-              onChange={handleChange}
-              name="company"
-              className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              required
-            >
-              {companies.map((company, index) => (
-                <option key={index} value={company}>
-                  {company}
-                </option>
-              ))}
-            </select>
-          </div>
-          {[
-            {
-              label: "Овог, нэр",
-              name: "username",
-              placeholder: "Овог, нэр оруулах",
-            },
-            {
-              label: "Албан тушаал",
-              name: "position",
-              placeholder: "Албан тушаал оруулах",
-            },
-            {
-              label: "Гарчиг",
-              name: "ticketTitle",
-              placeholder: "Гарчиг оруулах",
-            },
-            {
-              label: "Утасны дугаар",
-              name: "phoneNumber",
-              placeholder: "Утасны дугаар оруулах",
-              type: "number",
-            },
-          ].map((field, index) => (
-            <div key={index}>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
               <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
-                {field.label}
+                Дуудлагын төрөл
               </label>
-              <input
-                value={(formData as any)[field.name]}
+              <select
+                value={formData.ticketType}
                 onChange={handleChange}
-                type={field.type || "text"}
-                name={field.name}
-                placeholder={field.placeholder}
+                name="ticketType"
                 className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
-              />
+              >
+                {ticketTypes.map((type, index) => (
+                  <option key={index} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
             </div>
-          ))}
-
+            <div>
+              <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
+                Ажилладаг компани
+              </label>
+              <select
+                value={formData.company}
+                onChange={handleChange}
+                name="company"
+                className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required
+              >
+                {companies.map((company, index) => (
+                  <option key={index} value={company}>
+                    {company}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              {
+                label: "Овог, нэр",
+                name: "username",
+                placeholder: "Овог, нэр оруулах",
+              },
+              {
+                label: "Албан тушаал",
+                name: "position",
+                placeholder: "Албан тушаал оруулах",
+              },
+              {
+                label: "Гарчиг",
+                name: "ticketTitle",
+                placeholder: "Гарчиг оруулах",
+              },
+              {
+                label: "Утасны дугаар",
+                name: "phoneNumber",
+                placeholder: "Утасны дугаар оруулах",
+                type: "number",
+              },
+            ].map((field, index) => (
+              <div key={index}>
+                <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  {field.label}
+                </label>
+                <input
+                  value={(formData as any)[field.name]}
+                  onChange={handleChange}
+                  type={field.type || "text"}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
+              </div>
+            ))}
+          </div>
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">
               Нэмэлт тайлбар

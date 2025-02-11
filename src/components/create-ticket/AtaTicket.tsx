@@ -55,6 +55,10 @@ export default function AtaTicket() {
     "Актив Гарден",
   ];
 
+  const handleBackAnimation = () => {
+    router.back();
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -110,84 +114,85 @@ export default function AtaTicket() {
           <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-gray-300">
             ҮЙЛ АЖИЛГААНЫ ГАЗРЫН АЖЛЫН ДУУДЛАГА
           </h2>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
-              Дуудлагын төрөл
-            </label>
-            <select
-              value={formData.ticketType}
-              onChange={handleChange}
-              name="ticketType"
-              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
-              required
-            >
-              {ticketTypes.map((type, index) => (
-                <option key={index} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {[
-            {
-              label: "Овог, нэр",
-              name: "username",
-              placeholder: "Овог, нэр оруулах",
-            },
-            {
-              label: "Албан тушаал",
-              name: "position",
-              placeholder: "Албан тушаал оруулах",
-            },
-            {
-              label: "Гарчиг",
-              name: "ticketTitle",
-              placeholder: "Гарчиг оруулах",
-            },
-            {
-              label: "Утасны дугаар",
-              name: "phoneNumber",
-              placeholder: "Утасны дугаар оруулах",
-              type: "number",
-            },
-          ].map((field, index) => (
-            <div key={index}>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
-                {field.label}
+                Дуудлагын төрөл
               </label>
-              <input
-                value={(formData as any)[field.name]}
+              <select
+                value={formData.ticketType}
                 onChange={handleChange}
-                type={field.type || "text"}
-                name={field.name}
-                placeholder={field.placeholder}
+                name="ticketType"
                 className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
                 required
-              />
+              >
+                {ticketTypes.map((type, index) => (
+                  <option key={index} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
             </div>
-          ))}
 
-          <div>
-            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
-              Ажилладаг компани
-            </label>
-            <select
-              value={formData.company}
-              onChange={handleChange}
-              name="company"
-              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
-              required
-            >
-              {companies.map((company, index) => (
-                <option key={index} value={company}>
-                  {company}
-                </option>
-              ))}
-            </select>
+            <div>
+              <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+                Ажилладаг компани
+              </label>
+              <select
+                value={formData.company}
+                onChange={handleChange}
+                name="company"
+                className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+                required
+              >
+                {companies.map((company, index) => (
+                  <option key={index} value={company}>
+                    {company}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              {
+                label: "Овог, нэр",
+                name: "username",
+                placeholder: "Овог, нэр оруулах",
+              },
+              {
+                label: "Албан тушаал",
+                name: "position",
+                placeholder: "Албан тушаал оруулах",
+              },
+              {
+                label: "Гарчиг",
+                name: "ticketTitle",
+                placeholder: "Гарчиг оруулах",
+              },
+              {
+                label: "Утасны дугаар",
+                name: "phoneNumber",
+                placeholder: "Утасны дугаар оруулах",
+                type: "number",
+              },
+            ].map((field, index) => (
+              <div key={index}>
+                <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+                  {field.label}
+                </label>
+                <input
+                  value={(formData as any)[field.name]}
+                  onChange={handleChange}
+                  type={field.type || "text"}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-700 dark:text-white p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+                  required
+                />
+              </div>
+            ))}
+          </div>
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
               Нэмэлт тайлбар
@@ -213,13 +218,21 @@ export default function AtaTicket() {
               {message}
             </p>
           )}
-
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-green-500 py-2.5 px-4 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300"
-          >
-            ИЛГЭЭХ
-          </button>
+          <div className="flex gap-4 justify-between">
+            <button
+              type="button"
+              onClick={handleBackAnimation}
+              className="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-transform transform hover:scale-105"
+            >
+              Буцах
+            </button>
+            <button
+              type="submit"
+              className="rounded-lg bg-green-500 py-2.5 px-4 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300"
+            >
+              ИЛГЭЭХ
+            </button>
+          </div>
         </form>
       </div>
     </div>

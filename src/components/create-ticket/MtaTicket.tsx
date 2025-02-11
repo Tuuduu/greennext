@@ -83,14 +83,7 @@ export default function MtaTicket() {
 
   const handleBackAnimation = () => {
     if (formRef.current) {
-      anime({
-        targets: formRef.current,
-        translateX: [0, -1000],
-        opacity: [1, 0],
-        easing: "easeInOutQuad",
-        duration: 500,
-        complete: () => router.back(),
-      });
+      router.back();
     }
   };
 

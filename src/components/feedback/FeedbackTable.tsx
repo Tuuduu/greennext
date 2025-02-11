@@ -83,6 +83,10 @@ export default function FeedbackTable() {
     }));
   };
 
+  const handleBackAnimation = () => {
+    router.back();
+  };
+
   return (
     <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
       <div className="w-full max-w-lg bg-white/50 dark:bg-gray-800 dark:text-white backdrop-blur-lg shadow-lg p-8 rounded-3xl border border-gray-300 dark:border-gray-700">
@@ -162,12 +166,21 @@ export default function FeedbackTable() {
               {message}
             </p>
           )}
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-green-500 py-2.5 px-4 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300"
-          >
-            ИЛГЭЭХ
-          </button>
+          <div className="flex gap-4 justify-between">
+            <button
+              type="button"
+              onClick={handleBackAnimation}
+              className="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-transform transform hover:scale-105"
+            >
+              Буцах
+            </button>
+            <button
+              type="submit"
+              className="rounded-lg bg-green-500 py-2.5 px-4 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300"
+            >
+              ИЛГЭЭХ
+            </button>
+          </div>
         </form>
       </div>
     </div>

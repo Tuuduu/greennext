@@ -70,18 +70,18 @@ export default function TicketList({ ticket }: { ticket: any[] }) {
 
   return (
     <div className="w-full h-full">
-      <div className="transition duration-150 ease-in-out w-full flex flex-col gap-y-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg">
+      <div className="transition duration-150 ease-in-out w-full flex flex-col gap-y-6 p-4 2xl:p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg">
         {/* Хайлтын хэсэг */}
-        <div className="w-full flex justify-between items-center mb-4">
+        <div className="w-full flex justify-between items-center mb-0 2xl:mb-4">
           <Search
             placeholder="Захиалга хайх..."
             onSearch={(term: string) => setSearchTerm(term)}
           />
-          <div className="flex gap-2 md:gap-4">
+          <div className="flex gap-2 md:gap-4 ">
             {["Шинэ", "Хаасан", "Бүгд"].map((status) => (
               <button
                 key={status}
-                className={`px-3 md:px-4 py-2 text-sm md:text-base ${
+                className={`px-3 md:px-4 py-2 text-[12px] 2xl:text-base ${
                   selectedStatus === status
                     ? "bg-green-600 text-white"
                     : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300"
@@ -96,7 +96,7 @@ export default function TicketList({ ticket }: { ticket: any[] }) {
 
         {/* Хүснэгт */}
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse divide-y divide-gray-200 dark:divide-gray-700 text-sm md:text-base">
+          <table className="w-full border-collapse divide-y divide-gray-200 dark:divide-gray-700 text-[12px] 2xl:text-base">
             <thead className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold">
               <tr>
                 <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">
@@ -155,7 +155,7 @@ export default function TicketList({ ticket }: { ticket: any[] }) {
                   </td>
                   <td className="px-2 md:px-4 py-4 text-gray-700 dark:text-gray-300">
                     <span
-                      className={`px-2 py-1 rounded-md text-sm ${
+                      className={`px-2 py-1 rounded-md text-[12px] 2xl:text-sm ${
                         item.status === "Шинэ"
                           ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
                           : item.status === "Хаасан"

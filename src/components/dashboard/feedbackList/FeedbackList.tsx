@@ -80,7 +80,7 @@ export default function FeedbackList() {
           />
         </div>
         <div className="overflow-x-auto"></div>
-        <table className="w-full border-collapse divide-y divide-gray-200 dark:divide-gray-700 text-sm md:text-base">
+        <table className="w-full border-collapse divide-y divide-gray-200 dark:divide-gray-700 text-[12px] 2xl:text-base">
           <thead className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold">
             <tr>
               <th className="text-gray-700 dark:text-gray-300 px-2 md:px-4 py-2 text-left">

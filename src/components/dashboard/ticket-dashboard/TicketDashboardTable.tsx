@@ -128,6 +128,7 @@ const TicketDashboard = () => {
 
   const chartData = {
     labels: ["Шинэ", "Хүлээгдэж байна", "Хийгдэж байна", "Хаасан"],
+    className: "text-gray0-600 dark:text-gray-300 text-[12px] 2xl:text-base",
     datasets: [
       {
         label: "Ажлын захиалгууд",
@@ -142,7 +143,7 @@ const TicketDashboard = () => {
 
   return (
     <div className="w-full bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-      <h2 className="text-lg text-gray-600 dark:text-gray-300 font-bold">
+      <h2 className="text-lg text-center text-gray-600 dark:text-gray-300 font-bold pb-4">
         Мэдээлэл технологийн албаны ажлын захиалга
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -151,7 +152,7 @@ const TicketDashboard = () => {
           <div className="w-[300px] h-[300px]">
             <Pie data={chartData} />
           </div>
-          <div className="mt-4 text-gray-600 dark:text-gray-300">
+          <div className="mt-4 text-gray-600 dark:text-gray-300 text-[12px] 2xl:text-base">
             <p>Шинэ: {newTicket}</p>
             <p>Хүлээгдэж байна: {planned}</p>
             <p>Хийгдэж байна: {inProgress || 0}</p>

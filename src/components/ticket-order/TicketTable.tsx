@@ -44,12 +44,6 @@ const TicketTable = () => {
     fetchData();
   }, []); // Хоосон dependency array: зөвхөн нэг удаа ажиллана
 
-  // Ачаалж байх үеийн UI
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  // Алдааны UI
   if (error) {
     return <p className="text-red-500">Error: {error}</p>;
   }

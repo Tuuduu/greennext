@@ -45,7 +45,7 @@ export default function ContentHeader() {
     <div className="w-full h-auto bg-gradient-to-r rounded-lg from-gray-50 via-white to-gray-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800">
       {/* Контентын гарчиг */}
       <div className="content-header p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl md:text-2xl font-bold text-gray-700 dark:text-gray-300 text-center">
+        <h2 className="text-xl 2xl:text-2xl font-bold text-gray-700 dark:text-gray-300 text-center">
           {title}
         </h2>
       </div>

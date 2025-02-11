@@ -15,10 +15,10 @@ export default function SignoutButton() {
   };
 
   return (
-    <div className="w-full flex items-center justify-center pb-6">
+    <div className="w-full flex items-center justify-center pb-0 2xl:pb-6">
       <button
         onClick={handleSignOut}
-        className="flex items-center gap-3 text-white bg-red-600 hover:bg-red-500 font-medium rounded-lg text-sm px-6 py-3 text-center w-3/4 shadow-md transition-transform duration-200 transform hover:scale-105 focus:ring-4 focus:ring-red-300"
+        className="flex items-center gap-3 text-white bg-red-600 hover:bg-red-500 font-medium rounded-lg text-[12px] 2xl:text-sm px-6 py-3 text-center w-3/4 shadow-md transition-transform duration-200 transform hover:scale-105 focus:ring-4 focus:ring-red-300"
       >
         <AiOutlineLogout size={20} className="text-white" />
         Гарах

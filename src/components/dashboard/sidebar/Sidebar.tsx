@@ -30,7 +30,7 @@ const Sidebar = () => {
         } transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:w-[280px] lg:w-[320px]`}
       >
         {/* Profile and Menu Section */}
-        <div className="flex flex-col gap-y-6 pt-12 px-6">
+        <div className="flex flex-col gap-y-1 2xl:gap-y-6 pt-4 2xl:pt-12 px-6">
           {/* Profile Section */}
           <Profile />
 
