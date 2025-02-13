@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import anime from "animejs/lib/anime.es.js";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { useRef } from "react";
-import Logo from "@/components/Logo/Logo";
-import ThemeToggle from "@/components/ThemeToggle";
+import Logo from "@/components/components-utils/Logo/Logo";
+import ThemeToggle from "@/components/firstpage/ThemeToggle";
 import Weather from "./date/Weather";
 
 export default function HomePage() {

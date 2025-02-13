@@ -4,7 +4,7 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Profile from "./Profile";
 import Menu from "./Menu";
 import SignoutButton from "./SignoutButton";
-import ThemeToggle from "@/components/ThemeToggle";
+import ThemeToggle from "@/components/firstpage/ThemeToggle";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);

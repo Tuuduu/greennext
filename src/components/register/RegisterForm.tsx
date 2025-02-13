@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import anime from "animejs";
-import UserModal from "@/components/UserModal";
+import UserModal from "@/components/workstation/users/UserModal";
 
 const UsersPage = ({
   buttonName,

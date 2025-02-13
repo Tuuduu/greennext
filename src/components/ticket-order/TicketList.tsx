@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import anime from "animejs";
-import Search from "../dashboard/content-header/Search";
+import Search from "../workstation/content-header/Search";
 import PaginationTicket from "@/components/ticket-order/PaginationTicket";
 import TicketModal from "./TicketModal";
 

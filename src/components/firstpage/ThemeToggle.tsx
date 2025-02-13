@@ -2,8 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleTheme, setTheme } from "../library/redux/features/themeSlice";
-import { RootState } from "../library/redux/store";
+import { toggleTheme, setTheme } from "../../library/redux/features/themeSlice";
+import { RootState } from "../../library/redux/store";
 import anime from "animejs";
 
 export default function ThemeToggle() {

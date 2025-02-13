@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Logo from "./Logo/Logo";
+import Logo from "../components-utils/Logo/Logo";
 
 interface FormData {
   email: string;
@@ -61,7 +61,7 @@ export default function LoginForm() {
         localStorage.removeItem("savedPassword");
       }
 
-      router.replace("/home/dashboard");
+      router.replace("/workstation/dashboard");
     } catch (error) {
       console.log(error);
     }

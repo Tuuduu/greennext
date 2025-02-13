@@ -9,14 +9,18 @@ import {
 } from "react-icons/ai"; // Икон ашигласан
 
 const menuItems = [
-  { icon: AiOutlineHome, label: "Хяналтын самбар", path: "/home/dashboard" },
-  { icon: AiOutlineUser, label: "Хэрэглэгчид", path: "/home/users" },
+  {
+    icon: AiOutlineHome,
+    label: "Хяналтын самбар",
+    path: "/workstation/dashboard",
+  },
+  { icon: AiOutlineUser, label: "Хэрэглэгчид", path: "/workstation/users" },
   {
     icon: AiOutlineOrderedList,
     label: "Ажлын захиалга",
-    path: "/home/ticket-order",
+    path: "/workstation/ticket-order",
   },
-  { icon: AiOutlineMail, label: "Санал хүсэлт", path: "/home/feedback" },
+  { icon: AiOutlineMail, label: "Санал хүсэлт", path: "/workstation/feedback" },
 ];
 
 export default function Menu() {

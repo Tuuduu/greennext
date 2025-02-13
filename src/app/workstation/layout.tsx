@@ -1,5 +1,5 @@
-import Sidebar from "@/components/dashboard/sidebar/Sidebar";
-import ContentHeader from "@/components/dashboard/content-header/ContentHeader";
+import Sidebar from "@/components/workstation/sidebar/Sidebar";
+import ContentHeader from "@/components/workstation/content-header/ContentHeader";
 
 export default function RootLayout({
   children,

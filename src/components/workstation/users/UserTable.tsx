@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import anime from "animejs";
 import Search from "../content-header/Search";
-import RegisterForm from "@/components/RegisterForm";
-import UserActionsModal from "@/components/UserActionsModal";
+import RegisterForm from "@/components/register/RegisterForm";
+import UserActionsModal from "@/components/workstation/users/UserActionsModal";
 
 const UserTable = () => {
   const [users, setUsers] = useState<any[]>([]); // Бүх хэрэглэгчдийн мэдээлэл
