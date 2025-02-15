@@ -6,7 +6,8 @@ import {
   AiOutlineUser,
   AiOutlineOrderedList,
   AiOutlineMail,
-} from "react-icons/ai"; // Икон ашигласан
+  AiOutlineFileExcel, // 🔥 Excel тайлангийн икон нэмсэн
+} from "react-icons/ai";
 
 const menuItems = [
   {
@@ -21,6 +22,11 @@ const menuItems = [
     path: "/workstation/ticket-order",
   },
   { icon: AiOutlineMail, label: "Санал хүсэлт", path: "/workstation/feedback" },
+  {
+    icon: AiOutlineFileExcel, // 🔥 Тайлангийн икон
+    label: "Тайлан",
+    path: "/workstation/report",
+  },
 ];
 
 export default function Menu() {

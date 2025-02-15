@@ -25,7 +25,7 @@
     "iron-session": "^8.0.1",
     "jsonwebtoken": "^9.0.2",
     "moment-timezone": "^0.5.46",
-    "mongoose": "^8.2.4",
+    "mongoose": "^8.10.1",
     "mysql": "^2.18.1",
     "mysql2": "^3.9.3",
     "next": "^14.2.18",
@@ -39,7 +39,8 @@
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
     "serverless-mysql": "^1.5.5",
-    "session": "^0.1.0"
+    "session": "^0.1.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.12",
