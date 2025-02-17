@@ -20,7 +20,6 @@ export async function PATCH(req) {
     // Шинэчлэгдсэн огноог нэмэх
     const updatesWithDate = {
       ...updates,
-      updatedDate: new Date().toISOString(), // ISO форматад огноо үүсгэх
     };
 
     // Өгөгдөл шинэчлэх

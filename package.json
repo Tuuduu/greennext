@@ -20,6 +20,7 @@
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "chart.js": "^4.4.7",
+    "excel4node": "^1.8.2",
     "html-react-parser": "^5.1.10",
     "iron": "^5.0.6",
     "iron-session": "^8.0.1",
@@ -40,7 +41,8 @@
     "redux-persist": "^6.0.0",
     "serverless-mysql": "^1.5.5",
     "session": "^0.1.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "xlsx-style": "^0.8.13"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.12",

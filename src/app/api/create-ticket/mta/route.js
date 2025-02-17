@@ -2,8 +2,6 @@ import { connectDB } from "@/library/mongoDB/connect";
 import mtaTicket from "@/models/ticket/mtaTicketModel";
 import { NextResponse } from "next/server";
 
-
-
 export async function POST(req) {
   try {
     await connectDB();
@@ -21,7 +19,7 @@ export async function POST(req) {
       modifierUserId,
       modifierUserName,
       updatedDate,
-      createdDate
+      createdDate,
     } = await req.json();
     mtaTicket.create({
       ticketType,
@@ -37,7 +35,7 @@ export async function POST(req) {
       modifierUserId,
       modifierUserName,
       updatedDate,
-      createdDate 
+      createdDate,
     });
     return NextResponse.json(
       { message: "Дуудлага бүртгэгдлээ" },

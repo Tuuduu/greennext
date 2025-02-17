@@ -11,7 +11,7 @@ export default function ContentHeader() {
   useEffect(() => {
     // Pathname-д тулгуурлан гарчиг шинэчлэх
     if (pathname) {
-      const slug = pathname.split("/").pop() || "dashboard"; // Pathname-аас сүүлийн хэсгийг авах
+      const slug = pathname.split("/").pop() || "workstation"; // Pathname-аас сүүлийн хэсгийг авах
       switch (slug) {
         case "dashboard":
           setTitle("Хяналтын самбар");
@@ -25,6 +25,9 @@ export default function ContentHeader() {
           break;
         case "feedback":
           setTitle("Санал хүсэлт");
+          break;
+        case "report":
+          setTitle("Тайлан");
           break;
         default:
           setTitle("Тохирох зам олдсонгүй");

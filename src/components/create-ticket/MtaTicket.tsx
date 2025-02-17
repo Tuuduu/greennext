@@ -37,7 +37,7 @@ export default function MtaTicket() {
     status: "Шинэ",
     modifierUserName: "",
     modifierUserId: "",
-    updatedDate: "",
+    updatedDate: date,
     createdDate: date,
   });
 

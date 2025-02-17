@@ -68,7 +68,7 @@ export default function TicketChangeStatus({
     e.preventDefault();
     setPending(true);
     setMessage("");
-
+    console.log("date dataa", date);
     try {
       const res = await fetch("/api/ticket-order/ticket-config/", {
         method: "PATCH",
@@ -79,7 +79,7 @@ export default function TicketChangeStatus({
           id: dataId,
           updates: {
             status: formData.status,
-            updatedDate: date, // ISO хэлбэрээр огноо үүсгэнэ
+            updatedDate: date,
             modifierUserName: userData.firstName || "Тодорхойгүй хэрэглэгч",
             modifierUserId: userData.id,
           },

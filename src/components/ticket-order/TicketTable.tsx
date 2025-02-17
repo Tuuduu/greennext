@@ -50,7 +50,7 @@ const TicketTable = () => {
 
   // Хоосон өгөгдөлд зориулсан UI
   if (!data || (typeof data === "object" && Object.keys(data).length === 0)) {
-    return <p>No data available</p>;
+    return;
   }
   // Амжилттай өгөгдлийг харуулах
   return (

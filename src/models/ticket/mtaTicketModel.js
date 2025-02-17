@@ -47,11 +47,11 @@ const ticketSchema = new mongoose.Schema(
       required: false, // Оруулалт албагүй
     },
     updatedDate: {
-      type: String, // ISO форматад хадгалагдах тул төрөл нь Date
+      type: Date, // ISO форматад хадгалагдах тул төрөл нь Date
       required: [false, "Шинэчлэгдсэн огноо заавал оруулна."],
     },
     createdDate: {
-      type: String, // ISO форматад хадгалагдах тул төрөл нь Date
+      type: Date, // ISO форматад хадгалагдах тул төрөл нь Date
       required: [true, "Үүссэн огноо заавал оруулна."],
     },
   },
